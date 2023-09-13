@@ -1,0 +1,87 @@
+General
+Unique ID                                : 154459233334544807927921341948223625751 (0x7433C42A0C6BCE3E3454E019D2051A17)
+Complete name                            : D:\SAYA IS ∞ LOLICON!\[Kamigami&VCB-Studio] Yahari Ore no Seishun Lovecome wa Machigatte Iru. [01][Ma10p_1080p][x265_flac_aac].mkv
+Format                                   : Matroska
+Format version                           : Version 4
+File size                                : 1.07 GiB
+Duration                                 : 24 min 10 s
+Overall bit rate mode                    : Variable
+Overall bit rate                         : 6 355 kb/s
+Frame rate                               : 23.976 FPS
+Encoded date                             : 2023-03-12 17:43:24 UTC
+Writing application                      : mkvmerge v48.0.0 ('Fortress Around Your Heart') 64-bit
+Writing library                          : libebml v1.4.0 + libmatroska v1.6.0
+
+Video
+ID                                       : 1
+Format                                   : HEVC
+Format/Info                              : High Efficiency Video Coding
+Format profile                           : Main 10@L4.1@High
+Codec ID                                 : V_MPEGH/ISO/HEVC
+Duration                                 : 24 min 10 s
+Bit rate                                 : 4 788 kb/s
+Width                                    : 1 920 pixels
+Height                                   : 1 080 pixels
+Display aspect ratio                     : 16:9
+Frame rate mode                          : Constant
+Frame rate                               : 23.976 (24000/1001) FPS
+Color space                              : YUV
+Chroma subsampling                       : 4:2:0
+Bit depth                                : 10 bits
+Bits/(Pixel*Frame)                       : 0.096
+Stream size                              : 828 MiB (75%)
+Writing library                          : x265 3.5+98-g3449bc85e+20-gc1a540a56:[Windows][clang 15.0.7][64 bit] Kyouko 10bit+8bit+12bit
+Encoding settings                        : rc=crf / crf=14.2000 / qcomp=0.67 / qpstep=4 / stats-write=0 / stats-read=0 / vbv-maxrate=48000 / vbv-bufsize=50000 / vbv-init=0.9 / min-vbv-fullness=50.0 / max-vbv-fullness=80.0 / crf-max=0.0 / crf-min=0.0 / qscale-mode=0 / no-lossless / no-cu-lossless / aq-mode=3 / no-limit-aq1 / aq-strength=0.95 / aq-bias-strength=1.00 / limit-aq1-strength=1.00 / cbqpoffs=-2 / crqpoffs=-2 / ipratio=1.40 / pbratio=1.20 / psy-rd=2.00 / psy-rdoq=1.00 / psy-bscale=300 / psy-pscale=256 / psy-iscale=96 / deblock=-1:-1 / ref=5 / limit-refs=0 / no-limit-modes / bframes=16 / b-adapt=2 / bframe-bias=0 / b-pyramid / b-intra / weightp / weightb / min-keyint=1 / max-keyint=360 / rc-lookahead=120 / gop-lookahead=0 / scenecut=40 / hist-scenecut=0 / radl=0 / max-cu-size=32 / min-cu-size=8 / me=3 / subme=5 / merange=32 / rdoq-level=1 / rd=5 / rdpenalty=0 / dynamic-rd=0.00 / rd-refine / refine-tolerance=1.500 / ----- / cutree / cutree-strength=1.65 / cutree-minqpoffs=-69.00 / cutree-maxqpoffs=69.00 / no-sao / rect / no-amp / no-open-gop / wpp / no-pmode / no-pme / no-psnr / no-ssim / nr-intra=0 / nr-inter=0 / no-constrained-intra / no-strong-intra-smoothing / max-tu-size=16 / tu-inter-depth=4 / tu-intra-depth=4 / limit-tu=0 / qg-size=32 / qpmax=69 / qpmin=0 / ----- / cpuid=1111039 / frame-threads=4 / numa-pools=+ / log-level=2 / input-csp=1 / input-res=1920x1080 / interlace=0 / level-idc=0 / high-tier=1 / uhd-bd=0 / no-allow-non-conformance / no-repeat-headers / no-aud / no-hrd / info / hash=0 / no-temporal-layers / lookahead-slices=0 / no-splice / no-intra-refresh / no-ssim-rd / signhide / tskip / max-merge=5 / temporal-mvp / no-frame-dup / no-hme / no-analyze-src-pics / no-sao-non-deblock / selective-sao=0 / no-early-skip / no-rskip / no-fast-intra / no-tskip-fast / no-splitrd-skip / zone-count=0 / no-strict-cbr / no-rc-grain / no-const-vbv / sar=0 / overscan=0 / videoformat=5 / range=0 / colorprim=1 / transfer=1 / colormatrix=1 / chromaloc=0 / display-window=0 / cll=0,0 / min-luma=0 / max-luma=1023 / log2-max-poc-lsb=8 / vui-timing-info / vui-hrd-info / slices=1 / no-opt-qp-pps / no-opt-ref-list-length-pps / no-multi-pass-opt-rps / scenecut-bias=0.05 / hist-threshold=0.03 / no-opt-cu-delta-qp / no-aq-motion / no-hdr10 / no-hdr10-opt / no-dhdr10-opt / no-idr-recovery-sei / analysis-reuse-level=0 / analysis-save-reuse-level=0 / analysis-load-reuse-level=0 / scale-factor=0 / refine-intra=0 / refine-inter=0 / refine-mv=1 / refine-ctu-distortion=0 / no-limit-sao / ctu-info=0 / no-lowpass-dct / refine-analysis-type=0 / copy-pic=1 / max-ausize-factor=1.0 / no-dynamic-refine / no-single-sei / no-hevc-aq / no-svt / no-field / qp-adaptation-range=1.00 / scenecut-aware-qp=0conformance-window-offsets / right=0 / bottom=0 / decoder-max-rate=0 / no-vbv-live-multi-pass
+Default                                  : Yes
+Forced                                   : No
+Color range                              : Limited
+Color primaries                          : BT.709
+Transfer characteristics                 : BT.709
+Matrix coefficients                      : BT.709
+
+Audio #1
+ID                                       : 2
+Format                                   : FLAC
+Format/Info                              : Free Lossless Audio Codec
+Codec ID                                 : A_FLAC
+Duration                                 : 24 min 10 s
+Bit rate mode                            : Variable
+Bit rate                                 : 1 391 kb/s
+Channel(s)                               : 2 channels
+Channel layout                           : L R
+Sampling rate                            : 48.0 kHz
+Frame rate                               : 11.719 FPS (4096 SPF)
+Bit depth                                : 24 bits
+Compression mode                         : Lossless
+Stream size                              : 241 MiB (22%)
+Writing library                          : libFLAC 1.3.2 (2017-01-01)
+Language                                 : Japanese
+Default                                  : Yes
+Forced                                   : No
+MD5 of the unencoded content             : 5B73FBC70D14F1C1B97109B9D24B288F
+
+Audio #2
+ID                                       : 3
+Format                                   : AAC LC
+Format/Info                              : Advanced Audio Codec Low Complexity
+Codec ID                                 : A_AAC-2
+Duration                                 : 24 min 10 s
+Bit rate                                 : 173 kb/s
+Channel(s)                               : 2 channels
+Channel layout                           : L R
+Sampling rate                            : 48.0 kHz
+Frame rate                               : 46.875 FPS (1024 SPF)
+Compression mode                         : Lossy
+Stream size                              : 29.9 MiB (3%)
+Title                                    : Commentary
+Language                                 : Japanese
+Default                                  : No
+Forced                                   : No
+
+Menu
+00:00:00.000                             : en:Chapter 01
+00:01:07.025                             : en:Chapter 02
+00:02:36.865                             : en:Chapter 03
+00:10:58.867                             : en:Chapter 04
+00:22:09.870                             : en:Chapter 05
+00:23:39.877                             : en:Chapter 06
