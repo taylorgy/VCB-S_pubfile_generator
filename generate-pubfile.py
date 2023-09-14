@@ -62,12 +62,12 @@ doc=dict()
 root = tk.Tk()
 root.title("VCB-S 发布文档生成程序")
 
-root.geometry('1200x1000')
+root.geometry('800x1000')
 EWIDTH = 100
 THTITLE = 25
 MAXROW = 30
 for i in range(MAXROW):
-    root.grid_rowconfigure(i, pad=10)
+    root.grid_rowconfigure(i, pad=15)
 # root.grid_columnconfigure(1, pad=100)
 
 # 创建标签和输入栏
