@@ -1,0 +1,5 @@
+1. Modified the file naming according to the current specification.
+2. Updated the fonts.
+3. Supplemented S2 BDBOX Specials CDs.
+4. Supplemented S3 CDs.
+5. Shortened file naming to avoid paths overlength.

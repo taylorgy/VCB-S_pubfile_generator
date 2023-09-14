@@ -147,15 +147,15 @@ def func_rs():
     if(check_rs.get()):
         e_mark.insert(0, "Reseed")
 
-        l_rs_chs.grid(row=12, column=0, sticky='ne')
-        e_rs_chs.grid(row=12, column=1, columnspan=4, sticky='nw')
+        l_rs_chn.grid(row=12, column=0, sticky='ne')
+        e_rs_chn.grid(row=12, column=1, columnspan=4, sticky='nw')
         l_rs_eng.grid(row=13, column=0, sticky='ne')
         e_rs_eng.grid(row=13, column=1, columnspan=4, sticky='nw')
     else:
         e_mark.delete(0, tk.END)
 
-        l_rs_chs.grid_forget()
-        e_rs_chs.grid_forget()
+        l_rs_chn.grid_forget()
+        e_rs_chn.grid_forget()
         l_rs_eng.grid_forget()
         e_rs_eng.grid_forget()
 
@@ -207,17 +207,17 @@ e_provider.insert(tk.INSERT, "BD: \nScans: \nCDs: ")
 # e_provider.pack()
 e_provider.grid(row=11, column=1, columnspan=4, sticky='nw')
 
-l_rs_chs = tk.Label(root, text="重发修正")
-# l_rs_chs.grid(row=12, column=0, sticky='ne')
-e_rs_chs = tk.Text(root, width=EWIDTH, height=3)
-e_rs_chs.insert(tk.INSERT, "1. 补充 CD 及 扫图。")
-# e_rs_chs.grid(row=12, column=1, columnspan=4, sticky='nw')
+l_rs_chn = tk.Label(root, text="重发修正")
+# l_rs_chn.grid(row=12, column=0, sticky='ne')
+e_rs_chn = tk.Text(root, width=EWIDTH, height=3)
+e_rs_chn.insert(tk.INSERT, "1. 补充 CD 及 扫图。")
+# e_rs_chn.grid(row=12, column=1, columnspan=4, sticky='nw')
 
 l_rs_eng = tk.Label(root, text="重发翻译")
 # l_rs_eng.grid(row=13, column=0, sticky='ne')
 e_rs_eng = tk.Text(root, width=EWIDTH, height=3)
 e_rs_eng.insert(tk.INSERT, "1. Supplemented CDs and Scans.")
-# e_rs_chs.grid(row=13, column=1, columnspan=4, sticky='nw')
+# e_rs_chn.grid(row=13, column=1, columnspan=4, sticky='nw')
 
 l_link1 = tk.Label(root, text="bangumi")
 l_link1.grid(row=14, column=0, sticky='ne')
@@ -268,7 +268,7 @@ def e_onfocus_clear(event):
 #     # text_height = event.widget.winfo_height()
 #     event.widget.config(height=text_height)
 
-# e_rs_chs.bind('<FocusIn>', e_onfocus_clear)
+# e_rs_chn.bind('<FocusIn>', e_onfocus_clear)
 # e_rs_eng.bind('<FocusIn>', e_onfocus_clear)
 # e_link1.bind('<FocusIn>', e_onfocus_clear)
 # e_link2.bind('<FocusIn>', e_onfocus_clear)
@@ -300,7 +300,7 @@ def btn_click_generate():
     doc['process_eng'] = e_process_eng.get(1.0, tk.END)
     doc['comment'] = e_comment.get(1.0, tk.END)
     doc['provider'] = e_provider.get(1.0, tk.END)
-    doc['rs_chs'] = e_rs_chs.get(1.0, tk.END)
+    doc['rs_chn'] = e_rs_chn.get(1.0, tk.END)
     doc['rs_eng'] = e_rs_eng.get(1.0, tk.END)
     doc['link1'] = e_link1.get()
     doc['link2'] = e_link2.get()
@@ -384,7 +384,7 @@ def btn_click_generate():
         else:
             f.write("<p>\n")
             f.write("重发修正：<br />\n")
-            f.write(str(doc['rs_chs']).replace('\n', '<br />\n'))
+            f.write(str(doc['rs_chn']).replace('\n', '<br />\n'))
             f.write("<br />\n")
             f.write("Reseed comment:<br />\n")
             f.write(str(doc['rs_eng']).replace('\n', '<br />\n'))
@@ -432,7 +432,7 @@ def btn_click_generate():
         if(isRS):
             f.write("[box style=\"info\"]\n重发修正：\n")
             f.write("\n")
-            f.write(doc["rs_chs"])
+            f.write(doc["rs_chn"])
             f.write("[/box]\n")
             f.write("\n")
 

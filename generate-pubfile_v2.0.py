@@ -1,6 +1,8 @@
 # -*- coding: UTF-8 -*-
 
 import tkinter as tk
+import os
+from functools import partial
 
 SUB= {
     '千夏字幕组': 'Airota',
@@ -70,70 +72,53 @@ for i in range(MAXROW):
 
 # 创建标签和输入栏
 l_img_800 = tk.Label(root, text="发布图-800")
-# l_img_800.pack()
 l_img_800.grid(row=0, column=0, sticky='ne')
 e_img_800 = tk.Entry(root, width=EWIDTH)
 e_img_800.insert(0, "https://img.2222.moe/images/2023/09/04/oregairu_800.webp")
-# e_img_800.pack()
 e_img_800.grid(row=0, column=1, columnspan=4, sticky='nw')
 
 l_img_1400 = tk.Label(root, text="发布图-1400")
-# l_img_1400.pack()
 l_img_1400.grid(row=1, column=0, sticky='ne')
 e_img_1400 = tk.Entry(root, width=EWIDTH)
 e_img_1400.insert(0, "https://img.2222.moe/images/2023/09/04/oregairu_1400.webp")
-# e_img_1400.pack()
 e_img_1400.grid(row=1, column=1, columnspan=4, sticky='nw')
 
 l_sub = tk.Label(root, text="字幕组")
-# l_sub.pack()
 l_sub.grid(row=2, column=0, sticky='ne')
 e_sub = tk.Entry(root, width=EWIDTH)
-# e_sub.insert(0, "动漫国字幕组")
-# e_sub.pack()
+e_sub.insert(0, "动漫国字幕组")
 e_sub.grid(row=2, column=1, columnspan=4, sticky='nw')
 
 l_title_chn = tk.Label(root, text="标题-中文")
-# l_title_chn.pack()
 l_title_chn.grid(row=3, column=0, sticky='ne')
 e_title_chn = tk.Entry(root, width=EWIDTH)
-e_title_chn.insert(0, "我的青春恋爱物语果然有问题")
-# e_title_chn.pack()
+e_title_chn.insert(0, "测试：我的青春恋爱物语果然有问题")
 e_title_chn.grid(row=3, column=1, columnspan=4, sticky='nw')
 
 l_title_eng = tk.Label(root, text="标题-英文")
-# l_title_eng.pack()
 l_title_eng.grid(row=4, column=0, sticky='ne')
 e_title_eng = tk.Entry(root, width=EWIDTH)
 e_title_eng.insert(0, "Yahari Ore no Seishun Lovecome wa Machigatte Iru.")
-# e_title_eng.pack()
 e_title_eng.grid(row=4, column=1, columnspan=4, sticky='nw')
 
 l_title_jpn = tk.Label(root, text="标题-日文")
-# l_title_jpn.pack()
 l_title_jpn.grid(row=5, column=0, sticky='ne')
 e_title_jpn = tk.Entry(root, width=EWIDTH)
 e_title_jpn.insert(0, "やはり俺の青春ラブコメはまちがっている.")
-# e_title_jpn.pack()
 e_title_jpn.grid(row=5, column=1, columnspan=4, sticky='nw')
 
 l_spec = tk.Label(root, text="规格")
-# l_spec.pack()
 l_spec.grid(row=6, column=0, sticky='ne')
 e_spec = tk.Entry(root, width=int(EWIDTH/4)-2)
 e_spec.insert(0, "10-bit 1080p HEVC")
-# e_spec.pack()
 e_spec.grid(row=6, column=1)
 e_type = tk.Entry(root, width=int(EWIDTH/4)-2)
 e_type.insert(0, "BDRip")
-# e_type.pack()
 e_type.grid(row=6, column=2)
 e_range = tk.Entry(root, width=int(EWIDTH/4)-2)
 e_range.insert(0, "S1-S2")
-# e_range.pack()
 e_range.grid(row=6, column=3)
 e_mark = tk.Entry(root, width=int(EWIDTH/4)-2)
-# e_mark.pack()
 e_mark.grid(row=6, column=4)
 
 check_rs = tk.IntVar()
@@ -147,77 +132,69 @@ def func_rs():
     if(check_rs.get()):
         e_mark.insert(0, "Reseed")
 
-        l_rs_chs.grid(row=12, column=0, sticky='ne')
-        e_rs_chs.grid(row=12, column=1, columnspan=4, sticky='nw')
+        l_rs_chn.grid(row=12, column=0, sticky='ne')
+        b_rs_chn.grid(row=12, column=1, columnspan=4, sticky='nw')
         l_rs_eng.grid(row=13, column=0, sticky='ne')
-        e_rs_eng.grid(row=13, column=1, columnspan=4, sticky='nw')
+        b_rs_eng.grid(row=13, column=1, columnspan=4, sticky='nw')
     else:
         e_mark.delete(0, tk.END)
 
-        l_rs_chs.grid_forget()
-        e_rs_chs.grid_forget()
+        l_rs_chn.grid_forget()
+        b_rs_chn.grid_forget()
         l_rs_eng.grid_forget()
-        e_rs_eng.grid_forget()
+        b_rs_eng.grid_forget()
 
 c0 = tk.Checkbutton(root, text="重发",variable=check_rs, onvalue=1, offvalue=0, command=func_rs)
-# c0.pack()
 c0.grid(row=7, column=0)
 c1 = tk.Checkbutton(root, text="内封原盘 ENG + JPN 字幕。", variable=check_pgs, onvalue=1, offvalue=0)
-# c1.pack()
 c1.grid(row=7, column=1)
 c2 = tk.Checkbutton(root, text="内封评论音轨。", variable=check_ct, onvalue=1, offvalue=0)
-# c2.pack()
 c2.grid(row=7, column=2)
 c3 = tk.Checkbutton(root, text="部分剧集内封评论音轨。", variable=check_ctc, onvalue=1, offvalue=0)
-# c3.pack()
 c3.grid(row=7, column=3)
 c4 = tk.Checkbutton(root, text="外挂 FLAC 5.1 + Headphone X。",variable=check_mka, onvalue=1, offvalue=0)
-# c4.pack()
 c4.grid(row=7, column=4)
 
-# l_process_chn = tk.Label(root, text="画质")
-# # l_process_chn.pack()
-# l_process_chn.grid(row=8, column=0, sticky='ne')
-# e_process_chn = tk.Text(root, width=EWIDTH, height=10)
-# e_process_chn.insert(tk.INSERT, "第一行.\n第二行。")
-# # e_process_chn.pack()
-# e_process_chn.grid(row=8, column=1, columnspan=4, sticky='nw')
+# 定义按钮打开文件函数
+def open_text_file(filename):
+    file_path = os.path.join(os.getcwd(), filename)
+    if not os.path.exists(file_path):
+        with open(file_path, "w", encoding='utf8') as f:
+            pass
+    
+    os.system(f"notepad.exe {file_path}")
 
-# l_process_eng = tk.Label(root, text="翻译")
-# # l_process_eng.pack()
-# l_process_eng.grid(row=9, column=0, sticky='ne')
-# e_process_eng = tk.Text(root, width=EWIDTH, height=10)
-# e_process_eng.insert(tk.INSERT, "line1.\nline2.")
-# # e_process_eng.pack()
-# e_process_eng.grid(row=9, column=1, columnspan=4, sticky='nw')
+l_process_chn = tk.Label(root, text="画质")
+l_process_chn.grid(row=8, column=0, sticky='ne')
+b_process_chn = tk.Button(root, text="process_chn.txt", width=EWIDTH, command=partial(open_text_file, "process_chn.txt"))
+b_process_chn.grid(row=8, column=1, columnspan=4, sticky='nw')
+
+l_process_eng = tk.Label(root, text="翻译")
+l_process_eng.grid(row=9, column=0, sticky='ne')
+b_process_eng = tk.Button(root, text="process_eng.txt", width=EWIDTH, command=partial(open_text_file, "process_eng.txt"))
+b_process_eng.grid(row=9, column=1, columnspan=4, sticky='nw')
 
 l_comment = tk.Label(root, text="吐槽")
-# l_comment.pack()
 l_comment.grid(row=10, column=0, sticky='ne')
 e_comment = tk.Text(root, width=EWIDTH, height=5)
 e_comment.insert(tk.INSERT, "好想看到会动的瑠衣酱")
-# e_comment.pack()
 e_comment.grid(row=10, column=1, columnspan=4, sticky='nw')
 
 l_provider = tk.Label(root, text="感谢")
-# l_provider.pack()
 l_provider.grid(row=11, column=0, sticky='ne')
 e_provider = tk.Text(root, width=EWIDTH, height=3)
 e_provider.insert(tk.INSERT, "BD: \nScans: \nCDs: ")
-# e_provider.pack()
 e_provider.grid(row=11, column=1, columnspan=4, sticky='nw')
 
-# l_rs_chs = tk.Label(root, text="重发修正")
-# # l_rs_chs.grid(row=12, column=0, sticky='ne')
-# e_rs_chs = tk.Text(root, width=EWIDTH, height=3)
-# e_rs_chs.insert(tk.INSERT, "1. 补充 CD 及 扫图。")
-# # e_rs_chs.grid(row=12, column=1, columnspan=4, sticky='nw')
+l_rs_chn = tk.Label(root, text="重发修正")
+# l_rs_chn.grid(row=12, column=0, sticky='ne')
+b_rs_chn = tk.Button(root, text="rs_chn.txt", width=EWIDTH, command=partial(open_text_file, "rs_chn.txt"))
+# b_rs_chn.grid(row=12, column=1, columnspan=4, sticky='nw')
 
-# l_rs_eng = tk.Label(root, text="重发翻译")
-# # l_rs_eng.grid(row=13, column=0, sticky='ne')
-# e_rs_eng = tk.Text(root, width=EWIDTH, height=3)
-# e_rs_eng.insert(tk.INSERT, "1. Supplemented CDs and Scans.")
-# # e_rs_chs.grid(row=13, column=1, columnspan=4, sticky='nw')
+l_rs_eng = tk.Label(root, text="重发翻译")
+# l_rs_eng.grid(row=13, column=0, sticky='ne')
+b_rs_eng = tk.Button(root, text="rs_eng.txt", width=EWIDTH, command=partial(open_text_file, "rs_eng.txt"))
+# b_rs_eng.grid(row=13, column=1, columnspan=4, sticky='nw')
 
 l_link1 = tk.Label(root, text="bangumi")
 l_link1.grid(row=14, column=0, sticky='ne')
@@ -257,10 +234,8 @@ e_link6.grid(row=19, column=1, columnspan=4, sticky='nw')
 
 # 输入框获得焦点事件，清除内容函数
 def e_onfocus_clear(event):
-    if isinstance(event.widget, tk.Entry):
+    if isinstance(event.widget, tk.Entry) or isinstance(event.widget, tk.Text):
         event.widget.delete(0, tk.END)
-    # if isinstance(event.widget, tk.Text):
-    #     event.widget.delete(1.0, tk.END)
 
 for widget in root.winfo_children():
     if isinstance(widget, tk.Entry):
@@ -281,12 +256,8 @@ def btn_click_generate():
     doc['mark'] = e_mark.get()
     doc['img_800'] = e_img_800.get()
     doc['img_1400'] = e_img_1400.get()
-    # doc['process_chn'] = e_process_chn.get(1.0, tk.END)
-    # doc['process_eng'] = e_process_eng.get(1.0, tk.END)
     doc['comment'] = e_comment.get(1.0, tk.END)
     doc['provider'] = e_provider.get(1.0, tk.END)
-    # doc['rs_chs'] = e_rs_chs.get(1.0, tk.END)
-    # doc['rs_eng'] = e_rs_eng.get(1.0, tk.END)
     doc['link1'] = e_link1.get()
     doc['link2'] = e_link2.get()
     doc['link3'] = e_link3.get()
@@ -341,9 +312,13 @@ def btn_click_generate():
             f.write("这个项目与 <strong>" + doc['sub'] + "</strong> 合作，感谢他们精心制作的字幕。<br />\n")
             f.write("This project is in collaboration with <strong>" +SUB[doc['sub']]+ "</strong>. Thanks to them for elaborating Chinese subtitles.<br />\n")
             f.write("<br />\n")
-        # f.write(str(doc['process_chn']).replace('\n', '<br />\n'))
-        # f.write(str(doc['process_eng']).replace('\n', '<br />\n'))
+        
+        with open("process_chn.txt", 'r', encoding='utf8') as s:
+                f.write(s.read().replace('\n', '<br />\n'))
+        with open("process_eng.txt", 'r', encoding='utf8') as s:
+                f.write(s.read().replace('\n', '<br />\n'))
         f.write("<br />\n")
+        
         if(doc['comment']!='\n'):
             f.write(str(doc['comment']).replace('\n', '<br />\n'))
             f.write("<br />\n")
@@ -369,10 +344,12 @@ def btn_click_generate():
         else:
             f.write("<p>\n")
             f.write("重发修正：<br />\n")
-            # f.write(str(doc['rs_chs']).replace('\n', '<br />\n'))
+            with open("rs_chn.txt", 'r', encoding='utf8') as s:
+                f.write(s.read().replace('\n', '<br />\n'))
             f.write("<br />\n")
             f.write("Reseed comment:<br />\n")
-            # f.write(str(doc['rs_eng']).replace('\n', '<br />\n'))
+            with open("rs_eng.txt", 'r', encoding='utf8') as s:
+                f.write(s.read().replace('\n', '<br />\n'))
             f.write("<br />\n")
             f.write("</p>\n")
             f.write("<hr />\n")
@@ -393,7 +370,8 @@ def btn_click_generate():
         if(doc['sub']):
             f.write("这个项目与 <strong>" + doc['sub'] + "</strong> 合作，感谢他们精心制作的字幕。\n")
         f.write("\n")
-        # f.write(doc['process_chn'])
+        with open("process_chn.txt", 'r', encoding='utf8') as s:
+                f.write(s.read())
         f.write("\n")
 
         if(doc['comment']!='\n'):
@@ -417,7 +395,8 @@ def btn_click_generate():
         if(isRS):
             f.write("[box style=\"info\"]\n重发修正：\n")
             f.write("\n")
-            # f.write(doc["rs_chs"])
+            with open("rs_chn.txt", 'r', encoding='utf8') as s:
+                f.write(s.read())
             f.write("[/box]\n")
             f.write("\n")
 
@@ -445,17 +424,16 @@ def btn_click_generate():
         f.write("<label for=\"medie-info-switch\" class=\"btn btn-inverse-primary\" title=\"展开MediaInfo\">MediaInfo</label>\n")
         f.write("\n")
         f.write("<pre class=\"js-medie-info-detail medie-info-detail\" style=\"display: none;\">")
-        with open("mediainfo.txt", 'r', encoding='utf8') as m:
-            f.write(m.read())
+        with open("mediainfo.txt", 'r', encoding='utf8') as s:
+            f.write(s.read())
         f.write("</pre>\n")
 
 
     root.destroy()
 
 # 创建按钮
-button = tk.Button(root, text="生成", width=EWIDTH, command=btn_click_generate)
-# button.pack()
-button.grid(row=MAXROW, column=1, columnspan=4, sticky='nw')
+b_generate = tk.Button(root, text="生成", width=EWIDTH, command=btn_click_generate)
+b_generate.grid(row=MAXROW, column=1, columnspan=4, sticky='nw')
 
 # 启动主循环
 root.mainloop()
