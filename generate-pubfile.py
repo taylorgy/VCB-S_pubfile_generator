@@ -116,7 +116,7 @@ e_type = tk.Entry(root, width=int(EWIDTH/4)-2)
 e_type.insert(0, "BDRip")
 e_type.grid(row=6, column=2)
 e_range = tk.Entry(root, width=int(EWIDTH/4)-2)
-e_range.insert(0, "S1-S2")
+# e_range.insert(0, "S1-S2")
 e_range.grid(row=6, column=3)
 e_mark = tk.Entry(root, width=int(EWIDTH/4)-2)
 e_mark.grid(row=6, column=4)
@@ -186,12 +186,12 @@ e_provider = tk.Text(root, width=EWIDTH, height=3)
 e_provider.insert(tk.INSERT, "BD: \nScans: \nCDs: ")
 e_provider.grid(row=11, column=1, columnspan=4, sticky='nw')
 
-l_rs_chn = tk.Label(root, text="重发修正")
+l_rs_chn = tk.Label(root, text="重发")
 # l_rs_chn.grid(row=12, column=0, sticky='ne')
 b_rs_chn = tk.Button(root, text="rs_chn.txt", width=EWIDTH, command=partial(open_text_file, "rs_chn.txt"))
 # b_rs_chn.grid(row=12, column=1, columnspan=4, sticky='nw')
 
-l_rs_eng = tk.Label(root, text="重发翻译")
+l_rs_eng = tk.Label(root, text="翻译")
 # l_rs_eng.grid(row=13, column=0, sticky='ne')
 b_rs_eng = tk.Button(root, text="rs_eng.txt", width=EWIDTH, command=partial(open_text_file, "rs_eng.txt"))
 # b_rs_eng.grid(row=13, column=1, columnspan=4, sticky='nw')
@@ -267,6 +267,10 @@ def btn_click_generate():
 
     isShort = (len(doc['title_eng']) < THTITLE)
     isRS = check_rs.get()
+    if(doc['range']):
+        doc['range'] += " "
+    if(doc['mark']):
+        doc['mark'] += " "
 
     # 生成发布内容-bt
     if(doc['sub']):
@@ -274,19 +278,19 @@ def btn_click_generate():
     else:
         pubgroup = "[VCB-Studio] "
     if(isShort):
-        pubtitle_bt = str(pubgroup + doc['title_chn'] +" / "+ doc['title_eng'] +" / "+ doc['title_jpn'] +" "+ doc['spec'] +" "+ doc['type'] +" ["+ doc['range'] +" "+ doc['mark'] + " Fin]").replace('  ', ' ')
+        pubtitle_bt = (pubgroup + doc['title_chn'] +" / "+ doc['title_eng'] +" / "+ doc['title_jpn'] +" "+ doc['spec'] +" "+ doc['type'] +" ["+ doc['range'] + doc['mark'] + "Fin]")
     else:
-        pubtitle_bt = str(pubgroup + doc['title_chn'] +" / "+ doc['title_eng'] +" "+ doc['spec'] +" "+ doc['type'] +" ["+ doc['range'] +" "+ doc['mark'] + " Fin]").replace('  ', ' ')
+        pubtitle_bt = (pubgroup + doc['title_chn'] +" / "+ doc['title_eng'] +" "+ doc['spec'] +" "+ doc['type'] +" ["+ doc['range'] + doc['mark'] + "Fin]")
      
     pubimg_800="<img src=\"" + doc["img_800"] +"\" alt=\"" + doc["img_800"].split('/')[-1] + "\" /><br />"
     
     if(isShort):
-        pubtitle_content = doc['title_chn'] +" / "+ doc['title_eng'] +" / "+ doc['title_jpn'] +" "+ doc['range'] +" "+ doc['type'] +" "+ doc['mark'] + " <br />"
+        pubtitle_content = (doc['title_chn'] +" / "+ doc['title_eng'] +" / "+ doc['title_jpn'] +" "+ doc['range'] + doc['type'] +" "+ doc['mark'] + "<br />")
     else:
-        pubtitle_content = \
-        doc['title_chn'] +" "+ doc['range'] +" "+ doc['type'] +" "+ doc['mark'] + " <br />\n" + \
-        doc['title_eng'] +" "+ doc['range'] +" "+ doc['type'] +" "+ doc['mark'] + " <br />\n" +\
-        doc['title_jpn'] +" "+ doc['range'] +" "+ doc['type'] +" "+ doc['mark'] + " <br />" 
+        pubtitle_content = (\
+        doc['title_chn'] +" "+ doc['range'] + doc['type'] +" "+ doc['mark'] + "<br />\n" + \
+        doc['title_eng'] +" "+ doc['range'] + doc['type'] +" "+ doc['mark'] + "<br />\n" +\
+        doc['title_jpn'] +" "+ doc['range'] + doc['type'] +" "+ doc['mark'] + "<br />")
 
     # 输出发布内容到文件-bt
     with open(doc["title_chn"]+"-BANGUMI.html", 'w', encoding='utf8') as f:
@@ -359,7 +363,7 @@ def btn_click_generate():
             f.write(pubrest_bt_rs)
 
     # 生成发布内容-vcbs
-    pubtitle_vcbs = str(doc['title_eng'] +" / "+ doc['title_chn'] +" "+ doc['spec']+" "+ doc['type'] +" ["+ doc['range'] +" "+ doc['mark'] + " Fin]").replace('  ', ' ')
+    pubtitle_vcbs = str(doc['title_eng'] +" / "+ doc['title_chn'] +" "+ doc['spec']+" "+ doc['type'] +" ["+ doc['range'] + doc['mark'] + "Fin]")
     
     pubimg_1400="<img src=\"" + doc["img_1400"] +"\" alt=\"" + doc["img_1400"].split('/')[-1] + "\" /><br />"
 
@@ -427,8 +431,6 @@ def btn_click_generate():
         with open("mediainfo.txt", 'r', encoding='utf8') as s:
             f.write(s.read())
         f.write("</pre>\n")
-
-
     root.destroy()
 
 # 创建按钮
