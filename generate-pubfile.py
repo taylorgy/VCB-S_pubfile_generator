@@ -62,7 +62,7 @@ doc=dict()
 root = tk.Tk()
 root.title("VCB-S 发布文档生成程序")
 
-root.geometry('800x1000')
+root.geometry('820x1000')
 EWIDTH = 100
 THTITLE = 25
 MAXROW = 30
@@ -86,7 +86,7 @@ e_img_1400.grid(row=1, column=1, columnspan=4, sticky='nw')
 l_sub = tk.Label(root, text="字幕组")
 l_sub.grid(row=2, column=0, sticky='ne')
 e_sub = tk.Entry(root, width=EWIDTH)
-e_sub.insert(0, "动漫国字幕组")
+# e_sub.insert(0, "动漫国字幕组")
 e_sub.grid(row=2, column=1, columnspan=4, sticky='nw')
 
 l_title_chn = tk.Label(root, text="标题-中文")
@@ -177,7 +177,7 @@ b_process_eng.grid(row=9, column=1, columnspan=4, sticky='nw')
 l_comment = tk.Label(root, text="吐槽")
 l_comment.grid(row=10, column=0, sticky='ne')
 e_comment = tk.Text(root, width=EWIDTH, height=5)
-e_comment.insert(tk.INSERT, "好想看到会动的瑠衣酱")
+# e_comment.insert(tk.INSERT, "好想看到会动的瑠衣酱")
 e_comment.grid(row=10, column=1, columnspan=4, sticky='nw')
 
 l_provider = tk.Label(root, text="感谢")
@@ -231,6 +231,13 @@ l_link6.grid(row=19, column=0, sticky='ne')
 e_link6 = tk.Entry(root, width=EWIDTH)
 e_link6.insert(0, "https://nyaa.si/view/xxxxxx")
 e_link6.grid(row=19, column=1, columnspan=4, sticky='nw')
+
+b_sc_html = tk.Button(root, text="screenshot_html.txt", width=int(EWIDTH/4)-2, command=partial(open_text_file, "screenshot_html.txt"))
+b_sc_html.grid(row=20, column=1, sticky='nw')
+b_sc_md = tk.Button(root, text="screenshot_md.txt", width=int(EWIDTH/4)-2, command=partial(open_text_file, "screenshot_md.txt"))
+b_sc_md.grid(row=20, column=2, sticky='nw')
+b_mediainfo = tk.Button(root, text="mediainfo.txt", width=int(EWIDTH/4)-2, command=partial(open_text_file, "mediainfo.txt"))
+b_mediainfo.grid(row=20, column=3, sticky='nw')
 
 # 输入框获得焦点事件，清除内容函数
 def e_onfocus_clear(event):
