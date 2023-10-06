@@ -58,6 +58,9 @@ pubrest_bt_rs = '''
 
 doc=dict()
 
+if not os.path.exists("./info"):
+    os.makedirs("./info")
+
 # 创建主窗口
 root = tk.Tk()
 root.title("VCB-S 发布文档生成程序")
@@ -144,7 +147,7 @@ def func_rs():
         l_rs_eng.grid_forget()
         b_rs_eng.grid_forget()
 
-c0 = tk.Checkbutton(root, text="重发",variable=check_rs, onvalue=1, offvalue=0, command=func_rs)
+c0 = tk.Checkbutton(root, text="重发", variable=check_rs, onvalue=1, offvalue=0, command=func_rs)
 c0.grid(row=7, column=0)
 c1 = tk.Checkbutton(root, text="内封原盘 ENG + JPN 字幕。", variable=check_pgs, onvalue=1, offvalue=0)
 c1.grid(row=7, column=1)
@@ -157,7 +160,10 @@ c4.grid(row=7, column=4)
 
 # 定义按钮打开文件函数
 def open_text_file(filename):
-    file_path = os.path.join(os.getcwd(), filename)
+    # folder = os.path.join(os.getcwd(), 'info')
+    # if not os.path.exists(folder):
+    #     os.makedirs(folder)
+    file_path = os.path.join("./info", filename)
     if not os.path.exists(file_path):
         with open(file_path, "w", encoding='utf8') as f:
             pass

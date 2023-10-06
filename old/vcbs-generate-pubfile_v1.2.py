@@ -58,6 +58,9 @@ pubrest_bt_rs = '''
 
 doc=dict()
 
+if not os.path.exists("./info"):
+    os.makedirs("./info")
+
 # 创建主窗口
 root = tk.Tk()
 root.title("VCB-S 发布文档生成程序")
@@ -157,7 +160,10 @@ c4.grid(row=7, column=4)
 
 # 定义按钮打开文件函数
 def open_text_file(filename):
-    file_path = os.path.join(os.getcwd(), 'info', filename)
+    # folder = os.path.join(os.getcwd(), 'info')
+    # if not os.path.exists(folder):
+    #     os.makedirs(folder)
+    file_path = os.path.join("./info", filename)
     if not os.path.exists(file_path):
         with open(file_path, "w", encoding='utf8') as f:
             pass
