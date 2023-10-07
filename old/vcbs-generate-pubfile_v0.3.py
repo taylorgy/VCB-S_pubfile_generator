@@ -1,3 +1,4 @@
+# python 3.10.6
 # -*- coding: UTF-8 -*-
 
 import tkinter as tk
