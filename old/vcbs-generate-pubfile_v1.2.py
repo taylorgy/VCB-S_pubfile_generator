@@ -1,3 +1,4 @@
+# python 3.10.6
 # -*- coding: UTF-8 -*-
 
 import tkinter as tk
@@ -58,8 +59,8 @@ pubrest_bt_rs = '''
 
 doc=dict()
 
-if not os.path.exists("./info"):
-    os.makedirs("./info")
+if not os.path.exists("./content"):
+    os.makedirs("./content")
 
 # 创建主窗口
 root = tk.Tk()
@@ -160,10 +161,7 @@ c4.grid(row=7, column=4)
 
 # 定义按钮打开文件函数
 def open_text_file(filename):
-    # folder = os.path.join(os.getcwd(), 'info')
-    # if not os.path.exists(folder):
-    #     os.makedirs(folder)
-    file_path = os.path.join("./info", filename)
+    file_path = os.path.join("./content", filename)
     if not os.path.exists(file_path):
         with open(file_path, "w", encoding='utf8') as f:
             pass
@@ -330,9 +328,9 @@ def btn_click_generate():
             f.write("This project is in collaboration with <strong>" +SUB[doc['sub']]+ "</strong>. Thanks to them for elaborating Chinese subtitles.<br />\n")
             f.write("<br />\n")
         
-        with open("process_chn.txt", 'r', encoding='utf8') as s:
+        with open("./content/process_chn.txt", 'r', encoding='utf8') as s:
                 f.write(s.read().replace('\n', '<br />\n'))
-        with open("process_eng.txt", 'r', encoding='utf8') as s:
+        with open("./content/process_eng.txt", 'r', encoding='utf8') as s:
                 f.write(s.read().replace('\n', '<br />\n'))
         f.write("<br />\n")
         
@@ -355,17 +353,17 @@ def btn_click_generate():
                 f.write("本项目文件名较长，下载时请注意存放路径，以免发生无法下载的情况。<br />\nPlease be mindful of long paths in this torrent to avoid download error. <br />\n")
                 f.write("<br />\n")
             f.write(pubrest_bt_new)
-            with open("screenshot_html.txt", 'r', encoding='utf8') as s:
+            with open("./content/screenshot_html.txt", 'r', encoding='utf8') as s:
                 f.write(s.read())
         # 重发
         else:
             f.write("<p>\n")
             f.write("重发修正：<br />\n")
-            with open("rs_chn.txt", 'r', encoding='utf8') as s:
+            with open("./content/rs_chn.txt", 'r', encoding='utf8') as s:
                 f.write(s.read().replace('\n', '<br />\n'))
             f.write("<br />\n")
             f.write("Reseed comment:<br />\n")
-            with open("rs_eng.txt", 'r', encoding='utf8') as s:
+            with open("./content/rs_eng.txt", 'r', encoding='utf8') as s:
                 f.write(s.read().replace('\n', '<br />\n'))
             f.write("<br />\n")
             f.write("</p>\n")
@@ -387,7 +385,7 @@ def btn_click_generate():
         if(doc['sub']):
             f.write("这个项目与 <strong>" + doc['sub'] + "</strong> 合作，感谢他们精心制作的字幕。\n")
         f.write("\n")
-        with open("process_chn.txt", 'r', encoding='utf8') as s:
+        with open("./content/process_chn.txt", 'r', encoding='utf8') as s:
                 f.write(s.read())
         f.write("\n")
 
@@ -412,7 +410,7 @@ def btn_click_generate():
         if(isRS):
             f.write("[box style=\"info\"]\n重发修正：\n")
             f.write("\n")
-            with open("rs_chn.txt", 'r', encoding='utf8') as s:
+            with open("./content/rs_chn.txt", 'r', encoding='utf8') as s:
                 f.write(s.read())
             f.write("[/box]\n")
             f.write("\n")
@@ -441,7 +439,7 @@ def btn_click_generate():
         f.write("<label for=\"medie-info-switch\" class=\"btn btn-inverse-primary\" title=\"展开MediaInfo\">MediaInfo</label>\n")
         f.write("\n")
         f.write("<pre class=\"js-medie-info-detail medie-info-detail\" style=\"display: none;\">")
-        with open("mediainfo.txt", 'r', encoding='utf8') as s:
+        with open("./content/mediainfo.txt", 'r', encoding='utf8') as s:
             f.write(s.read())
         f.write("</pre>\n")
     root.destroy()
