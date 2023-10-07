@@ -1,2 +1,4 @@
+util/__pycache__
 *.html
 *.md
+test.py

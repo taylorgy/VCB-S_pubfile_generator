@@ -1,3 +1,10 @@
+WINDOW = '660x1000'
+THTITLE = 25
+MAXROW = 30
+EWIDTH = 20
+EWIDTH2 = int(2*EWIDTH)
+EWIDTH4 = int(4*EWIDTH+2)
+
 SUB= {
     '千夏字幕组': 'Airota',
     '喵萌奶茶屋': 'Nekomoe kissaten',
@@ -12,3 +19,40 @@ SUB= {
     '白恋字幕组': 'Shirokoi',
     'SweetSub': 'SweetSub'
 }
+
+pubrest_bt_new = '''
+VCB-Studio 已不再保证收集作品相关 CD 和扫图资源，详情请参见 <a href="https://vcb-s.com/archives/14331">https://vcb-s.com/archives/14331</a>。<br />
+Please refer to <a href="https://vcb-s.com/archives/14331">https://vcb-s.com/archives/14331</a> for more information about that VCB-Studio will no longer guarantee to include relevant CDs and scans.<br />
+<br />
+本组（不）定期招募新成员。详情请参见 <a href="https://vcb-s.com/archives/16986">https://vcb-s.com/archives/16986</a>。<br />
+Please refer to <a href="https://vcb-s.com/archives/16986">https://vcb-s.com/archives/16986</a> about information of our (un)scheduled recruitment.<br />
+<br />
+有关 TSDM 合购区的详情请参见 <a href="https://www.tsdm39.com/forum.php?mod=viewthread&amp;tid=879923">https://www.tsdm39.com/forum.php?mod=viewthread&amp;tid=879923</a>。<br />
+Please refer to <a href="https://www.tsdm39.com/forum.php?mod=viewthread&amp;tid=879923">https://www.tsdm39.com/forum.php?mod=viewthread&amp;tid=879923</a> for more information about jointly purchased music.<br />
+<br />
+播放器教程索引： <a href="https://vcb-s.com/archives/16639" target="_blank">VCB-Studio 播放器推荐</a><br />
+中文字幕分享区： <a href="https://bbs.acgrip.com/" target="_blank">Anime 分享论坛</a><br />
+项目计划与列表： <a href="https://vcb-s.com/archives/138" target="_blank">VCB-Studio 项目列表</a><br />
+特殊格式与说明： <a href="https://vcb-s.com/archives/7949" target="_blank">WebP 扫图说明</a><br />
+<br />
+</p>
+<hr />
+'''
+
+pubrest_bt_rs = '''
+<br />
+</p>
+<hr />
+<p>
+本次发布来自 VCB-Studio 旧作重发计划。我们会不定期重发过去发布过的合集，或为补充做种，或为修正制作错漏，或为整合系列合集。<br />
+<br />
+</p>
+<hr />
+<p>
+播放器教程索引： <a href="https://vcb-s.com/archives/16639" target="_blank">VCB-Studio 播放器推荐</a><br />
+中文字幕分享区： <a href="https://bbs.acgrip.com/" target="_blank">Anime 分享论坛</a><br />
+项目计划与列表： <a href="https://vcb-s.com/archives/138" target="_blank">VCB-Studio 项目列表</a><br />
+特殊格式与说明： <a href="https://vcb-s.com/archives/7949" target="_blank">WebP 扫图说明</a><br />
+<br />
+</p>
+'''
