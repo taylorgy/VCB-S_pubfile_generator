@@ -8,6 +8,7 @@ def open_text_file(filepath):
             pass
     
     os.system(f"notepad.exe {filepath}")
+    return
 
 # 输出发布内容-bt
 def pubfile_bt(doc):
@@ -15,7 +16,7 @@ def pubfile_bt(doc):
 
     # 生成发布内容-bt
     if(doc['sub']):
-        pubgroup = "["+ doc['sub'] +"&VCB-Studio] "
+        pubgroup = "["+ '&'.join(doc['sub']) +"&VCB-Studio] "
     else:
         pubgroup = "[VCB-Studio] "
     if(isShort):
@@ -53,8 +54,8 @@ def pubfile_bt(doc):
             f.write("外挂 FLAC 5.1 + Headphone X。<br />\nMKA contains FLAC 5.1 + Headphone X.<br />\n")
             f.write("<br />\n")
         if(doc['sub']):
-            f.write("这个项目与 <strong>" + doc['sub'] + "</strong> 合作，感谢他们精心制作的字幕。<br />\n")
-            f.write("This project is in collaboration with <strong>" +SUB[doc['sub']]+ "</strong>. Thanks to them for elaborating Chinese subtitles.<br />\n")
+            f.write("这个项目与 <strong>"+ ' & '.join(doc['sub']) +"</strong> 合作，感谢他们精心制作的字幕。<br />\n")
+            f.write("This project is in collaboration with <strong>"+ ' & '.join([SUB[i] for i in doc['sub']]) +"</strong>. Thanks to them for elaborating Chinese subtitles.<br />\n")
             f.write("<br />\n")
         
         with open("./content/process_chn.txt", 'r', encoding='utf8') as s:
@@ -116,7 +117,7 @@ def pubfile_vcbs(doc):
         f.write(pubtitle_vcbs +"\n\n")
         f.write(pubimg_1400 +"\n\n")
         if(doc['sub']):
-            f.write("这个项目与 <strong>" + doc['sub'] + "</strong> 合作，感谢他们精心制作的字幕。\n")
+            f.write("这个项目与 <strong>" + ' & '.join(doc['sub']) + "</strong> 合作，感谢他们精心制作的字幕。\n")
         f.write("\n")
         with open("./content/process_chn.txt", 'r', encoding='utf8') as s:
                 f.write(s.read())

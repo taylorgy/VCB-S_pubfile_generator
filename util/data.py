@@ -1,4 +1,4 @@
-WINDOW = '660x1000'
+WINDOW = '660x900'
 THTITLE = 25
 MAXROW = 30
 EWIDTH = 20
@@ -8,7 +8,6 @@ EWIDTH4 = int(4*EWIDTH+2)
 SUB= {
     '千夏字幕组': 'Airota',
     '喵萌奶茶屋': 'Nekomoe kissaten',
-    '喵萌Production': 'Nekomoe kissaten',
     '悠哈璃羽字幕社': 'UHA-WINGS',
     '诸神字幕组': 'Kamigami',
     '天香字幕社': 'T.H.X',
@@ -17,7 +16,8 @@ SUB= {
     '茉语星梦': 'MakariHoshiyume',
     '风之圣殿': 'FZSD',
     '白恋字幕组': 'Shirokoi',
-    'SweetSub': 'SweetSub'
+    'SweetSub': 'SweetSub',
+    '喵萌Production': 'Nekomoe kissaten'
 }
 
 pubrest_bt_new = '''
