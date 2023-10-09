@@ -184,7 +184,7 @@ def main():
     entry_link6.insert(0, "https://nyaa.si/view/xxxxxx")
     entry_link6.grid(row=19, column=1, columnspan=4, sticky='nw')
 
-    btn_sc_html = tk.Button(root, text="screenshot_html.txt", width=EWIDTH2, command=partial(open_text_file, "./content/screenshot_html.txt"))
+    btn_sc_html = tk.Button(root, text="screenshot.txt", width=EWIDTH2, command=partial(open_text_file, "./content/screenshot.txt"))
     btn_sc_html.grid(row=20, column=1, columnspan=2, sticky='nw')
     # btn_sc_md = tk.Button(root, text="screenshot_md.txt", width=EWIDTH-2, command=partial(open_text_file, "./content/screenshot_md.txt"))
     # btn_sc_md.grid(row=20, column=2, sticky='nw')

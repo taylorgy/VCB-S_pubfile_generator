@@ -1,4 +1,7 @@
-util/__pycache__
+util/__pycache__/
+dist/
+build/
 *.html
 *.md
+*.spec
 test.py

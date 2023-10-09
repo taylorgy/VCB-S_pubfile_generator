@@ -83,7 +83,7 @@ def pubfile_bt(doc):
                 f.write("本项目文件名较长，下载时请注意存放路径，以免发生无法下载的情况。<br />\nPlease be mindful of long paths in this torrent to avoid download error. <br />\n")
                 f.write("<br />\n")
             f.write(pubrest_bt_new)
-            with open("./content/screenshot_html.txt", 'r', encoding='utf8') as s:
+            with open("./content/screenshot.txt", 'r', encoding='utf8') as s:
                 f.write(s.read())
         # 重发
         else:
