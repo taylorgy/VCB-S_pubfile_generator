@@ -245,13 +245,13 @@ b_mediainfo.grid(row=20, column=3, sticky='nw')
 
 # 输入框获得焦点事件，清除内容函数
 def e_onfocus_clear(event):
-    if isinstance(event.widget, tk.Entry) or isinstance(event.widget, tk.Text):
+    if isinstance(event.widget, tk.Entry):
         event.widget.delete(0, tk.END)
+    if isinstance(event.widget, tk.Text):
+        event.widget.delete(1.0, tk.END)
 
 for widget in root.winfo_children():
-    if isinstance(widget, tk.Entry):
-        widget.bind('<FocusIn>', e_onfocus_clear)
-    if isinstance(widget, tk.Text):
+    if isinstance(widget, tk.Entry) or isinstance(widget, tk.Text):
         widget.bind('<FocusIn>', e_onfocus_clear)
 
 # 定义按钮点击事件
