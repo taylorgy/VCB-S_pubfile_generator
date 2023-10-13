@@ -148,48 +148,49 @@ def main():
     entry_provider.insert(tk.INSERT, "BD: \nScans: \nCDs: ")
     entry_provider.grid(row=11, column=1, columnspan=4, sticky='nw')
 
-    label_link1 = tk.Label(root, text="bangumi")
-    label_link1.grid(row=14, column=0, sticky='ne')
-    entry_link1 = tk.Entry(root, bd=2, width=EWIDTH4)
-    entry_link1.insert(0, "https://bangumi.moe/torrent/xxxxxxxx")
-    entry_link1.grid(row=14, column=1, columnspan=4, sticky='nw')
+    entry_links = []
+    sites = list(LINK.keys())
+    for i in range(LENLINK):
+        label_link = tk.Label(root, text=sites[i])
+        label_link.grid(row=i+14, column=0, sticky='ne')
+        entry_link = tk.Entry(root, bd=2, width=EWIDTH4)
+        entry_link.insert(0, LINK[sites[i]])
+        entry_link.grid(row=i+14, column=1, columnspan=4, sticky='nw')
+        entry_links.append(entry_link)
 
-    label_link2 = tk.Label(root, text="s.acgnx")
-    label_link2.grid(row=15, column=0, sticky='ne')
-    entry_link2 = tk.Entry(root, bd=2, width=EWIDTH4)
-    entry_link2.insert(0, "https://share.acgnx.se/show-xxxxxxxxxxxxxxx.html")
-    entry_link2.grid(row=15, column=1, columnspan=4, sticky='nw')
+    # 定义函数-按钮-链接更新
+    # 根据固定格式
+    def func_btn_link_update():
+        links = []
+        with open("./content/link.txt", 'r') as f:
+            links = f.readlines()
+        links = links[:LENLINK]
+        for i in range(LENLINK):
+            # if i in range(1, LENLINK-1):
+            if ': ' in links[i]:
+                links[i] = links[i].split(': ')[1]
+            entry_links[i].delete(0, tk.END)
+            entry_links[i].insert(0, links[i].rstrip('\n'))
+        with open("./content/link.txt", 'w') as f:
+            f.writelines(links)
+            f.write("\n")
+            f.write("\n")
+            for i in range(LENLINK):
+                link = links[i].rstrip('\n')
+                f.write("<a href=\""+ link +"\" rel=\"noopener\" target=\"_blank\">"+ link +"</a>\n")
+                if (i < LENLINK-1):
+                    f.write("\n")
+        return
 
-    label_link3 = tk.Label(root, text="acgnx")
-    label_link3.grid(row=16, column=0, sticky='ne')
-    entry_link3 = tk.Entry(root, bd=2, width=EWIDTH4)
-    entry_link3.insert(0, "https://www.acgnx.se/show-xxxxxxxxxxxxxxx.html")
-    entry_link3.grid(row=16, column=1, columnspan=4, sticky='nw')
-
-    label_link4 = tk.Label(root, text="acgrip")
-    label_link4.grid(row=17, column=0, sticky='ne')
-    entry_link4 = tk.Entry(root, bd=2, width=EWIDTH4)
-    entry_link4.insert(0, "https://acg.rip/t/xxxxxx")
-    entry_link4.grid(row=17, column=1, columnspan=4, sticky='nw')
-
-    label_link5 = tk.Label(root, text="dmhy")
-    label_link5.grid(row=18, column=0, sticky='ne')
-    entry_link5 = tk.Entry(root, bd=2, width=EWIDTH4)
-    entry_link5.insert(0, "https://share.dmhy.org/topics/view/xxxxxx.html")
-    entry_link5.grid(row=18, column=1, columnspan=4, sticky='nw')
-
-    label_link6 = tk.Label(root, text="nyaa")
-    label_link6.grid(row=19, column=0, sticky='ne')
-    entry_link6 = tk.Entry(root, bd=2, width=EWIDTH4)
-    entry_link6.insert(0, "https://nyaa.si/view/xxxxxx")
-    entry_link6.grid(row=19, column=1, columnspan=4, sticky='nw')
+    btn_link_edit = tk.Button(root, text="link.txt", width=EWIDTH2, command=partial(open_text_file, "./content/link.txt"))
+    btn_link_edit.grid(row=20, column=1, columnspan=2, sticky='nw')
+    btn_link_update = tk.Button(root, text="link update", width=EWIDTH2, command=func_btn_link_update)
+    btn_link_update.grid(row=20, column=3, columnspan=2, sticky='nw')
 
     btn_sc_html = tk.Button(root, text="screenshot.txt", width=EWIDTH2, command=partial(open_text_file, "./content/screenshot.txt"))
-    btn_sc_html.grid(row=20, column=1, columnspan=2, sticky='nw')
-    # btn_sc_md = tk.Button(root, text="screenshot_md.txt", width=EWIDTH-2, command=partial(open_text_file, "./content/screenshot_md.txt"))
-    # btn_sc_md.grid(row=20, column=2, sticky='nw')
+    btn_sc_html.grid(row=21, column=1, columnspan=2, sticky='nw')
     btn_mediainfo = tk.Button(root, text="mediainfo.txt", width=EWIDTH2, command=partial(open_text_file, "./content/mediainfo.txt"))
-    btn_mediainfo.grid(row=20, column=3, columnspan=2, sticky='nw')
+    btn_mediainfo.grid(row=21, column=3, columnspan=2, sticky='nw')
 
     # 定义函数-输入框-获得焦点清除内容
     def entry_onfocus_clear(event):
@@ -218,12 +219,10 @@ def main():
         doc['img_1400'] = entry_img_1400.get()
         doc['comment'] = entry_comment.get(1.0, tk.END)
         doc['provider'] = entry_provider.get(1.0, tk.END)
-        doc['link1'] = entry_link1.get()
-        doc['link2'] = entry_link2.get()
-        doc['link3'] = entry_link3.get()
-        doc['link4'] = entry_link4.get()
-        doc['link5'] = entry_link5.get()
-        doc['link6'] = entry_link6.get()
+        links = []
+        for i in range(LENLINK):
+            links.append(entry_links[i].get())
+        doc['links'] = links
         doc['isRS'] = var_rs.get()
         doc['isPGS'] = var_pgs.get()
         doc['isCT'] = var_ct.get()

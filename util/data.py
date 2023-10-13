@@ -5,7 +5,17 @@ EWIDTH = 20
 EWIDTH2 = int(2*EWIDTH)
 EWIDTH4 = int(4*EWIDTH+2)
 
-SUB= {
+LINK = {
+    "bangumi": "https://bangumi.moe/torrent/xxxxxxxx",
+    "s.acgnx": "https://share.acgnx.se/show-xxxxxxxxxxxxxxx.html",
+    "acgnx": "https://www.acgnx.se/show-xxxxxxxxxxxxxxx.html",
+    "acgrip": "https://acg.rip/t/xxxxxx",
+    "dmhy": "https://share.dmhy.org/topics/view/xxxxxx.html",
+    "nyaa": "https://nyaa.si/view/xxxxxx"
+    }
+LENLINK = len(LINK)
+
+SUB = {
     '千夏字幕组': 'Airota',
     '喵萌奶茶屋': 'Nekomoe kissaten',
     '悠哈璃羽字幕社': 'UHA-WINGS',
@@ -18,7 +28,7 @@ SUB= {
     '白恋字幕组': 'Shirokoi',
     'SweetSub': 'SweetSub',
     '喵萌Production': 'Nekomoe kissaten'
-}
+    }
 
 pubrest_bt_new = '''
 VCB-Studio 已不再保证收集作品相关 CD 和扫图资源，详情请参见 <a href="https://vcb-s.com/archives/14331">https://vcb-s.com/archives/14331</a>。<br />
