@@ -1,6 +1,7 @@
 util/__pycache__/
 dist/
 build/
+content/
 *.html
 *.md
 *.spec
