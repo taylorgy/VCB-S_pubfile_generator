@@ -15,6 +15,26 @@ LINK = {
     }
 LENLINK = len(LINK)
 
+DOC = dict()
+DOC['sub'] = []
+DOC['title_chn'] = "测试中文标题"
+DOC['title_eng'] = ""
+DOC['title_jpn'] = ""
+DOC['spec'] = "10-bit 1080p HEVC"
+DOC['type'] = "BDRip"
+DOC['range'] = ""
+DOC['mark'] = ""
+DOC['img_800'] = "_800.webp"
+DOC['img_1400'] = "_1400.webp"
+DOC['comment'] = ""
+DOC['provider'] = "BD: \nScans: \nCDs: "
+DOC['links'] = list(LINK.values())
+DOC['isRS'] = 0
+DOC['isPGS'] = 0
+DOC['isCT'] = 0
+DOC['isCTC'] = 0
+DOC['isMKA'] = 0
+
 SUB = {
     '千夏字幕组': 'Airota',
     '喵萌奶茶屋': 'Nekomoe kissaten',

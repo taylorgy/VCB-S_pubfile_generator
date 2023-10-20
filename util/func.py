@@ -1,14 +1,55 @@
-import os
 from util.data import *
+
+import os
+import xml.etree.ElementTree as ET
 
 # 定义函数-打开文件，若不存在则创建
 def open_text_file(filepath):
     if not os.path.exists(filepath):
-        with open(filepath, "w", encoding='utf8') as f:
+        with open(filepath, 'w', encoding='utf8') as f:
             pass
-    
     os.system(f"notepad.exe {filepath}")
+    with open(filepath, 'a+', encoding='utf8') as f:
+        f.seek(0)
+        lines = f.readlines()
+        if lines and lines[-1][-1] != '\n':
+            f.write("\n")
     return
+
+# 将字典转换为 XML 元素
+def dict_to_xml(dictionary, parent=None):
+    if parent is None:
+        parent = ET.Element('root')
+
+    for key, value in dictionary.items():
+        if isinstance(value, dict):
+            dict_to_xml(value, ET.SubElement(parent, key))
+        else:
+            ET.SubElement(parent, key).text = str(value)
+
+    return parent
+
+# 将字典保存为 XML 文件
+def save_dict_to_xml(dictionary, filename):
+    root = dict_to_xml(dictionary)
+    tree = ET.ElementTree(root)
+    tree.write(filename, encoding='utf-8', xml_declaration=True)
+
+# 将 XML元素转换为字典
+def xml_to_dict(element):
+    result = {}
+    for child in element:
+        if len(child) == 0:
+            result[child.tag] = child.text
+        else:
+            result[child.tag] = xml_to_dict(child)
+    return result
+
+# 将 XML 文件内容转换为字典
+def load_xml_to_dict(file_path):
+    tree = ET.parse(file_path)
+    root = tree.getroot()
+    return xml_to_dict(root)
 
 # 输出发布内容-bt
 def pubfile_bt(doc):
@@ -59,9 +100,9 @@ def pubfile_bt(doc):
             f.write("<br />\n")
         
         with open("./content/process_chn.txt", 'r', encoding='utf8') as s:
-                f.write(s.read().replace('\n', '<br />\n'))
+            f.write(s.read().replace('\n', '<br />\n'))
         with open("./content/process_eng.txt", 'r', encoding='utf8') as s:
-                f.write(s.read().replace('\n', '<br />\n'))
+            f.write(s.read().replace('\n', '<br />\n'))
         f.write("<br />\n")
         
         if(doc['comment']!='\n'):
@@ -151,8 +192,8 @@ def pubfile_vcbs(doc):
 
         f.write("[box style=\"download\"]\n")
         f.write(doc['spec'])
-        if(doc['mark']):
-            f.write(" ("+doc['mark']+")")
+        if doc['range'] or doc['mark']:
+            f.write(" ("+ doc['range'] + doc['mark'][:-1] +")")
         f.write("\n")
         f.write("\n")
         for i in range(LENLINK):

@@ -1,23 +1,26 @@
 # python 3.10.6
 # -*- coding: UTF-8 -*-
 
+from util.func import *
+
 import tkinter as tk
 from functools import partial
 # from tkinter import font
 from tkinter import ttk
 
-from util.func import *
-
 def main():
     if not os.path.exists("./content"):
         os.makedirs("./content")
+    
+    if os.path.exists("./content/doc.xml"):
+        DOC.update(load_xml_to_dict("./content/doc.xml"))
 
     # 创建主窗口
     root = tk.Tk()
     root.title("VCB-S 发布文档生成程序")
     root.geometry(WINDOW)
 
-    # # 创建一个自定义字体
+    # 创建一个自定义字体
     # custom_font = font.Font(family="Arial", size=12)
     # # 将自定义字体设置为窗口的默认字体
     # root.option_add("*Font", custom_font)
@@ -30,13 +33,14 @@ def main():
     label_img_800 = tk.Label(root, text="发布图-竖")
     label_img_800.grid(row=0, column=0, sticky='ne')
     entry_img_800 = tk.Entry(root, bd=2, width=EWIDTH4)
-    entry_img_800.insert(0, "https://img.2222.moe/images/2023/09/04/oregairu_800.webp")
+    DOC['img_800'] and entry_img_800.insert(0, DOC['img_800'])
+
     entry_img_800.grid(row=0, column=1, columnspan=4, sticky='nw')
 
     label_img_1400 = tk.Label(root, text="发布图-横")
     label_img_1400.grid(row=1, column=0, sticky='ne')
     entry_img_1400 = tk.Entry(root, bd=2, width=EWIDTH4)
-    entry_img_1400.insert(0, "https://img.2222.moe/images/2023/09/04/oregairu_1400.webp")
+    DOC['img_1400'] and entry_img_1400.insert(0, DOC['img_1400'])
     entry_img_1400.grid(row=1, column=1, columnspan=4, sticky='nw')
 
     label_sub = tk.Label(root, text="字幕组")
@@ -61,31 +65,34 @@ def main():
     label_title_chn = tk.Label(root, text="标题-中文")
     label_title_chn.grid(row=3, column=0, sticky='ne')
     entry_title_chn = tk.Entry(root, bd=2, width=EWIDTH4)
-    entry_title_chn.insert(0, "测试：我的青春恋爱物语果然有问题")
+    DOC['title_chn'] and entry_title_chn.insert(0, DOC['title_chn'])
     entry_title_chn.grid(row=3, column=1, columnspan=4, sticky='nw')
 
     label_title_eng = tk.Label(root, text="标题-英文")
     label_title_eng.grid(row=4, column=0, sticky='ne')
     entry_title_eng = tk.Entry(root, bd=2, width=EWIDTH4)
-    entry_title_eng.insert(0, "Yahari Ore no Seishun Lovecome wa Machigatte Iru.")
+    DOC['title_eng'] and entry_title_eng.insert(0, DOC['title_eng'])
     entry_title_eng.grid(row=4, column=1, columnspan=4, sticky='nw')
 
     label_title_jpn = tk.Label(root, text="标题-日文")
     label_title_jpn.grid(row=5, column=0, sticky='ne')
     entry_title_jpn = tk.Entry(root, bd=2, width=EWIDTH4)
-    entry_title_jpn.insert(0, "やはり俺の青春ラブコメはまちがっている.")
+    DOC['title_jpn'] and entry_title_jpn.insert(0, DOC['title_jpn'])
     entry_title_jpn.grid(row=5, column=1, columnspan=4, sticky='nw')
 
     label_spec = tk.Label(root, text="规格")
     label_spec.grid(row=6, column=0, sticky='ne')
     entry_spec = tk.Entry(root, bd=2, width=EWIDTH)
-    entry_spec.insert(0, "10-bit 1080p HEVC")
+    DOC['spec'] and entry_spec.insert(0, DOC['spec'])
+    # entry_spec.insert(0, "10-bit 1080p HEVC")
     entry_spec.grid(row=6, column=1, sticky='nw')
     entry_type = tk.Entry(root, bd=2, width=EWIDTH)
-    entry_type.insert(0, "BDRip")
+    DOC['type'] and entry_type.insert(0, DOC['type'])
+    # entry_type.insert(0, "BDRip")
     entry_type.grid(row=6, column=2, sticky='nw')
     entry_range = tk.Entry(root, bd=2, width=EWIDTH)
-    entry_range.insert(0, "S1-S2")
+    DOC['range'] and entry_range.insert(0, DOC['range'])
+    # entry_range.insert(0, "S1-S2")
     entry_range.grid(row=6, column=3, sticky='nw')
     entry_mark = tk.Entry(root, bd=2, width=EWIDTH)
     entry_mark.grid(row=6, column=4, sticky='nw')
@@ -118,14 +125,20 @@ def main():
         return
 
     check_rs = tk.Checkbutton(root, text="重发", variable=var_rs, onvalue=1, offvalue=0, command=func_check_rs)
+    DOC['isRS'] and var_rs.set(DOC['isRS'])
+    func_check_rs()
     check_rs.grid(row=7, column=0, sticky='ne')
     check_pgs = tk.Checkbutton(root, text="内封原盘字幕。", variable=var_pgs, onvalue=1, offvalue=0)
+    DOC['isPGS'] and var_pgs.set(DOC['isPGS'])
     check_pgs.grid(row=7, column=1, sticky='nw')
     check_ct = tk.Checkbutton(root, text="内封评论音轨。", variable=var_ct, onvalue=1, offvalue=0)
+    DOC['isCT'] and var_ct.set(DOC['isCT'])
     check_ct.grid(row=7, column=2, sticky='nw')
     check_ctc = tk.Checkbutton(root, text="部分内封评论音轨。", variable=var_ctc, onvalue=1, offvalue=0)
+    DOC['isCTC'] and var_ctc.set(DOC['isCTC'])
     check_ctc.grid(row=7, column=3, sticky='nw')
     check_mka = tk.Checkbutton(root, text="外挂 FLAC 5.1",variable=var_mka, onvalue=1, offvalue=0)
+    DOC['isMKA'] and var_mka.set(DOC['isMKA'])
     check_mka.grid(row=7, column=4, sticky='nw')
 
     label_process_chn = tk.Label(root, text="画质")
@@ -139,13 +152,13 @@ def main():
     label_comment = tk.Label(root, text="吐槽")
     label_comment.grid(row=10, column=0, sticky='ne')
     entry_comment = tk.Text(root, width=EWIDTH4, height=5)
-    entry_comment.insert(tk.INSERT, "好想看到会动的瑠衣酱")
+    DOC['comment'] and entry_comment.insert(1.0, DOC['comment'].rstrip('\n'))
     entry_comment.grid(row=10, column=1, columnspan=4, sticky='nw')
 
     label_provider = tk.Label(root, text="感谢")
     label_provider.grid(row=11, column=0, sticky='ne')
     entry_provider = tk.Text(root, width=EWIDTH4, height=3)
-    entry_provider.insert(tk.INSERT, "BD: \nScans: \nCDs: ")
+    DOC['provider'] and entry_provider.insert(1.0, DOC['provider'].rstrip('\n'))
     entry_provider.grid(row=11, column=1, columnspan=4, sticky='nw')
 
     entry_links = []
@@ -192,50 +205,51 @@ def main():
     btn_mediainfo = tk.Button(root, text="mediainfo.txt", width=EWIDTH2, command=partial(open_text_file, "./content/mediainfo.txt"))
     btn_mediainfo.grid(row=21, column=3, columnspan=2, sticky='nw')
 
-    # 定义函数-输入框-获得焦点清除内容
-    def entry_onfocus_clear(event):
-        if isinstance(event.widget, tk.Entry):
-            event.widget.delete(0, tk.END)
-        if isinstance(event.widget, tk.Text):
-            event.widget.delete(1.0, tk.END)
+    # 定义函数-点击事件-若是文本框则清除内容，否则取消焦点
+    # def func_root_onfocus_entryclear(event):
+    #     event.widget.focus_set()
+    #     if isinstance(event.widget, tk.Entry):
+    #         event.widget.delete(0, tk.END)
+    #     # if isinstance(event.widget, tk.Text):
+    #     #     event.widget.delete(1.0, tk.END)
+    #     return
 
-    for widget in root.winfo_children():
-        if isinstance(widget, tk.Entry) or isinstance(widget, tk.Text):
-            widget.bind('<FocusIn>', entry_onfocus_clear)
+    # root.bind("<Button-1>", func_root_onfocus_entryclear)
 
     # 定义函数-按钮-生成
     def func_btn_generate():
-        doc=dict()
         # 获取输入信息
-        doc['sub'] = [c.get() for c in combs_sub]
-        doc['title_chn'] = entry_title_chn.get()
-        doc['title_eng'] = entry_title_eng.get()
-        doc['title_jpn'] = entry_title_jpn.get()
-        doc['spec'] = entry_spec.get()
-        doc['type'] = entry_type.get()
-        doc['range'] = entry_range.get()
-        doc['mark'] = entry_mark.get()
-        doc['img_800'] = entry_img_800.get()
-        doc['img_1400'] = entry_img_1400.get()
-        doc['comment'] = entry_comment.get(1.0, tk.END)
-        doc['provider'] = entry_provider.get(1.0, tk.END)
+        DOC['sub'] = [c.get() for c in combs_sub]
+        DOC['title_chn'] = entry_title_chn.get()
+        DOC['title_eng'] = entry_title_eng.get()
+        DOC['title_jpn'] = entry_title_jpn.get()
+        DOC['spec'] = entry_spec.get()
+        DOC['type'] = entry_type.get()
+        DOC['range'] = entry_range.get()
+        DOC['mark'] = entry_mark.get()
+        DOC['img_800'] = entry_img_800.get()
+        DOC['img_1400'] = entry_img_1400.get()
+        DOC['comment'] = entry_comment.get(1.0, tk.END)
+        DOC['provider'] = entry_provider.get(1.0, tk.END)
         links = []
         for i in range(LENLINK):
             links.append(entry_links[i].get())
-        doc['links'] = links
-        doc['isRS'] = var_rs.get()
-        doc['isPGS'] = var_pgs.get()
-        doc['isCT'] = var_ct.get()
-        doc['isCTC'] = var_ctc.get()
-        doc['isMKA'] = var_mka.get()
-        if(doc['range']):
-            doc['range'] += " "
-        if(doc['mark']):
-            doc['mark'] += " "
+        DOC['links'] = links
+        DOC['isRS'] = var_rs.get()
+        DOC['isPGS'] = var_pgs.get()
+        DOC['isCT'] = var_ct.get()
+        DOC['isCTC'] = var_ctc.get()
+        DOC['isMKA'] = var_mka.get()
+        if(DOC['range']):
+            DOC['range'] += " "
+        if(DOC['mark']):
+            DOC['mark'] += " "
 
-        pubfile_bt(doc)
-        pubfile_vcbs(doc)
-        
+        save_dict_to_xml(DOC, "./content/doc.xml")
+
+        pubfile_bt(DOC)
+        pubfile_vcbs(DOC)
+
         root.destroy()
         return
 
