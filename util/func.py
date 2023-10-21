@@ -1,6 +1,7 @@
 from util.data import *
 
 import os
+import re
 import xml.etree.ElementTree as ET
 
 # 定义函数-打开文件，若不存在则创建
@@ -74,8 +75,9 @@ def pubfile_bt(doc):
         doc['title_chn'] +" "+ doc['range'] + doc['type'] +" "+ doc['mark'] + "<br />\n" + \
         doc['title_eng'] +" "+ doc['range'] + doc['type'] +" "+ doc['mark'] + "<br />\n" +\
         doc['title_jpn'] +" "+ doc['range'] + doc['type'] +" "+ doc['mark'] + "<br />")
-
-    with open(doc["title_chn"]+"-BANGUMI.html", 'w', encoding='utf8') as f:
+    
+    filename = re.search(r'([\u4e00-\u9fa5]+)', doc["title_chn"]).group(1)
+    with open(filename+"-BANGUMI.html", 'w', encoding='utf8') as f:
         f.write(pubtitle_bt +"\n")
         f.write("<p>\n")
         f.write(pubimg_800 +"\n")
@@ -154,7 +156,8 @@ def pubfile_vcbs(doc):
     pubimg_1400="<img src=\"" + doc["img_1400"] +"\" alt=\"" + doc["img_1400"].split('/')[-1] + "\" /><br />"
 
     # 输出发布内容到文件-vcbs
-    with open(doc["title_chn"]+"-VCBS.html", 'w', encoding='utf8') as f:
+    filename = re.search(r'([\u4e00-\u9fa5]+)', doc["title_chn"]).group(1)
+    with open(filename+"-VCBS.html", 'w', encoding='utf8') as f:
         f.write(pubtitle_vcbs +"\n\n")
         f.write(pubimg_1400 +"\n\n")
         if(doc['sub']):
