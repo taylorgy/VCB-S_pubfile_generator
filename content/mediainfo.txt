@@ -1,13 +1,14 @@
 General
-Unique ID                                : 233575433403693772273430476233475996272 (0xAFB8FDFD50CE5621B8BC8385ADB9BA70)
-Complete name                            : E:\SAYA IS ∞ LOLICON!\[VCB-Studio] Chainsaw Man [Ma10p_1080p]\[VCB-Studio] Chainsaw Man [01][Ma10p_1080p][x265_flac].mkv
+Unique ID                                : 292571237008280895982610196808049213803 (0xDC1B2BADE342D4E00D071BE795D1C16B)
+Complete name                            : D:\SAYA IS ∞ LOLICON!\[VCB-Studio] Itai no wa Iya nano de Bougyoryoku ni Kyokufuri Shitai to Omoimasu. 2 [Ma10p_1080p]\[VCB-Studio] BOFURI 2 [01][Ma10p_1080p][x265_flac].mkv
 Format                                   : Matroska
 Format version                           : Version 4
-File size                                : 936 MiB
-Duration                                 : 25 min 27 s
+File size                                : 1.28 GiB
+Duration                                 : 23 min 41 s
 Overall bit rate mode                    : Variable
-Overall bit rate                         : 5 140 kb/s
-Encoded date                             : UTC 2023-05-05 00:40:18
+Overall bit rate                         : 7 746 kb/s
+Frame rate                               : 23.976 FPS
+Encoded date                             : 2023-10-18 15:59:46 UTC
 Writing application                      : mkvmerge v48.0.0 ('Fortress Around Your Heart') 64-bit
 Writing library                          : libebml v1.4.0 + libmatroska v1.6.0
 
@@ -15,10 +16,10 @@ Video
 ID                                       : 1
 Format                                   : HEVC
 Format/Info                              : High Efficiency Video Coding
-Format profile                           : Main 10@L4@High
+Format profile                           : Main 10@L4.1@High
 Codec ID                                 : V_MPEGH/ISO/HEVC
-Duration                                 : 25 min 27 s
-Bit rate                                 : 3 748 kb/s
+Duration                                 : 23 min 41 s
+Bit rate                                 : 6 158 kb/s
 Width                                    : 1 920 pixels
 Height                                   : 1 080 pixels
 Display aspect ratio                     : 16:9
@@ -27,10 +28,10 @@ Frame rate                               : 23.976 (24000/1001) FPS
 Color space                              : YUV
 Chroma subsampling                       : 4:2:0
 Bit depth                                : 10 bits
-Bits/(Pixel*Frame)                       : 0.075
-Stream size                              : 682 MiB (73%)
+Bits/(Pixel*Frame)                       : 0.124
+Stream size                              : 1.02 GiB (79%)
 Writing library                          : x265 3.5+98-g3449bc85e+20-gc1a540a56:[Windows][clang 15.0.7][64 bit] Kyouko 10bit+8bit+12bit
-Encoding settings                        : rc=crf / crf=14.5000 / qcomp=0.65 / qpstep=4 / stats-write=0 / stats-read=0 / vbv-maxrate=30000 / vbv-bufsize=40000 / vbv-init=0.9 / min-vbv-fullness=50.0 / max-vbv-fullness=80.0 / crf-max=0.0 / crf-min=0.0 / qscale-mode=0 / no-lossless / no-cu-lossless / aq-mode=3 / limit-aq1 / aq-strength=1.00 / aq-bias-strength=0.60 / limit-aq1-strength=0.60 / cbqpoffs=-2 / crqpoffs=-2 / ipratio=1.40 / pbratio=1.20 / psy-rd=1.80 / psy-rdoq=0.90 / psy-bscale=300 / psy-pscale=256 / psy-iscale=96 / deblock=-1:-1 / ref=5 / limit-refs=0 / no-limit-modes / bframes=16 / b-adapt=2 / bframe-bias=0 / b-pyramid / b-intra / weightp / weightb / min-keyint=1 / max-keyint=360 / rc-lookahead=120 / gop-lookahead=0 / scenecut=40 / hist-scenecut=0 / radl=0 / max-cu-size=32 / min-cu-size=8 / me=3 / subme=7 / merange=32 / rdoq-level=1 / rd=5 / rdpenalty=0 / dynamic-rd=0.00 / rd-refine / refine-tolerance=1.500 / ----- / cutree / cutree-strength=1.75 / cutree-minqpoffs=-69.00 / cutree-maxqpoffs=69.00 / no-sao / rect / no-amp / no-open-gop / wpp / no-pmode / no-pme / no-psnr / no-ssim / nr-intra=0 / nr-inter=0 / no-constrained-intra / no-strong-intra-smoothing / max-tu-size=16 / tu-inter-depth=4 / tu-intra-depth=4 / limit-tu=0 / qg-size=32 / qpmax=69 / qpmin=0 / ----- / cpuid=1111039 / frame-threads=4 / numa-pools=+ / log-level=2 / input-csp=1 / input-res=1920x1080 / interlace=0 / level-idc=0 / high-tier=1 / uhd-bd=0 / no-allow-non-conformance / no-repeat-headers / no-aud / no-hrd / info / hash=0 / no-temporal-layers / lookahead-slices=0 / no-splice / no-intra-refresh / no-ssim-rd / signhide / tskip / max-merge=5 / temporal-mvp / no-frame-dup / no-hme / no-analyze-src-pics / no-sao-non-deblock / selective-sao=0 / no-early-skip / no-rskip / no-fast-intra / no-tskip-fast / no-splitrd-skip / zone-count=0 / no-strict-cbr / no-rc-grain / no-const-vbv / sar=0 / overscan=0 / videoformat=5 / range=0 / colorprim=1 / transfer=1 / colormatrix=1 / chromaloc=0 / display-window=0 / cll=0,0 / min-luma=0 / max-luma=1023 / log2-max-poc-lsb=8 / vui-timing-info / vui-hrd-info / slices=1 / no-opt-qp-pps / no-opt-ref-list-length-pps / no-multi-pass-opt-rps / scenecut-bias=0.05 / hist-threshold=0.03 / no-opt-cu-delta-qp / no-aq-motion / no-hdr10 / no-hdr10-opt / no-dhdr10-opt / no-idr-recovery-sei / analysis-reuse-level=0 / analysis-save-reuse-level=0 / analysis-load-reuse-level=0 / scale-factor=0 / refine-intra=0 / refine-inter=0 / refine-mv=1 / refine-ctu-distortion=0 / no-limit-sao / ctu-info=0 / no-lowpass-dct / refine-analysis-type=0 / copy-pic=1 / max-ausize-factor=1.0 / no-dynamic-refine / no-single-sei / no-hevc-aq / no-svt / no-field / qp-adaptation-range=1.00 / scenecut-aware-qp=0conformance-window-offsets / right=0 / bottom=0 / decoder-max-rate=0 / no-vbv-live-multi-pass
+Encoding settings                        : rc=crf / crf=15.0000 / qcomp=0.65 / qpstep=4 / stats-write=0 / stats-read=0 / vbv-maxrate=48000 / vbv-bufsize=50000 / vbv-init=0.9 / min-vbv-fullness=50.0 / max-vbv-fullness=80.0 / crf-max=0.0 / crf-min=0.0 / qscale-mode=0 / no-lossless / no-cu-lossless / aq-mode=3 / no-limit-aq1 / aq-strength=0.80 / aq-bias-strength=1.00 / limit-aq1-strength=1.00 / cbqpoffs=-2 / crqpoffs=-2 / ipratio=1.40 / pbratio=1.20 / psy-rd=2.00 / psy-rdoq=1.00 / psy-bscale=300 / psy-pscale=256 / psy-iscale=96 / deblock=-1:-1 / ref=5 / limit-refs=1 / no-limit-modes / bframes=8 / b-adapt=2 / bframe-bias=0 / b-pyramid / b-intra / weightp / weightb / min-keyint=1 / max-keyint=240 / rc-lookahead=80 / gop-lookahead=0 / scenecut=40 / hist-scenecut=0 / radl=0 / max-cu-size=32 / min-cu-size=8 / me=3 / subme=5 / merange=36 / rdoq-level=1 / rd=5 / rdpenalty=0 / dynamic-rd=0.00 / rd-refine / refine-tolerance=1.500 / ----- / cutree / cutree-strength=1.75 / cutree-minqpoffs=-69.00 / cutree-maxqpoffs=69.00 / no-sao / rect / no-amp / no-open-gop / wpp / no-pmode / no-pme / no-psnr / no-ssim / nr-intra=0 / nr-inter=0 / no-constrained-intra / no-strong-intra-smoothing / max-tu-size=16 / tu-inter-depth=3 / tu-intra-depth=3 / limit-tu=0 / qg-size=16 / qpmax=69 / qpmin=0 / ----- / cpuid=1111039 / frame-threads=5 / numa-pools=+ / log-level=2 / input-csp=1 / input-res=1920x1080 / interlace=0 / level-idc=0 / high-tier=1 / uhd-bd=0 / no-allow-non-conformance / no-repeat-headers / no-aud / no-hrd / info / hash=0 / no-temporal-layers / lookahead-slices=0 / no-splice / no-intra-refresh / no-ssim-rd / signhide / no-tskip / max-merge=4 / temporal-mvp / no-frame-dup / no-hme / no-analyze-src-pics / no-sao-non-deblock / selective-sao=0 / no-early-skip / no-rskip / no-fast-intra / no-tskip-fast / no-splitrd-skip / zone-count=0 / no-strict-cbr / no-rc-grain / no-const-vbv / sar=0 / overscan=0 / videoformat=5 / range=0 / colorprim=1 / transfer=1 / colormatrix=1 / chromaloc=0 / display-window=0 / cll=0,0 / min-luma=0 / max-luma=1023 / log2-max-poc-lsb=8 / vui-timing-info / vui-hrd-info / slices=1 / no-opt-qp-pps / no-opt-ref-list-length-pps / no-multi-pass-opt-rps / scenecut-bias=0.05 / hist-threshold=0.03 / no-opt-cu-delta-qp / no-aq-motion / no-hdr10 / no-hdr10-opt / no-dhdr10-opt / no-idr-recovery-sei / analysis-reuse-level=0 / analysis-save-reuse-level=0 / analysis-load-reuse-level=0 / scale-factor=0 / refine-intra=0 / refine-inter=0 / refine-mv=1 / refine-ctu-distortion=0 / no-limit-sao / ctu-info=0 / no-lowpass-dct / refine-analysis-type=0 / copy-pic=1 / max-ausize-factor=1.0 / no-dynamic-refine / no-single-sei / no-hevc-aq / no-svt / no-field / qp-adaptation-range=1.00 / scenecut-aware-qp=0conformance-window-offsets / right=0 / bottom=0 / decoder-max-rate=0 / no-vbv-live-multi-pass
 Default                                  : Yes
 Forced                                   : No
 Color range                              : Limited
@@ -43,24 +44,26 @@ ID                                       : 2
 Format                                   : FLAC
 Format/Info                              : Free Lossless Audio Codec
 Codec ID                                 : A_FLAC
-Duration                                 : 25 min 27 s
+Duration                                 : 23 min 41 s
 Bit rate mode                            : Variable
-Bit rate                                 : 1 390 kb/s
+Bit rate                                 : 1 586 kb/s
 Channel(s)                               : 2 channels
 Channel layout                           : L R
 Sampling rate                            : 48.0 kHz
 Frame rate                               : 11.719 FPS (4096 SPF)
 Bit depth                                : 24 bits
 Compression mode                         : Lossless
-Stream size                              : 253 MiB (27%)
-Writing library                          : libFLAC 1.3.2 (UTC 2017-01-01)
+Stream size                              : 269 MiB (20%)
+Writing library                          : libFLAC 1.3.2 (2017-01-01)
 Language                                 : Japanese
 Default                                  : Yes
 Forced                                   : No
+MD5 of the unencoded content             : 36DACC0A00FCF108841FD8AD9AE6AD76
 
 Menu
 00:00:00.000                             : en:Chapter 01
-00:02:15.010                             : en:Chapter 02
-00:03:45.016                             : en:Chapter 03
-00:13:50.997                             : en:Chapter 04
-00:23:54.975                             : en:Chapter 05
+00:00:41.041                             : en:Chapter 02
+00:02:11.006                             : en:Chapter 03
+00:13:02.991                             : en:Chapter 04
+00:22:01.987                             : en:Chapter 05
+00:23:31.994                             : en:Chapter 06

@@ -1,4 +1,4 @@
-WINDOW = '660x900'
+WINDOW = '660x830'
 THTITLE = 25
 MAXROW = 30
 EWIDTH = 20
@@ -25,7 +25,7 @@ DOC['type'] = "BDRip"
 DOC['range'] = ""
 DOC['mark'] = ""
 DOC['img_800'] = "_800.webp"
-DOC['img_1400'] = "_1400.webp"
+# DOC['img_1400'] = "_1400.webp"
 DOC['comment'] = ""
 DOC['provider'] = "BD: \nScans: \nCDs: "
 DOC['links'] = list(LINK.values())

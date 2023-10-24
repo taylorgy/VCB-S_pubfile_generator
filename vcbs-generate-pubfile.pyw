@@ -30,18 +30,18 @@ def main():
         # root.grid_columnconfigure(1, pad=100)
 
     # 创建标签和输入栏
-    label_img_800 = tk.Label(root, text="发布图-竖")
+    label_img_800 = tk.Label(root, text="发布图")
     label_img_800.grid(row=0, column=0, sticky='ne')
     entry_img_800 = tk.Entry(root, bd=2, width=EWIDTH4)
     DOC['img_800'] and entry_img_800.insert(0, DOC['img_800'])
 
     entry_img_800.grid(row=0, column=1, columnspan=4, sticky='nw')
 
-    label_img_1400 = tk.Label(root, text="发布图-横")
-    label_img_1400.grid(row=1, column=0, sticky='ne')
-    entry_img_1400 = tk.Entry(root, bd=2, width=EWIDTH4)
-    DOC['img_1400'] and entry_img_1400.insert(0, DOC['img_1400'])
-    entry_img_1400.grid(row=1, column=1, columnspan=4, sticky='nw')
+    # label_img_1400 = tk.Label(root, text="发布图-横")
+    # label_img_1400.grid(row=1, column=0, sticky='ne')
+    # entry_img_1400 = tk.Entry(root, bd=2, width=EWIDTH4)
+    # DOC['img_1400'] and entry_img_1400.insert(0, DOC['img_1400'])
+    # entry_img_1400.grid(row=1, column=1, columnspan=4, sticky='nw')
 
     label_sub = tk.Label(root, text="字幕组")
     label_sub.grid(row=2, column=0, sticky='ne')
@@ -205,16 +205,16 @@ def main():
     btn_mediainfo = tk.Button(root, text="mediainfo.txt", width=EWIDTH2, command=partial(open_text_file, "./content/mediainfo.txt"))
     btn_mediainfo.grid(row=21, column=3, columnspan=2, sticky='nw')
 
-    # 定义函数-点击事件-若是文本框则清除内容，否则取消焦点
-    # def func_root_onfocus_entryclear(event):
-    #     event.widget.focus_set()
-    #     if isinstance(event.widget, tk.Entry):
-    #         event.widget.delete(0, tk.END)
-    #     # if isinstance(event.widget, tk.Text):
-    #     #     event.widget.delete(1.0, tk.END)
-    #     return
+    # 定义函数-右键双击事件-若是文本框则清除内容
+    def func_root_doubleclick_entryclear(event):
+        # event.widget.focus_set()
+        if isinstance(event.widget, tk.Entry):
+            event.widget.delete(0, tk.END)
+        if isinstance(event.widget, tk.Text):
+            event.widget.delete(1.0, tk.END)
+        return
 
-    # root.bind("<Button-1>", func_root_onfocus_entryclear)
+    root.bind("<Double-3>", func_root_doubleclick_entryclear)
 
     # 定义函数-按钮-生成
     def func_btn_generate():
@@ -228,7 +228,7 @@ def main():
         DOC['range'] = entry_range.get()
         DOC['mark'] = entry_mark.get()
         DOC['img_800'] = entry_img_800.get()
-        DOC['img_1400'] = entry_img_1400.get()
+        # DOC['img_1400'] = entry_img_1400.get()
         DOC['comment'] = entry_comment.get(1.0, tk.END)
         DOC['provider'] = entry_provider.get(1.0, tk.END)
         links = []
