@@ -190,7 +190,7 @@ def main():
             f.write("\n")
             for i in range(LENLINK):
                 link = links[i].rstrip('\n')
-                f.write("<a href=\""+ link +"\" rel=\"noopener\" target=\"_blank\">"+ link +"</a>\n")
+                f.write(f"<a href=\"{link}\" rel=\"noopener\" target=\"_blank\">{link}</a>\n")
                 if (i < LENLINK-1):
                     f.write("\n")
         return

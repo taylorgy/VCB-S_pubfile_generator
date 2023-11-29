@@ -1,4 +1,4 @@
-WINDOW = '660x830'
+WINDOW = '660x880'
 THTITLE = 25
 MAXROW = 30
 EWIDTH = 20
@@ -47,7 +47,8 @@ SUB = {
     '风之圣殿': 'FZSD',
     '白恋字幕组': 'Shirokoi',
     'SweetSub': 'SweetSub',
-    '喵萌Production': 'Nekomoe kissaten'
+    '喵萌Production': 'Nekomoe kissaten',
+    '豌豆字幕组': 'BeanSub'
     }
 
 pubrest_bt_new = '''

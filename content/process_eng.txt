@@ -1,1 +1,0 @@
-The source quality is similar to the first season, with a native resolution still at 810p. The main issues are noticeable aliasing and haloing. Additionally, there are occasional instances of banding in flat areas. We applied descaling and reconstruction, followed by mild de-banding and anti-aliasing. Finally, compensatory sharpening and adaptive denoising were implemented.

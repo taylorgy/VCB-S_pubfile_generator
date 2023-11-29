@@ -58,7 +58,8 @@ def pubfile_bt(doc):
 
     # 生成发布内容-bt
     if(doc['sub']):
-        pubgroup = "["+ '&'.join(doc['sub']) +"&VCB-Studio] "
+        
+        pubgroup = f"[{'&'.join(doc['sub'])}&VCB-Studio]"
     else:
         pubgroup = "[VCB-Studio] "
     if(isShort):
