@@ -240,13 +240,13 @@ def main():
         DOC['isCT'] = var_ct.get()
         DOC['isCTC'] = var_ctc.get()
         DOC['isMKA'] = var_mka.get()
+
+        save_dict_to_xml(DOC, "./content/doc.xml")
+
         if(DOC['range']):
             DOC['range'] += " "
         if(DOC['mark']):
             DOC['mark'] += " "
-
-        save_dict_to_xml(DOC, "./content/doc.xml")
-
         pubfile_bt(DOC)
         pubfile_vcbs(DOC)
 

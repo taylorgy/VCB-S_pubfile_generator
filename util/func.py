@@ -57,26 +57,23 @@ def pubfile_bt(doc):
     isShort = (len(doc['title_eng']) < THTITLE)
 
     # 生成发布内容-bt
+    pubimg_800 = f"<img src=\"{doc['img_800']}\" alt=\"{doc['img_800'].split('/')[-1]}\" /><br />"
+
     if(doc['sub']):
-        
-        pubgroup = f"[{'&'.join(doc['sub'])}&VCB-Studio]"
+        pubgroup = f"[{'&'.join(doc['sub'])}&VCB-Studio] "
     else:
         pubgroup = "[VCB-Studio] "
+
     if(isShort):
-        pubtitle_bt = (pubgroup + doc['title_chn'] +" / "+ doc['title_eng'] +" / "+ doc['title_jpn'] +" "+ doc['spec'] +" "+ doc['type'] +" ["+ doc['range'] + doc['mark'] + "Fin]")
+        pubtitle_bt = f"{pubgroup}{doc['title_chn']} / {doc['title_eng']} / {doc['title_jpn']} {doc['spec']} {doc['type']} [{doc['range']}{doc['mark']}Fin]"
+        pubtitle_content = f"{doc['title_chn']} / {doc['title_eng']} / {doc['title_jpn']} {doc['range']}{doc['type']} {doc['mark']}<br />"
     else:
-        pubtitle_bt = (pubgroup + doc['title_chn'] +" / "+ doc['title_eng'] +" "+ doc['spec'] +" "+ doc['type'] +" ["+ doc['range'] + doc['mark'] + "Fin]")
-    
-    pubimg_800="<img src=\"" + doc["img_800"] +"\" alt=\"" + doc["img_800"].split('/')[-1] + "\" /><br />"
-    
-    if(isShort):
-        pubtitle_content = (doc['title_chn'] +" / "+ doc['title_eng'] +" / "+ doc['title_jpn'] +" "+ doc['range'] + doc['type'] +" "+ doc['mark'] + "<br />")
-    else:
-        pubtitle_content = (\
-        doc['title_chn'] +" "+ doc['range'] + doc['type'] +" "+ doc['mark'] + "<br />\n" + \
-        doc['title_eng'] +" "+ doc['range'] + doc['type'] +" "+ doc['mark'] + "<br />\n" +\
-        doc['title_jpn'] +" "+ doc['range'] + doc['type'] +" "+ doc['mark'] + "<br />")
-    
+        pubtitle_bt = f"{pubgroup}{doc['title_chn']} / {doc['title_eng']} {doc['spec']} {doc['type']} [{doc['range']}{doc['mark']}Fin]"
+        pubtitle_content = \
+            f"{doc['title_chn']} {doc['range']}{doc['type']} {doc['mark']}<br />\n" +\
+            f"{doc['title_eng']} {doc['range']}{doc['type']} {doc['mark']}<br />\n" +\
+            f"{doc['title_jpn']} {doc['range']}{doc['type']} {doc['mark']}<br />"
+        
     filename = re.search(r'([\u4e00-\u9fa5]+)', doc["title_chn"]).group(1)
     with open(filename+"-BANGUMI.html", 'w', encoding='utf8') as f:
         f.write(pubtitle_bt +"\n")
@@ -98,8 +95,8 @@ def pubfile_bt(doc):
             f.write("外挂 FLAC 5.1 + Headphone X。<br />\nMKA contains FLAC 5.1 + Headphone X.<br />\n")
             f.write("<br />\n")
         if(doc['sub']):
-            f.write("这个项目与 <strong>"+ ' & '.join(doc['sub']) +"</strong> 合作，感谢他们精心制作的字幕。<br />\n")
-            f.write("This project is in collaboration with <strong>"+ ' & '.join([SUB[i] for i in doc['sub']]) +"</strong>. Thanks to them for elaborating Chinese subtitles.<br />\n")
+            f.write(f"这个项目与 <strong>{' & '.join(doc['sub'])}</strong> 合作，感谢他们精心制作的字幕。<br />\n")
+            f.write(f"This project is in collaboration with <strong>{' & '.join([SUB[i] for i in doc['sub']])}</strong>. Thanks to them for elaborating Chinese subtitles.<br />\n")
             f.write("<br />\n")
         
         with open("./content/process_chn.txt", 'r', encoding='utf8') as s:
@@ -152,9 +149,9 @@ def pubfile_bt(doc):
 # 输出发布内容-vcbs
 def pubfile_vcbs(doc):
     # 生成发布内容-vcbs
-    pubtitle_vcbs = str(doc['title_eng'] +" / "+ doc['title_chn'] +" "+ doc['spec']+" "+ doc['type'] +" ["+ doc['range'] + doc['mark'] + "Fin]")
-    
     # pubimg_1400="<img src=\"" + doc["img_1400"] +"\" alt=\"" + doc["img_1400"].split('/')[-1] + "\" /><br />"
+
+    pubtitle_vcbs = f"{doc['title_eng']} / {doc['title_chn']} {doc['spec']} {doc['type']} [{doc['range']}{doc['mark']}Fin]"
 
     # 输出发布内容到文件-vcbs
     filename = re.search(r'([\u4e00-\u9fa5]+)', doc["title_chn"]).group(1)
@@ -162,7 +159,7 @@ def pubfile_vcbs(doc):
         f.write(pubtitle_vcbs +"\n\n")
         # f.write(pubimg_1400 +"\n\n")
         if(doc['sub']):
-            f.write("这个项目与 <strong>" + ' & '.join(doc['sub']) + "</strong> 合作，感谢他们精心制作的字幕。\n")
+            f.write(f"这个项目与 <strong>{' & '.join(doc['sub'])}</strong> 合作，感谢他们精心制作的字幕。\n")
         f.write("\n")
         with open("./content/process_chn.txt", 'r', encoding='utf8') as s:
                 f.write(s.read())
@@ -197,12 +194,12 @@ def pubfile_vcbs(doc):
         f.write("[box style=\"download\"]\n")
         f.write(doc['spec'])
         if doc['range'] or doc['mark']:
-            f.write(" ("+ doc['range'] + doc['mark'][:-1] +")")
+            f.write(f" ({doc['range']}{doc['mark']}"[:-1] +")")
         f.write("\n")
         f.write("\n")
         for i in range(LENLINK):
             link = doc['links'][i].rstrip('\n')
-            f.write("<a href=\""+ link +"\" rel=\"noopener\" target=\"_blank\">"+ link +"</a>\n")
+            f.write(f"<a href=\"{link}\" rel=\"noopener\" target=\"_blank\">{link}</a>\n")
             if (i < LENLINK-1):
                 f.write("\n")
         f.write("[/box]\n")
