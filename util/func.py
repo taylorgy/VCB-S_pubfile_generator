@@ -75,7 +75,7 @@ def pubfile_bt(doc):
             f"{doc['title_jpn']} {doc['range']}{doc['type']} {doc['mark']}<br />"
         
     filename = re.search(r'([\u4e00-\u9fa5]+)', doc["title_chn"]).group(1)
-    with open(filename+"-BANGUMI.html", 'w', encoding='utf8') as f:
+    with open(filename+"-bangumi.html", 'w', encoding='utf8') as f:
         f.write(pubtitle_bt +"\n")
         f.write("<p>\n")
         f.write(pubimg_800 +"\n")
@@ -155,7 +155,7 @@ def pubfile_vcbs(doc):
 
     # 输出发布内容到文件-vcbs
     filename = re.search(r'([\u4e00-\u9fa5]+)', doc["title_chn"]).group(1)
-    with open(filename+"-VCBS.html", 'w', encoding='utf8') as f:
+    with open(filename+"-vcbs.html", 'w', encoding='utf8') as f:
         f.write(pubtitle_vcbs +"\n\n")
         # f.write(pubimg_1400 +"\n\n")
         if(doc['sub']):
