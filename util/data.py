@@ -1,6 +1,5 @@
-WINDOW = '660x880'
+WINDOW = '700x880'
 THTITLE = 25
-MAXROW = 30
 EWIDTH = 20
 EWIDTH2 = int(2*EWIDTH)
 EWIDTH4 = int(4*EWIDTH+2)
@@ -76,6 +75,7 @@ pubrest_bt_rs = '''
 <hr />
 <p>
 本次发布来自 VCB-Studio 旧作重发计划。我们会不定期重发过去发布过的合集，或为补充做种，或为修正制作错漏，或为整合系列合集。<br />
+This is a release of VCB-Studio Reseed Project. We would re-upload pervious torrents from time to time, to resurrect old torrents with few seeders, to correct errors/omissions, or to batch separate releases that belong to a same series. <br />
 <br />
 </p>
 <hr />

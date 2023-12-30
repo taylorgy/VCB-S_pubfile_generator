@@ -19,32 +19,57 @@ def main():
     root = tk.Tk()
     root.title("VCB-S 发布文档生成程序")
     root.geometry(WINDOW)
+    
+    # 创建垂直滚动条
+    scrollbar = tk.Scrollbar(root, orient='vertical')
+
+    # 创建 canvas 部件，并与滚动条关联
+    canvas = tk.Canvas(root, yscrollcommand=scrollbar.set)
+    scrollbar.config(command=canvas.yview)
+
+    canvas.grid(row=0, column=0, sticky="nsew")
+    scrollbar.grid(row=0, column=1, sticky="ns")
+
+    # 在 canvas 上添加内容，
+    frame = tk.Frame(canvas)
+    canvas.create_window((0, 0), window=frame, anchor="nw")
+
+    def on_configure(event):
+        canvas.configure(scrollregion=canvas.bbox('all'))
+
+    def on_mousewheel(event):
+        if event.delta:
+            canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
+
+    # 配置 Canvas 的滚动区域
+    canvas.bind('<Configure>', on_configure)
+
+    # 绑定鼠标滚轮事件
+    canvas.bind_all("<MouseWheel>", on_mousewheel)
+
+    # 设置行和列的权重，使其在调整窗口大小时可以自动扩展
+    root.grid_rowconfigure(0, weight=1)
+    root.grid_columnconfigure(0, weight=1)
 
     # 创建一个自定义字体
     # custom_font = font.Font(family="Arial", size=12)
     # # 将自定义字体设置为窗口的默认字体
     # root.option_add("*Font", custom_font)
-
-    for i in range(MAXROW):
-        root.grid_rowconfigure(i, pad=15)
-        # root.grid_columnconfigure(1, pad=100)
+    
+    currRow = 0
 
     # 创建标签和输入栏
-    label_img_800 = tk.Label(root, text="发布图")
-    label_img_800.grid(row=0, column=0, sticky='ne')
-    entry_img_800 = tk.Entry(root, bd=2, width=EWIDTH4)
+    label_img_800 = tk.Label(frame, text="发布图")
+    label_img_800.grid(row=currRow, column=0, sticky='ne', padx=(10, 10))
+
+    entry_img_800 = tk.Entry(frame, bd=2, width=EWIDTH4)
+    entry_img_800.grid(row=currRow, column=1, columnspan=4, sticky='nw')
     DOC['img_800'] and entry_img_800.insert(0, DOC['img_800'])
 
-    entry_img_800.grid(row=0, column=1, columnspan=4, sticky='nw')
+    currRow+=1
 
-    # label_img_1400 = tk.Label(root, text="发布图-横")
-    # label_img_1400.grid(row=1, column=0, sticky='ne')
-    # entry_img_1400 = tk.Entry(root, bd=2, width=EWIDTH4)
-    # DOC['img_1400'] and entry_img_1400.insert(0, DOC['img_1400'])
-    # entry_img_1400.grid(row=1, column=1, columnspan=4, sticky='nw')
-
-    label_sub = tk.Label(root, text="字幕组")
-    label_sub.grid(row=2, column=0, sticky='ne')
+    label_sub = tk.Label(frame, text="字幕组")
+    label_sub.grid(row=currRow, column=0, sticky='ne', padx=(10, 10))
 
     combs_sub = []
     subs = list(SUB.keys())
@@ -52,60 +77,74 @@ def main():
     def func_btn_sub():
         if len(combs_sub):
             subs.remove(combs_sub[-1].get())
-        combs_sub.append(ttk.Combobox(root, values=subs, state="readonly", width=(EWIDTH-3)))
-        combs_sub[-1].grid(row=2, column=1+len(combs_sub), sticky='nw')
+        combs_sub.append(ttk.Combobox(frame, values=subs, state="readonly", width=(EWIDTH-3)))
+        combs_sub[-1].grid(row=currRow, column=1+len(combs_sub), sticky='nw')
         if len(combs_sub) == 3:
             btn_sub['state'] = 'disabled'
             btn_sub['text'] = '什么项目这么多字幕组？'
         return
     
-    btn_sub = tk.Button(root, text="添加字幕组", width=EWIDTH, command=func_btn_sub)
-    btn_sub.grid(row=2, column=1, sticky='nw')
+    btn_sub = tk.Button(frame, text="添加字幕组", width=EWIDTH, command=func_btn_sub)
+    btn_sub.grid(row=currRow, column=1, sticky='nw')
 
-    label_title_chn = tk.Label(root, text="标题-中文")
-    label_title_chn.grid(row=3, column=0, sticky='ne')
-    entry_title_chn = tk.Entry(root, bd=2, width=EWIDTH4)
+    currRow+=1
+
+    label_title_chn = tk.Label(frame, text="标题-中文")
+    label_title_chn.grid(row=currRow, column=0, sticky='ne', padx=(10, 10))
+    entry_title_chn = tk.Entry(frame, bd=2, width=EWIDTH4)
+    entry_title_chn.grid(row=currRow, column=1, columnspan=4, sticky='nw')
     DOC['title_chn'] and entry_title_chn.insert(0, DOC['title_chn'])
-    entry_title_chn.grid(row=3, column=1, columnspan=4, sticky='nw')
 
-    label_title_eng = tk.Label(root, text="标题-英文")
-    label_title_eng.grid(row=4, column=0, sticky='ne')
-    entry_title_eng = tk.Entry(root, bd=2, width=EWIDTH4)
+    currRow+=1
+
+    label_title_eng = tk.Label(frame, text="标题-英文")
+    label_title_eng.grid(row=currRow, column=0, sticky='ne', padx=(10, 10))
+    entry_title_eng = tk.Entry(frame, bd=2, width=EWIDTH4)
+    entry_title_eng.grid(row=currRow, column=1, columnspan=4, sticky='nw')
     DOC['title_eng'] and entry_title_eng.insert(0, DOC['title_eng'])
-    entry_title_eng.grid(row=4, column=1, columnspan=4, sticky='nw')
 
-    label_title_jpn = tk.Label(root, text="标题-日文")
-    label_title_jpn.grid(row=5, column=0, sticky='ne')
-    entry_title_jpn = tk.Entry(root, bd=2, width=EWIDTH4)
+    currRow+=1
+
+    label_title_jpn = tk.Label(frame, text="标题-日文")
+    label_title_jpn.grid(row=currRow, column=0, sticky='ne', padx=(10, 10))
+    entry_title_jpn = tk.Entry(frame, bd=2, width=EWIDTH4)
+    entry_title_jpn.grid(row=currRow, column=1, columnspan=4, sticky='nw')
     DOC['title_jpn'] and entry_title_jpn.insert(0, DOC['title_jpn'])
-    entry_title_jpn.grid(row=5, column=1, columnspan=4, sticky='nw')
 
-    label_spec = tk.Label(root, text="规格")
-    label_spec.grid(row=6, column=0, sticky='ne')
-    entry_spec = tk.Entry(root, bd=2, width=EWIDTH)
-    DOC['spec'] and entry_spec.insert(0, DOC['spec'])
-    # entry_spec.insert(0, "10-bit 1080p HEVC")
-    entry_spec.grid(row=6, column=1, sticky='nw')
-    entry_type = tk.Entry(root, bd=2, width=EWIDTH)
-    DOC['type'] and entry_type.insert(0, DOC['type'])
-    # entry_type.insert(0, "BDRip")
-    entry_type.grid(row=6, column=2, sticky='nw')
-    entry_range = tk.Entry(root, bd=2, width=EWIDTH)
+    currRow+=1
+
+    label_spec = tk.Label(frame, text="规格")
+    label_spec.grid(row=currRow, column=0, sticky='ne', padx=(10, 10))
+    entry_spec = tk.Entry(frame, bd=2, width=EWIDTH)
+    entry_spec.grid(row=currRow, column=1, sticky='nw')
+    if DOC['spec']:
+        entry_spec.insert(0, DOC['spec'])
+    else:
+        entry_spec.insert(0, "10-bit 1080p HEVC")
+    entry_type = tk.Entry(frame, bd=2, width=EWIDTH)
+    if DOC['type']:
+        entry_type.insert(0, DOC['type'])
+    else:
+        entry_type.insert(0, "BDRip")
+    entry_type.grid(row=currRow, column=2, sticky='nw')
+    entry_range = tk.Entry(frame, bd=2, width=EWIDTH)
     DOC['range'] and entry_range.insert(0, DOC['range'])
     # entry_range.insert(0, "S1-S2")
-    entry_range.grid(row=6, column=3, sticky='nw')
-    entry_mark = tk.Entry(root, bd=2, width=EWIDTH)
-    entry_mark.grid(row=6, column=4, sticky='nw')
+    entry_range.grid(row=currRow, column=3, sticky='nw')
+    entry_mark = tk.Entry(frame, bd=2, width=EWIDTH)
+    entry_mark.grid(row=currRow, column=4, sticky='nw')
 
-    var_rs = tk.IntVar(root)
-    var_pgs = tk.IntVar(root)
-    var_ct = tk.IntVar(root)
-    var_ctc = tk.IntVar(root)
-    var_mka = tk.IntVar(root)
+    currRow+=1
 
-    label_rs_chn = tk.Label(root, text="修正")
-    btn_rs_chn = tk.Button(root, text="rs_chn.txt", width=EWIDTH2, command=partial(open_text_file, "./content/rs_chn.txt"))
-    btn_rs_eng = tk.Button(root, text="rs_eng.txt", width=EWIDTH2, command=partial(open_text_file, "./content/rs_eng.txt"))
+    var_rs = tk.IntVar(frame)
+    var_pgs = tk.IntVar(frame)
+    var_ct = tk.IntVar(frame)
+    var_ctc = tk.IntVar(frame)
+    var_mka = tk.IntVar(frame)
+
+    label_rs_chn = tk.Label(frame, text="修正")
+    btn_rs_chn = tk.Button(frame, text="rs_chn.txt", width=EWIDTH2, command=partial(open_text_file, "./content/rs_chn.txt"))
+    btn_rs_eng = tk.Button(frame, text="rs_eng.txt", width=EWIDTH2, command=partial(open_text_file, "./content/rs_eng.txt"))
 
     # 定义函数-单选框-重发
     # 选中则添加按钮以编辑重发修正内容
@@ -113,9 +152,9 @@ def main():
         if(var_rs.get()):
             entry_mark.insert(0, "Reseed")
 
-            label_rs_chn.grid(row=12, column=0, sticky='ne')
-            btn_rs_chn.grid(row=12, column=1, columnspan=2, sticky='nw')
-            btn_rs_eng.grid(row=12, column=3, columnspan=2, sticky='nw')
+            label_rs_chn.grid(row=rsRow, column=0, sticky='ne', padx=(10, 10))
+            btn_rs_chn.grid(row=rsRow, column=1, columnspan=2, sticky='nw')
+            btn_rs_eng.grid(row=rsRow, column=3, columnspan=2, sticky='nw')
         else:
             entry_mark.delete(0, tk.END)
 
@@ -123,53 +162,70 @@ def main():
             btn_rs_chn.grid_forget()
             btn_rs_eng.grid_forget()
         return
-
-    check_rs = tk.Checkbutton(root, text="重发", variable=var_rs, onvalue=1, offvalue=0, command=func_check_rs)
+    check_rs = tk.Checkbutton(frame, text="重发", variable=var_rs, onvalue=1, offvalue=0, command=func_check_rs)
+    check_rs.grid(row=currRow, column=0, sticky='ne', padx=(10, 10))
     DOC['isRS'] and var_rs.set(DOC['isRS'])
+    rsRow = currRow+1
     func_check_rs()
-    check_rs.grid(row=7, column=0, sticky='ne')
-    check_pgs = tk.Checkbutton(root, text="内封原盘字幕。", variable=var_pgs, onvalue=1, offvalue=0)
+    check_pgs = tk.Checkbutton(frame, text="内封原盘字幕。", variable=var_pgs, onvalue=1, offvalue=0)
+    check_pgs.grid(row=currRow, column=1, sticky='nw')
     DOC['isPGS'] and var_pgs.set(DOC['isPGS'])
-    check_pgs.grid(row=7, column=1, sticky='nw')
-    check_ct = tk.Checkbutton(root, text="内封评论音轨。", variable=var_ct, onvalue=1, offvalue=0)
+    check_ct = tk.Checkbutton(frame, text="内封评论音轨。", variable=var_ct, onvalue=1, offvalue=0)
+    check_ct.grid(row=currRow, column=2, sticky='nw')
     DOC['isCT'] and var_ct.set(DOC['isCT'])
-    check_ct.grid(row=7, column=2, sticky='nw')
-    check_ctc = tk.Checkbutton(root, text="部分内封评论音轨。", variable=var_ctc, onvalue=1, offvalue=0)
+    check_ctc = tk.Checkbutton(frame, text="部分内封评论音轨。", variable=var_ctc, onvalue=1, offvalue=0)
+    check_ctc.grid(row=currRow, column=3, sticky='nw')
     DOC['isCTC'] and var_ctc.set(DOC['isCTC'])
-    check_ctc.grid(row=7, column=3, sticky='nw')
-    check_mka = tk.Checkbutton(root, text="外挂 FLAC 5.1",variable=var_mka, onvalue=1, offvalue=0)
+    check_mka = tk.Checkbutton(frame, text="外挂 FLAC 5.1",variable=var_mka, onvalue=1, offvalue=0)
+    check_mka.grid(row=currRow, column=4, sticky='nw')
     DOC['isMKA'] and var_mka.set(DOC['isMKA'])
-    check_mka.grid(row=7, column=4, sticky='nw')
+    
+    currRow+=2
 
-    label_process_chn = tk.Label(root, text="画质")
-    label_process_chn.grid(row=8, column=0, sticky='ne')
-    btn_process_chn = tk.Button(root, text="process_chn.txt", width=EWIDTH2, command=partial(open_text_file, "./content/process_chn.txt"))
-    btn_process_chn.grid(row=8, column=1, columnspan=2, sticky='nw')
+    label_process_chn = tk.Label(frame, text="画质")
+    label_process_chn.grid(row=currRow, column=0, sticky='ne', padx=(10, 10))
+    btn_process_chn = tk.Button(frame, text="process_chn.txt", width=EWIDTH2, command=partial(open_text_file, "./content/process_chn.txt"))
+    btn_process_chn.grid(row=currRow, column=1, columnspan=2, sticky='nw')
 
-    btn_process_eng = tk.Button(root, text="process_eng.txt", width=EWIDTH2, command=partial(open_text_file, "./content/process_eng.txt"))
-    btn_process_eng.grid(row=8, column=3, columnspan=2, sticky='nw')
+    btn_process_eng = tk.Button(frame, text="process_eng.txt", width=EWIDTH2, command=partial(open_text_file, "./content/process_eng.txt"))
+    btn_process_eng.grid(row=currRow, column=3, columnspan=2, sticky='nw')
 
-    label_comment = tk.Label(root, text="吐槽")
-    label_comment.grid(row=10, column=0, sticky='ne')
-    entry_comment = tk.Text(root, width=EWIDTH4, height=5)
-    DOC['comment'] and entry_comment.insert(1.0, DOC['comment'].rstrip('\n'))
-    entry_comment.grid(row=10, column=1, columnspan=4, sticky='nw')
+    currRow+=1
 
-    label_provider = tk.Label(root, text="感谢")
-    label_provider.grid(row=11, column=0, sticky='ne')
-    entry_provider = tk.Text(root, width=EWIDTH4, height=3)
+    label_provider = tk.Label(frame, text="感谢")
+    label_provider.grid(row=currRow, column=0, sticky='ne', padx=(10, 10))
+    entry_provider = tk.Text(frame, width=EWIDTH4, height=3)
     DOC['provider'] and entry_provider.insert(1.0, DOC['provider'].rstrip('\n'))
-    entry_provider.grid(row=11, column=1, columnspan=4, sticky='nw')
+    entry_provider.grid(row=currRow, column=1, columnspan=4, sticky='nw')
+
+    currRow+=1
+
+    label_comment = tk.Label(frame, text="吐槽")
+    label_comment.grid(row=currRow, column=0, sticky='ne', padx=(10, 10))
+    entry_comment = tk.Text(frame, width=EWIDTH4, height=5)
+    DOC['comment'] and entry_comment.insert(1.0, DOC['comment'].rstrip('\n'))
+    entry_comment.grid(row=currRow, column=1, columnspan=4, sticky='nw')
+
+    currRow+=1
+
+    btn_sc_html = tk.Button(frame, text="screenshot.txt", width=EWIDTH2, command=partial(open_text_file, "./content/screenshot.txt"))
+    btn_sc_html.grid(row=currRow, column=1, columnspan=2, sticky='nw')
+    btn_mediainfo = tk.Button(frame, text="mediainfo.txt", width=EWIDTH2, command=partial(open_text_file, "./content/mediainfo.txt"))
+    btn_mediainfo.grid(row=currRow, column=3, columnspan=2, sticky='nw')
+
+    currRow+=1
 
     entry_links = []
     sites = list(LINK.keys())
     for i in range(LENLINK):
-        label_link = tk.Label(root, text=sites[i])
-        label_link.grid(row=i+14, column=0, sticky='ne')
-        entry_link = tk.Entry(root, bd=2, width=EWIDTH4)
+        label_link = tk.Label(frame, text=sites[i])
+        label_link.grid(row=i+currRow, column=0, sticky='ne', padx=(10, 10))
+        entry_link = tk.Entry(frame, bd=2, width=EWIDTH4)
         entry_link.insert(0, LINK[sites[i]])
-        entry_link.grid(row=i+14, column=1, columnspan=4, sticky='nw')
+        entry_link.grid(row=i+currRow, column=1, columnspan=4, sticky='nw')
         entry_links.append(entry_link)
+
+    currRow+=LENLINK
 
     # 定义函数-按钮-链接更新
     # 根据固定格式
@@ -195,15 +251,12 @@ def main():
                     f.write("\n")
         return
 
-    btn_link_edit = tk.Button(root, text="link.txt", width=EWIDTH2, command=partial(open_text_file, "./content/link.txt"))
-    btn_link_edit.grid(row=20, column=1, columnspan=2, sticky='nw')
-    btn_link_update = tk.Button(root, text="link update", width=EWIDTH2, command=func_btn_link_update)
-    btn_link_update.grid(row=20, column=3, columnspan=2, sticky='nw')
+    btn_link_edit = tk.Button(frame, text="link.txt", width=EWIDTH2, command=partial(open_text_file, "./content/link.txt"))
+    btn_link_edit.grid(row=currRow, column=1, columnspan=2, sticky='nw')
+    btn_link_update = tk.Button(frame, text="link update", width=EWIDTH2, command=func_btn_link_update)
+    btn_link_update.grid(row=currRow, column=3, columnspan=2, sticky='nw')
 
-    btn_sc_html = tk.Button(root, text="screenshot.txt", width=EWIDTH2, command=partial(open_text_file, "./content/screenshot.txt"))
-    btn_sc_html.grid(row=21, column=1, columnspan=2, sticky='nw')
-    btn_mediainfo = tk.Button(root, text="mediainfo.txt", width=EWIDTH2, command=partial(open_text_file, "./content/mediainfo.txt"))
-    btn_mediainfo.grid(row=21, column=3, columnspan=2, sticky='nw')
+    currRow+=1
 
     # 定义函数-右键双击事件-若是文本框则清除内容
     def func_root_doubleclick_entryclear(event):
@@ -254,8 +307,14 @@ def main():
         return
 
     # 创建按钮
-    btn_generate = tk.Button(root, text="生成", width=EWIDTH4, command=func_btn_generate)
-    btn_generate.grid(row=MAXROW, column=1, columnspan=4, sticky='nw')
+    btn_generate = tk.Button(frame, text="生成", width=EWIDTH4, command=func_btn_generate)
+    btn_generate.grid(row=currRow, column=1, columnspan=4, sticky='nw')
+    
+    currRow+=1
+
+    # 设置元素间距
+    for i in range(currRow):
+        frame.grid_rowconfigure(i, pad=10)
 
     # 启动主循环
     root.mainloop()
