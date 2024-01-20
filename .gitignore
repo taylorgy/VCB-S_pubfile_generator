@@ -2,7 +2,7 @@ util/__pycache__/
 dist/
 build/
 content/
-*.html
-*.md
+*-bangumi.html
+*-vcbs.html
 *.spec
 test.py

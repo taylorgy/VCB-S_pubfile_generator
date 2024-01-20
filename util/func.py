@@ -2,10 +2,19 @@ from util.data import *
 
 import os
 import re
+import json
 import xml.etree.ElementTree as ET
 
-# 定义函数-打开文件，若不存在则创建
-def open_text_file(filepath):
+from urllib.parse import urlparse
+import requests
+from bs4 import BeautifulSoup
+
+def open_text_file(filepath: str) -> None:
+    """ 打开文本文件，若不存在则创建。
+
+    Args:
+        filepath: 打开文件的路径，形如 "{filepath}/{filename}.txt"。
+    """
     if not os.path.exists(filepath):
         with open(filepath, 'w', encoding='utf8') as f:
             pass
@@ -17,8 +26,16 @@ def open_text_file(filepath):
             f.write("\n")
     return
 
-# 将字典转换为 XML 元素
-def dict_to_xml(dictionary, parent=None):
+def dict_to_xml(dictionary: dict, parent: ET.Element =None) -> ET.Element:
+    """ 将字典元素转换为 xml 元素。
+
+    Args:
+        dictionary: 字典元素变量。
+        parent: 要加入的 xml 父节点，默认为 None。
+    
+    Returns:
+        parent: 转换后的 xml 元素。
+    """
     if parent is None:
         parent = ET.Element('root')
 
@@ -30,14 +47,26 @@ def dict_to_xml(dictionary, parent=None):
 
     return parent
 
-# 将字典保存为 XML 文件
-def save_dict_to_xml(dictionary, filename):
+def save_dict_to_xml(dictionary: dict, filename: str) -> None:
+    """ 将字典元素保存为 xml 文件。
+    
+    Args:
+        dictionary: 字典元素。
+        filename: 保存的 xml 文件路径，形如 "{filepath}/{filename}.xml"。
+    """
     root = dict_to_xml(dictionary)
     tree = ET.ElementTree(root)
     tree.write(filename, encoding='utf-8', xml_declaration=True)
 
-# 将 XML元素转换为字典
-def xml_to_dict(element):
+def xml_to_dict(element: ET.Element) -> dict:
+    """ 将 xml 元素转换为字典元素。
+
+    Args:
+        element: xml 元素变量。
+
+    Returns:
+        result: 转换后的字典元素。
+    """
     result = {}
     for child in element:
         if len(child) == 0:
@@ -46,14 +75,25 @@ def xml_to_dict(element):
             result[child.tag] = xml_to_dict(child)
     return result
 
-# 将 XML 文件内容转换为字典
-def load_xml_to_dict(file_path):
-    tree = ET.parse(file_path)
+# 
+def load_xml_to_dict(filename: str) -> dict:
+    """ 读取 xml 文件并转换为字典元素。
+    Args: 
+        filename: 保存的 xml 文件路径，形如 "{filepath}/{filename}.xml"。
+
+    Returns:
+        转换后的字典元素。
+    """
+    tree = ET.parse(filename)
     root = tree.getroot()
     return xml_to_dict(root)
 
-# 输出发布内容-bt
-def pubfile_bt(doc):
+def pubfile_bt(doc: dict):
+    """ 生成并保存发布内容-bt
+    
+    Args:
+        doc: 保存发布内容的字典元素
+    """
     isShort = (len(doc['title_eng']) < THTITLE)
 
     # 生成发布内容-bt
@@ -146,8 +186,58 @@ def pubfile_bt(doc):
 
     return
 
-# 输出发布内容-vcbs
-def pubfile_vcbs(doc):
+def get_img_author(url: str) -> str:
+    """ 解析图片网址，获取图片作者。
+        支持网站：pixiv。
+
+    Args:
+        url: 图片网址，形如 "https://www.pixiv.net/artworks/xxxxxxxxx"
+
+    Returns:
+        img_author: 图片作者。
+    """
+    img_author = ''
+    website = urlparse(url).netloc.split('.')[1]
+    if website == "pixiv":
+        img_id = urlparse(url).path.split('/')[-1]
+        # print(img_id)
+
+        # 发送HTTP请求并获取页面内容
+        response = requests.get(url)
+
+        # 检查请求是否成功
+        if response.status_code == 200:
+            # 使用 BeautifulSoup 解析 HTML 内容
+            soup = BeautifulSoup(response.text, 'html.parser')
+            
+            # 根据观察，content 开头为 {"timestamp" 的 meta 标签内含所需信息
+            # 所以据此匹配对应 meta，用 json 解析其 content，就能以字典的形式读取对应信息
+            # 网页参考 /ref/ 文件夹中的 pixiv-soup.html 和 pixiv-meta-content.json
+            pattern = re.compile(r'^{\"timestamp\"')
+            meta = soup.head.find('meta', {'content': pattern})
+            content = json.loads(meta.get('content'))
+            img_author = content['illust'][img_id]['userName']
+            # print(img_author)
+
+            # img_url = content['illust'][img_id]['urls']['original']
+            # img_url = content['illust'][img_id]['urls']['regular']
+            # print(img_url)
+            # webbrowser.open(img_url)
+        
+        # 请求失败
+        else:
+            print(f'Failed to retrieve the page. Status code: {response.status_code}')
+    else:
+        print("该网址暂时无法解析，请等待后续版本更新。")
+
+    return img_author
+
+def pubfile_vcbs(doc: dict):
+    """ 生成并保存发布内容-vcbs
+    
+    Args:
+        doc: 保存发布内容的字典元素
+    """
     # 生成发布内容-vcbs
     # pubimg_1400="<img src=\"" + doc["img_1400"] +"\" alt=\"" + doc["img_1400"].split('/')[-1] + "\" /><br />"
 
@@ -206,11 +296,15 @@ def pubfile_vcbs(doc):
         f.write("\n")
         # f.write("<hr />\n")
 
+        if doc['img_1400']:
+            # img_author = 'author'
+            f.write(f"Image Credit: <a href=\"{doc['img_1400']}\" rel=\"noopener\" target=\"_blank\">{get_img_author(doc['img_1400'])}</a>\n")
+            f.write("\n")
         f.write("<label for=\"medie-info-switch\" class=\"btn btn-inverse-primary\" title=\"展开MediaInfo\">MediaInfo</label>\n")
         f.write("\n")
         f.write("<pre class=\"js-medie-info-detail medie-info-detail\" style=\"display: none;\">")
         with open("./content/mediainfo.txt", 'r', encoding='utf8') as s:
-            f.write(s.read())
+            f.write(s.read().replace(MYFOLDER, "D:\\SAYA IS ∞ LOLICON!"))
         f.write("</pre>\n")
     return
 

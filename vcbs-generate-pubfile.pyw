@@ -59,12 +59,21 @@ def main():
     row_curr = 0
 
     # 创建标签和输入栏
-    label_img_800 = tk.Label(frame, text="发布图")
+    label_img_800 = tk.Label(frame, text="发布图-bt")
     label_img_800.grid(row=row_curr, column=0, sticky='ne', padx=(10, 10))
 
     entry_img_800 = tk.Entry(frame, bd=2, width=EWIDTH4)
     entry_img_800.grid(row=row_curr, column=1, columnspan=4, sticky='nw')
     DOC['img_800'] and entry_img_800.insert(0, DOC['img_800'])
+
+    row_curr+=1
+
+    label_img_1400 = tk.Label(frame, text="发布图-vcbs")
+    label_img_1400.grid(row=row_curr, column=0, sticky='ne', padx=(10, 10))
+
+    entry_img_1400 = tk.Entry(frame, bd=2, width=EWIDTH4)
+    entry_img_1400.grid(row=row_curr, column=1, columnspan=4, sticky='nw')
+    DOC['img_1400'] and entry_img_1400.insert(0, DOC['img_1400'])
 
     row_curr+=1
 
@@ -144,8 +153,8 @@ def main():
     var_mka = tk.IntVar(frame)
 
     label_rs_chn = tk.Label(frame, text="修正")
-    btn_rs_chn = tk.Button(frame, text="rs_chn.txt", width=EWIDTH2, command=partial(open_text_file, "./content/rs_chn.txt"))
-    btn_rs_eng = tk.Button(frame, text="rs_eng.txt", width=EWIDTH2, command=partial(open_text_file, "./content/rs_eng.txt"))
+    btn_rs_chn = tk.Button(frame, text="重发修正-中文", width=EWIDTH2, command=partial(open_text_file, "./content/rs_chn.txt"))
+    btn_rs_eng = tk.Button(frame, text="重发修正-英文", width=EWIDTH2, command=partial(open_text_file, "./content/rs_eng.txt"))
 
     # 定义函数-单选框-重发
     # 选中则添加按钮以编辑重发修正内容
@@ -168,13 +177,13 @@ def main():
     DOC['isRS'] and var_rs.set(DOC['isRS'])
     row_rs = row_curr+1
     func_check_rs()
-    check_pgs = tk.Checkbutton(frame, text="内封原盘字幕。", variable=var_pgs, onvalue=1, offvalue=0)
+    check_pgs = tk.Checkbutton(frame, text="内封原盘字幕", variable=var_pgs, onvalue=1, offvalue=0)
     check_pgs.grid(row=row_curr, column=1, sticky='nw')
     DOC['isPGS'] and var_pgs.set(DOC['isPGS'])
-    check_ct = tk.Checkbutton(frame, text="内封评论音轨。", variable=var_ct, onvalue=1, offvalue=0)
+    check_ct = tk.Checkbutton(frame, text="内封评论音轨", variable=var_ct, onvalue=1, offvalue=0)
     check_ct.grid(row=row_curr, column=2, sticky='nw')
     DOC['isCT'] and var_ct.set(DOC['isCT'])
-    check_ctc = tk.Checkbutton(frame, text="部分内封评论音轨。", variable=var_ctc, onvalue=1, offvalue=0)
+    check_ctc = tk.Checkbutton(frame, text="部分内封评论音轨", variable=var_ctc, onvalue=1, offvalue=0)
     check_ctc.grid(row=row_curr, column=3, sticky='nw')
     DOC['isCTC'] and var_ctc.set(DOC['isCTC'])
     check_mka = tk.Checkbutton(frame, text="外挂 FLAC 5.1",variable=var_mka, onvalue=1, offvalue=0)
@@ -185,10 +194,10 @@ def main():
 
     label_process_chn = tk.Label(frame, text="画质")
     label_process_chn.grid(row=row_curr, column=0, sticky='ne', padx=(10, 10))
-    btn_process_chn = tk.Button(frame, text="process_chn.txt", width=EWIDTH2, command=partial(open_text_file, "./content/process_chn.txt"))
+    btn_process_chn = tk.Button(frame, text="小作文-中文", width=EWIDTH2, command=partial(open_text_file, "./content/process_chn.txt"))
     btn_process_chn.grid(row=row_curr, column=1, columnspan=2, sticky='nw')
 
-    btn_process_eng = tk.Button(frame, text="process_eng.txt", width=EWIDTH2, command=partial(open_text_file, "./content/process_eng.txt"))
+    btn_process_eng = tk.Button(frame, text="小作文-英文", width=EWIDTH2, command=partial(open_text_file, "./content/process_eng.txt"))
     btn_process_eng.grid(row=row_curr, column=3, columnspan=2, sticky='nw')
 
     row_curr+=1
@@ -209,9 +218,9 @@ def main():
 
     row_curr+=1
 
-    btn_sc_html = tk.Button(frame, text="screenshot.txt", width=EWIDTH2, command=partial(open_text_file, "./content/screenshot.txt"))
+    btn_sc_html = tk.Button(frame, text="对比截图", width=EWIDTH2, command=partial(open_text_file, "./content/screenshot.txt"))
     btn_sc_html.grid(row=row_curr, column=1, columnspan=2, sticky='nw')
-    btn_mediainfo = tk.Button(frame, text="mediainfo.txt", width=EWIDTH2, command=partial(open_text_file, "./content/mediainfo.txt"))
+    btn_mediainfo = tk.Button(frame, text="mediainfo", width=EWIDTH2, command=partial(open_text_file, "./content/mediainfo.txt"))
     btn_mediainfo.grid(row=row_curr, column=3, columnspan=2, sticky='nw')
 
     row_curr+=1
@@ -229,10 +238,9 @@ def main():
     row_curr+=LENLINK
 
     # 定义函数-按钮-链接更新
-    # 根据固定格式
     def func_btn_link_update():
         links = []
-        with open("./content/link.txt", 'r') as f:
+        with open("./content/link.txt", 'r', encoding="utf8") as f:
             links = f.readlines()
         links = links[:LENLINK]
         for i in range(LENLINK):
@@ -252,23 +260,23 @@ def main():
                     f.write("\n")
         return
 
-    btn_link_edit = tk.Button(frame, text="link.txt", width=EWIDTH2, command=partial(open_text_file, "./content/link.txt"))
+    btn_link_edit = tk.Button(frame, text="编辑发布链接", width=EWIDTH2, command=partial(open_text_file, "./content/link.txt"))
     btn_link_edit.grid(row=row_curr, column=1, columnspan=2, sticky='nw')
-    btn_link_update = tk.Button(frame, text="link update", width=EWIDTH2, command=func_btn_link_update)
+    btn_link_update = tk.Button(frame, text="更新发布链接", width=EWIDTH2, command=func_btn_link_update)
     btn_link_update.grid(row=row_curr, column=3, columnspan=2, sticky='nw')
 
     row_curr+=1
 
-    # 定义函数-右键双击事件-若是文本框则清除内容
-    def func_root_doubleclick_entryclear(event):
+    # 定义函数-清除输入框内容
+    def func_root_clearinput(event):
         # event.widget.focus_set()
         if isinstance(event.widget, tk.Entry):
             event.widget.delete(0, tk.END)
-        if isinstance(event.widget, tk.Text):
+        elif isinstance(event.widget, tk.Text):
             event.widget.delete(1.0, tk.END)
         return
-
-    root.bind("<Double-3>", func_root_doubleclick_entryclear)
+    # 右键双击触发 清除输入框内容
+    root.bind("<Double-3>", func_root_clearinput)
 
     # 定义函数-按钮-生成
     def func_btn_generate():
@@ -282,7 +290,7 @@ def main():
         DOC['range'] = entry_range.get()
         DOC['mark'] = entry_mark.get()
         DOC['img_800'] = entry_img_800.get()
-        # DOC['img_1400'] = entry_img_1400.get()
+        DOC['img_1400'] = entry_img_1400.get()
         DOC['comment'] = entry_comment.get(1.0, tk.END)
         DOC['provider'] = entry_provider.get(1.0, tk.END)
         links = []
