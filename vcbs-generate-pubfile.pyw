@@ -12,8 +12,12 @@ def main():
     if not os.path.exists("./content"):
         os.makedirs("./content")
     
-    if os.path.exists("./content/doc.xml"):
-        DOC.update(load_xml_to_dict("./content/doc.xml"))
+    if os.path.exists("./content/doc.json"):
+        # DOC.update(load_xml_to_dict("./content/doc.xml"))
+        DOC.update(load_json_to_dict("./content/doc.json"))
+
+        print((DOC['links']))
+        print(type((DOC['links'])))
 
     # 创建主窗口
     root = tk.Tk()
@@ -231,7 +235,10 @@ def main():
         label_link = tk.Label(frame, text=sites[i])
         label_link.grid(row=i+row_curr, column=0, sticky='ne', padx=(10, 10))
         entry_link = tk.Entry(frame, bd=2, width=EWIDTH4)
-        entry_link.insert(0, LINK[sites[i]])
+        if DOC['links']:
+            entry_link.insert(0, DOC['links'][i])
+        else:
+            entry_link.insert(0, LINK[sites[i]])
         entry_link.grid(row=i+row_curr, column=1, columnspan=4, sticky='nw')
         entry_links.append(entry_link)
 
@@ -303,7 +310,8 @@ def main():
         DOC['isCTC'] = var_ctc.get()
         DOC['isMKA'] = var_mka.get()
 
-        save_dict_to_xml(DOC, "./content/doc.xml")
+        # save_dict_to_xml(DOC, "./content/doc.xml")
+        save_dict_to_json(DOC, "./content/doc.json")
 
         if(DOC['range']):
             DOC['range'] += " "

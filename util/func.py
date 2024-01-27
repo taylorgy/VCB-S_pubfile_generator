@@ -3,7 +3,7 @@ from util.data import *
 import os
 import re
 import json
-import xml.etree.ElementTree as ET
+# import xml.etree.ElementTree as ET
 
 from urllib.parse import urlparse
 import requests
@@ -26,73 +26,93 @@ def open_text_file(filepath: str) -> None:
             f.write("\n")
     return
 
-def dict_to_xml(dictionary: dict, parent: ET.Element =None) -> ET.Element:
-    """ 将字典元素转换为 xml 元素。
+# def dict_to_xml(dictionary: dict, parent: ET.Element =None) -> ET.Element:
+#     """ 将字典变量转换为 xml 变量。
 
-    Args:
-        dictionary: 字典元素变量。
-        parent: 要加入的 xml 父节点，默认为 None。
+#     Args:
+#         dictionary: 字典变量变量。
+#         parent: 要加入的 xml 父节点，默认为 None。
+
+#     Returns:
+#         parent: 转换后的 xml 变量。
+#     """
+#     if parent is None:
+#         parent = ET.Element('root')
+
+#     for key, value in dictionary.items():
+#         if isinstance(value, dict):
+#             dict_to_xml(value, ET.SubElement(parent, key))
+#         else:
+#             ET.SubElement(parent, key).text = str(value)
+
+#     return parent
+
+# def save_dict_to_xml(dictionary: dict, filename: str) -> None:
+#     """ 将字典变量保存为 xml 文件。
+
+#     Args:
+#         dictionary: 字典变量。
+#         filename: 保存的 xml 文件路径，形如 "{filepath}/{filename}.xml"。
+#     """
+#     root = dict_to_xml(dictionary)
+#     tree = ET.ElementTree(root)
+#     tree.write(filename, encoding='utf-8', xml_declaration=True)
+
+# def xml_to_dict(element: ET.Element) -> dict:
+#     """ 将 xml 变量转换为字典变量。
+
+#     Args:
+#         element: xml 变量变量。
+
+#     Returns:
+#         result: 转换后的字典变量。
+#     """
+#     result = {}
+#     for child in element:
+#         if len(child) == 0:
+#             result[child.tag] = child.text
+#         else:
+#             result[child.tag] = xml_to_dict(child)
+#     return result
+
+# def load_xml_to_dict(filename: str) -> dict:
+#     """ 读取 xml 文件并转换为字典变量。
+#     Args: 
+#         filename: 保存的 xml 文件路径，形如 "{filepath}/{filename}.xml"。
+
+#     Returns:
+#         转换后的字典变量。
+#     """
+#     tree = ET.parse(filename)
+#     root = tree.getroot()
+#     return xml_to_dict(root)
+
+def save_dict_to_json(dictionary: dict, filename: str) -> None:
+    """ 将字典变量保存为 json 文件。
     
-    Returns:
-        parent: 转换后的 xml 元素。
-    """
-    if parent is None:
-        parent = ET.Element('root')
-
-    for key, value in dictionary.items():
-        if isinstance(value, dict):
-            dict_to_xml(value, ET.SubElement(parent, key))
-        else:
-            ET.SubElement(parent, key).text = str(value)
-
-    return parent
-
-def save_dict_to_xml(dictionary: dict, filename: str) -> None:
-    """ 将字典元素保存为 xml 文件。
-    
     Args:
-        dictionary: 字典元素。
+        dictionary: 字典变量。
         filename: 保存的 xml 文件路径，形如 "{filepath}/{filename}.xml"。
     """
-    root = dict_to_xml(dictionary)
-    tree = ET.ElementTree(root)
-    tree.write(filename, encoding='utf-8', xml_declaration=True)
+    with open(filename, 'w', encoding='utf8') as file:
+        file.write(json.dumps(dictionary))
 
-def xml_to_dict(element: ET.Element) -> dict:
-    """ 将 xml 元素转换为字典元素。
-
-    Args:
-        element: xml 元素变量。
-
-    Returns:
-        result: 转换后的字典元素。
-    """
-    result = {}
-    for child in element:
-        if len(child) == 0:
-            result[child.tag] = child.text
-        else:
-            result[child.tag] = xml_to_dict(child)
-    return result
-
-# 
-def load_xml_to_dict(filename: str) -> dict:
-    """ 读取 xml 文件并转换为字典元素。
+def load_json_to_dict(filename: str) -> dict:
+    """ 读取 json 文件并转换为字典变量。
     Args: 
         filename: 保存的 xml 文件路径，形如 "{filepath}/{filename}.xml"。
 
     Returns:
-        转换后的字典元素。
+        转换后的字典变量。
     """
-    tree = ET.parse(filename)
-    root = tree.getroot()
-    return xml_to_dict(root)
+    with open(filename, 'r', encoding='utf8') as file:
+        return json.load(file)
 
-def pubfile_bt(doc: dict):
+def pubfile_bt(doc: dict) -> None:
     """ 生成并保存发布内容-bt
     
     Args:
-        doc: 保存发布内容的字典元素
+        doc: 保存发布内容的字典变量
     """
     isShort = (len(doc['title_eng']) < THTITLE)
 
@@ -116,7 +136,7 @@ def pubfile_bt(doc: dict):
         
     filename = re.search(r'([\u4e00-\u9fa5]+)', doc["title_chn"]).group(1)
     with open(filename+"-bangumi.html", 'w', encoding='utf8') as f:
-        f.write(pubtitle_bt +"\n")
+        f.write(pubtitle_bt +"\n\n")
         f.write("<p>\n")
         f.write(pubimg_800 +"\n")
         f.write("<br />\n")
@@ -232,11 +252,11 @@ def get_img_author(url: str) -> str:
 
     return img_author
 
-def pubfile_vcbs(doc: dict):
+def pubfile_vcbs(doc: dict) -> None:
     """ 生成并保存发布内容-vcbs
     
     Args:
-        doc: 保存发布内容的字典元素
+        doc: 保存发布内容的字典变量
     """
     # 生成发布内容-vcbs
     # pubimg_1400="<img src=\"" + doc["img_1400"] +"\" alt=\"" + doc["img_1400"].split('/')[-1] + "\" /><br />"
@@ -250,9 +270,9 @@ def pubfile_vcbs(doc: dict):
         # f.write(pubimg_1400 +"\n\n")
         if(doc['sub']):
             f.write(f"这个项目与 <strong>{' & '.join(doc['sub'])}</strong> 合作，感谢他们精心制作的字幕。\n")
-        f.write("\n")
+            f.write("\n")
         with open("./content/process_chn.txt", 'r', encoding='utf8') as s:
-                f.write(s.read())
+            f.write(s.read())
         f.write("\n")
 
         if(doc['comment']!='\n'):
