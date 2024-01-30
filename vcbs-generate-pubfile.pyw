@@ -235,7 +235,7 @@ def main():
         label_link = tk.Label(frame, text=sites[i])
         label_link.grid(row=i+row_curr, column=0, sticky='ne', padx=(10, 10))
         entry_link = tk.Entry(frame, bd=2, width=EWIDTH4)
-        if DOC['links']:
+        if DOC['links'] and False:
             entry_link.insert(0, DOC['links'][i])
         else:
             entry_link.insert(0, LINK[sites[i]])
