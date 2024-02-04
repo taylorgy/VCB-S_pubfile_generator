@@ -1,7 +1,10 @@
+# python 3.10.6
+# -*- coding: UTF-8 -*-
+
 MYFOLDER = "E:\\[media]\\anime" # 实际文件路径
 
 # 界面布局相关参数
-WINDOW = '700x800'          # 窗口大小
+WINDOW = "700x840"          # 默认窗口大小
 EWIDTH = 20                 # 单位宽度
 EWIDTH2 = int(2*EWIDTH)     # 2 单位宽度
 EWIDTH4 = int(4*EWIDTH+2)   # 4 单位宽度，+2 是为了布局对齐
@@ -32,7 +35,8 @@ DOC['mark'] = ""                            # 标记 Reseed / Rev
 DOC['img_800'] = "_800.webp"                # 发布图-bt
 DOC['img_1400'] = ""                        # 发布图-vcbs 输入 pixiv 链接自动获取作者生成 image credit
 DOC['comment'] = ""                         # 吐槽
-DOC['provider'] = "BD: \nScans: \nCDs: "    # 感谢
+DOC['member'] = "总监: \n压制: \n整理: \n发布: "    # 感谢-制作成员
+DOC['provider'] = "BD: \nScans: \nCDs: "    # 感谢-资源提供
 DOC['links'] = list(LINK.values())          # 发布链接
 DOC['isRS'] = 0                             # 是否 重发
 DOC['isPGS'] = 0                            # 是否 内封原盘 ENG + JPN 字幕

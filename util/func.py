@@ -1,3 +1,6 @@
+# python 3.10.6
+# -*- coding: UTF-8 -*-
+
 from util.data import *
 
 import os
@@ -107,6 +110,22 @@ def load_json_to_dict(filename: str) -> dict:
     """
     with open(filename, 'r', encoding='utf8') as file:
         return json.load(file)
+    
+def member_str_to_dict(member_str: str) -> dict:
+    """ 将文本框输入的成员字符串转换为字典。
+    Args: 
+        member_str: 成员字符串，来自 DOC['member']，形如 "总监: aaa\n压制: bbb\n整理: ccc\n发布: ddd"。
+
+    Returns:
+        转换后的成员字典，形如 {'总监':'aaa', '压制':'bbb', '整理':'ccc', '发布':'ddd'}
+    """
+    return {member.split(': ')[0]:member.split(': ')[1] for member in member_str.splitlines()}
+
+    # member_dict = dict()
+    # for member in member_str.splitlines():
+    #     title, name = member.split(': ')
+    #     member_dict.update({title: name})
+    # return member_dict
 
 def pubfile_bt(doc: dict) -> None:
     """ 生成并保存发布内容-bt
@@ -135,6 +154,9 @@ def pubfile_bt(doc: dict) -> None:
             f"{doc['title_jpn']} {doc['range']}{doc['type']} {doc['mark']}<br />"
         
     filename = re.search(r'([\u4e00-\u9fa5]+)', doc["title_chn"]).group(1)
+
+    member = member_str_to_dict(doc['member'])
+
     with open(filename+"-bangumi.html", 'w', encoding='utf8') as f:
         f.write(pubtitle_bt +"\n\n")
         f.write("<p>\n")
@@ -174,6 +196,13 @@ def pubfile_bt(doc: dict) -> None:
         # 新番
         if not(doc['isRS']):
             f.write("<p>\n")
+            f.write("感谢所有参与制作者 / Thanks to our participating members: <br />\n")
+            f.write(f"总监 / Script: {member['总监']}<br />\n")
+            f.write(f"压制 / Encode: {member['压制']}<br />\n")
+            f.write(f"整理 / Collate: {member['整理']}<br />\n")
+            f.write(f"发布 / Upload: {member['发布']}<br />\n")
+            f.write("分流 / Seed: VCB-Studio CDN 分流成员<br />\n")
+            f.write("<br />\n")
             f.write("感谢所有资源提供者 / Thanks to all resource providers: <br />\n")
             f.write(str(doc['provider']).replace('\n', '<br />\n'))
             f.write("<br />\n")
@@ -200,6 +229,13 @@ def pubfile_bt(doc: dict) -> None:
             f.write("</p>\n")
             f.write("<hr />\n")
             f.write("<p>\n")
+            f.write("感谢所有参与制作者 / Thanks to our participating members: <br />\n")
+            f.write(f"总监 / Script: {member['总监']}<br />\n")
+            f.write(f"压制 / Encode: {member['压制']}<br />\n")
+            f.write(f"整理 / Collate: {member['整理']}<br />\n")
+            f.write(f"发布 / Upload: {member['发布']}<br />\n")
+            f.write("分流 / Seed: VCB-Studio CDN 分流成员<br />\n")
+            f.write("<br />\n")
             f.write("感谢所有资源提供者 / Thanks to all resource providers: <br />\n")
             f.write(str(doc['provider']).replace('\n', '<br />\n'))
             f.write(pubrest_bt_rs)

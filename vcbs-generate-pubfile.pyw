@@ -16,9 +16,6 @@ def main():
         # DOC.update(load_xml_to_dict("./content/doc.xml"))
         DOC.update(load_json_to_dict("./content/doc.json"))
 
-        print((DOC['links']))
-        print(type((DOC['links'])))
-
     # 创建主窗口
     root = tk.Tk()
     root.title("VCB-S 发布文档生成程序")
@@ -34,11 +31,11 @@ def main():
     canvas.grid(row=0, column=0, sticky="nsew")
     scrollbar.grid(row=0, column=1, sticky="ns")
 
-    # 在 canvas 上添加内容，
+    # 在 canvas 上添加内容
     frame = tk.Frame(canvas)
     canvas.create_window((0, 0), window=frame, anchor="nw")
 
-    def on_configure(event):
+    def canvas_configure(event):
         canvas.configure(scrollregion=canvas.bbox('all'))
 
     def on_mousewheel(event):
@@ -46,10 +43,11 @@ def main():
             canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
 
     # 配置 Canvas 的滚动区域
-    canvas.bind('<Configure>', on_configure)
+    frame.bind('<Configure>', canvas_configure)
+    # canvas.configure(scrollregion=canvas.bbox('all'))
 
     # 绑定鼠标滚轮事件
-    canvas.bind_all("<MouseWheel>", on_mousewheel)
+    canvas.bind_all('<MouseWheel>', on_mousewheel)
 
     # 设置行和列的权重，使其在调整窗口大小时可以自动扩展
     root.grid_rowconfigure(0, weight=1)
@@ -95,7 +93,7 @@ def main():
         combs_sub[-1].grid(row=row_sub, column=1+len(combs_sub), sticky='nw')
         if len(combs_sub) == 3:
             btn_sub['state'] = 'disabled'
-            btn_sub['text'] = '什么项目这么多字幕组？'
+            btn_sub['text'] = "什么项目这么多字幕组？"
         return
     
     btn_sub = tk.Button(frame, text="添加字幕组", width=EWIDTH, command=func_btn_sub)
@@ -150,19 +148,21 @@ def main():
 
     row_curr+=1
 
-    var_rs = tk.IntVar(frame)
-    var_pgs = tk.IntVar(frame)
-    var_ct = tk.IntVar(frame)
-    var_ctc = tk.IntVar(frame)
-    var_mka = tk.IntVar(frame)
+    var_rs = tk.BooleanVar(frame)
+    var_pgs = tk.BooleanVar(frame)
+    var_ct = tk.BooleanVar(frame)
+    var_ctc = tk.BooleanVar(frame)
+    var_mka = tk.BooleanVar(frame)
 
     label_rs_chn = tk.Label(frame, text="修正")
     btn_rs_chn = tk.Button(frame, text="重发修正-中文", width=EWIDTH2, command=partial(open_text_file, "./content/rs_chn.txt"))
     btn_rs_eng = tk.Button(frame, text="重发修正-英文", width=EWIDTH2, command=partial(open_text_file, "./content/rs_eng.txt"))
 
+    row_rs = row_curr+1
+
     # 定义函数-单选框-重发
     # 选中则添加按钮以编辑重发修正内容
-    def func_check_rs():
+    def func_check_rs(*args):
         if(var_rs.get()):
             entry_mark.insert(0, "Reseed")
 
@@ -175,25 +175,31 @@ def main():
             label_rs_chn.grid_forget()
             btn_rs_chn.grid_forget()
             btn_rs_eng.grid_forget()
+
+        # 更新滚动条
+        canvas.configure(scrollregion=canvas.bbox('all'))
         return
-    check_rs = tk.Checkbutton(frame, text="重发", variable=var_rs, onvalue=1, offvalue=0, command=func_check_rs)
+
+    check_rs = tk.Checkbutton(frame, text="重发", variable=var_rs, command=func_check_rs)
     check_rs.grid(row=row_curr, column=0, sticky='ne', padx=(10, 10))
     DOC['isRS'] and var_rs.set(DOC['isRS'])
-    row_rs = row_curr+1
     func_check_rs()
-    check_pgs = tk.Checkbutton(frame, text="内封原盘字幕", variable=var_pgs, onvalue=1, offvalue=0)
+    check_pgs = tk.Checkbutton(frame, text="内封原盘字幕", variable=var_pgs)
     check_pgs.grid(row=row_curr, column=1, sticky='nw')
     DOC['isPGS'] and var_pgs.set(DOC['isPGS'])
-    check_ct = tk.Checkbutton(frame, text="内封评论音轨", variable=var_ct, onvalue=1, offvalue=0)
+    check_ct = tk.Checkbutton(frame, text="内封评论音轨", variable=var_ct)
     check_ct.grid(row=row_curr, column=2, sticky='nw')
     DOC['isCT'] and var_ct.set(DOC['isCT'])
-    check_ctc = tk.Checkbutton(frame, text="部分内封评论音轨", variable=var_ctc, onvalue=1, offvalue=0)
+    check_ctc = tk.Checkbutton(frame, text="部分内封评论音轨", variable=var_ctc)
     check_ctc.grid(row=row_curr, column=3, sticky='nw')
     DOC['isCTC'] and var_ctc.set(DOC['isCTC'])
-    check_mka = tk.Checkbutton(frame, text="外挂 FLAC 5.1",variable=var_mka, onvalue=1, offvalue=0)
+    check_mka = tk.Checkbutton(frame, text="外挂 FLAC 5.1",variable=var_mka)
     check_mka.grid(row=row_curr, column=4, sticky='nw')
     DOC['isMKA'] and var_mka.set(DOC['isMKA'])
-    
+
+    # var_rs.trace_add('write', func_check_rs)
+    # check_rs.bind('<Configure>', func_check_rs)
+
     row_curr+=2
 
     label_process_chn = tk.Label(frame, text="画质")
@@ -208,6 +214,12 @@ def main():
 
     label_provider = tk.Label(frame, text="感谢")
     label_provider.grid(row=row_curr, column=0, sticky='ne', padx=(10, 10))
+    entry_member = tk.Text(frame, width=EWIDTH4, height=4)
+    entry_member.grid(row=row_curr, column=1, columnspan=4, sticky='nw')
+    DOC['member'] and entry_member.insert(1.0, DOC['member'].rstrip('\n'))
+
+    row_curr+=1
+    
     entry_provider = tk.Text(frame, width=EWIDTH4, height=3)
     DOC['provider'] and entry_provider.insert(1.0, DOC['provider'].rstrip('\n'))
     entry_provider.grid(row=row_curr, column=1, columnspan=4, sticky='nw')
@@ -235,10 +247,8 @@ def main():
         label_link = tk.Label(frame, text=sites[i])
         label_link.grid(row=i+row_curr, column=0, sticky='ne', padx=(10, 10))
         entry_link = tk.Entry(frame, bd=2, width=EWIDTH4)
-        if DOC['links'] and False:
-            entry_link.insert(0, DOC['links'][i])
-        else:
-            entry_link.insert(0, LINK[sites[i]])
+        entry_link.insert(0, LINK[sites[i]])
+        # DOC['links'] and entry_link.insert(0, DOC['links'][i])
         entry_link.grid(row=i+row_curr, column=1, columnspan=4, sticky='nw')
         entry_links.append(entry_link)
 
@@ -274,6 +284,13 @@ def main():
 
     row_curr+=1
 
+    def focus_on_click(event):
+    # 点击窗口其他位置时获得焦点
+        event.widget.focus_set()
+
+    # 绑定事件，点击窗口其他位置时调用 focus_on_click 函数
+    root.bind('<Button-1>', focus_on_click)
+
     # 定义函数-清除输入框内容
     def func_root_clearinput(event):
         # event.widget.focus_set()
@@ -283,7 +300,36 @@ def main():
             event.widget.delete(1.0, tk.END)
         return
     # 右键双击触发 清除输入框内容
-    root.bind("<Double-3>", func_root_clearinput)
+    root.bind('<Double-3>', func_root_clearinput)
+
+    # 定义函数-输入框失去焦点时，清除其中空行
+    def remove_empty_lines(event):
+        # 获取文本框内容
+        text = event.widget.get("1.0", "end-1c")
+        event.widget.delete("1.0", "end")
+
+        # 移除空行并更新文本框内容
+        non_empty_lines = [line for line in text.splitlines() if line.strip()]
+        event.widget.insert("1.0", "\n".join(non_empty_lines))
+
+    def bind_function(widget, instance, event, function):
+        """ 为指定部件绑定指定监听与事件。
+        Args: 
+            widget: 根部件，如 主窗口 root
+            instance: 指定部件，如 tk.Text
+            event: 触发方式，如 '<FocusOut>'
+            function: 事件函数
+
+        """
+        if isinstance(widget, instance):
+            widget.bind(event, function)
+
+        # 递归遍历子部件
+        for child in widget.winfo_children():
+            bind_function(child, instance, event, function)
+        
+    # 为所有 tk.Text 绑定 remove_empty_lines() 事件，失去焦点时触发
+    bind_function(root, tk.Text, '<FocusOut>', remove_empty_lines)
 
     # 定义函数-按钮-生成
     def func_btn_generate():
@@ -299,6 +345,7 @@ def main():
         DOC['img_800'] = entry_img_800.get()
         DOC['img_1400'] = entry_img_1400.get()
         DOC['comment'] = entry_comment.get(1.0, tk.END)
+        DOC['member'] = entry_member.get(1.0, tk.END)
         DOC['provider'] = entry_provider.get(1.0, tk.END)
         links = []
         for i in range(LENLINK):
@@ -326,8 +373,21 @@ def main():
     # 创建按钮
     btn_generate = tk.Button(frame, text="生成", width=EWIDTH4, command=func_btn_generate)
     btn_generate.grid(row=row_curr, column=1, columnspan=4, sticky='nw')
-    
+
     row_curr+=1
+
+    root.geometry(f"700x{400+row_curr*20}")
+
+    # 获取行/列部件所需的宽度/高度
+    # widgets_in_row = [widget for widget in frame.grid_slaves() if widget.grid_info()['row'] == 0]
+    # reqwidth = sum(widget.winfo_reqwidth() for widget in widgets_in_row)
+
+    # widgets_in_column = [widget for widget in frame.grid_slaves() if widget.grid_info()['column'] == 1]
+    # reqheight = sum(widget.winfo_reqheight() for widget in widgets_in_column)
+
+    # print(f"{reqwidth}x{reqheight}")
+    # root.geometry(f"{reqwidth}x{reqheight}")
+
 
     # 设置元素间距
     for i in range(row_curr):
