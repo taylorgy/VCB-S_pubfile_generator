@@ -299,6 +299,8 @@ def pubfile_vcbs(doc: dict) -> None:
 
     pubtitle_vcbs = f"{doc['title_eng']} / {doc['title_chn']} {doc['spec']} {doc['type']} [{doc['range']}{doc['mark']}Fin]"
 
+    member = member_str_to_dict(doc['member'])
+
     # 输出发布内容到文件-vcbs
     filename = re.search(r'([\u4e00-\u9fa5]+)', doc["title_chn"]).group(1)
     with open(filename+"-vcbs.html", 'w', encoding='utf8') as f:
@@ -328,6 +330,14 @@ def pubfile_vcbs(doc: dict) -> None:
             f.write("\n")
 
         f.write("<!--more-->\n\n")
+
+        f.write("感谢所有参与制作者：\n")
+        f.write(f"总监：{member['总监']}\n")
+        f.write(f"压制：{member['压制']}\n")
+        f.write(f"整理：{member['整理']}\n")
+        f.write(f"发布：{member['发布']}\n")
+        f.write("分流：VCB-Studio CDN 分流成员\n")
+        f.write("\n")
 
         if(doc['isRS']):
             f.write("[box style=\"info\"]\n重发修正：\n")

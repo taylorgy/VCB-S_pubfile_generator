@@ -293,7 +293,7 @@ def main():
 
     # 定义函数-清除输入框内容
     def func_root_clearinput(event):
-        # event.widget.focus_set()
+        event.widget.focus_set()
         if isinstance(event.widget, tk.Entry):
             event.widget.delete(0, tk.END)
         elif isinstance(event.widget, tk.Text):
