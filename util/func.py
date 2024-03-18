@@ -331,14 +331,6 @@ def pubfile_vcbs(doc: dict) -> None:
 
         f.write("<!--more-->\n\n")
 
-        f.write("感谢所有参与制作者：\n")
-        f.write(f"总监：{member['总监']}\n")
-        f.write(f"压制：{member['压制']}\n")
-        f.write(f"整理：{member['整理']}\n")
-        f.write(f"发布：{member['发布']}\n")
-        f.write("分流：VCB-Studio CDN 分流成员\n")
-        f.write("\n")
-
         if(doc['isRS']):
             f.write("[box style=\"info\"]\n重发修正：\n")
             f.write("\n")
@@ -346,6 +338,14 @@ def pubfile_vcbs(doc: dict) -> None:
                 f.write(s.read())
             f.write("[/box]\n")
             f.write("\n")
+
+        f.write("感谢所有参与制作者：\n")
+        f.write(f"总监：{member['总监']}\n")
+        f.write(f"压制：{member['压制']}\n")
+        f.write(f"整理：{member['整理']}\n")
+        f.write(f"发布：{member['发布']}\n")
+        f.write("分流：VCB-Studio CDN 分流成员\n")
+        f.write("\n")
 
         f.write("[box style=\"download\"]\n")
         f.write(doc['spec'])
@@ -373,5 +373,3 @@ def pubfile_vcbs(doc: dict) -> None:
             f.write(s.read().replace(MYFOLDER, "D:\\SAYA IS ∞ LOLICON!"))
         f.write("</pre>\n")
     return
-
-
