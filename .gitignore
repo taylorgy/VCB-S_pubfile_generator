@@ -6,3 +6,4 @@ content/
 *-vcbs.html
 *.spec
 test.py
+*.bat
