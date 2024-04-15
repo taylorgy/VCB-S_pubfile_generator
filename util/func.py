@@ -203,9 +203,10 @@ def pubfile_bt(doc: dict) -> None:
             f.write(f"发布 / Upload: {member['发布']}<br />\n")
             f.write("分流 / Seed: VCB-Studio CDN 分流成员<br />\n")
             f.write("<br />\n")
-            f.write("感谢所有资源提供者 / Thanks to all resource providers: <br />\n")
-            f.write(str(doc['provider']).replace('\n', '<br />\n'))
-            f.write("<br />\n")
+            if(doc['provider'] != "\n"):
+                f.write("感谢所有资源提供者 / Thanks to all resource providers: <br />\n")
+                f.write(str(doc['provider']).replace('\n', '<br />\n'))
+                f.write("<br />\n")
             f.write("</p>\n")
             f.write("<hr />\n")
             f.write("<p>\n")
@@ -236,8 +237,10 @@ def pubfile_bt(doc: dict) -> None:
             f.write(f"发布 / Upload: {member['发布']}<br />\n")
             f.write("分流 / Seed: VCB-Studio CDN 分流成员<br />\n")
             f.write("<br />\n")
-            f.write("感谢所有资源提供者 / Thanks to all resource providers: <br />\n")
-            f.write(str(doc['provider']).replace('\n', '<br />\n'))
+            if(doc['provider'] != "\n"):
+                f.write("感谢所有资源提供者 / Thanks to all resource providers: <br />\n")
+                f.write(str(doc['provider']).replace('\n', '<br />\n'))
+                f.write("<br />\n")
             f.write(pubrest_bt_rs)
 
     return

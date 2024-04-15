@@ -62,8 +62,7 @@ SUB = {
     }
 
 # 发布默认内容-bt站-新番
-pubrest_bt_new = '''
-VCB-Studio 已不再保证收集作品相关 CD 和扫图资源，详情请参见 <a href="https://vcb-s.com/archives/14331">https://vcb-s.com/archives/14331</a>。<br />
+pubrest_bt_new = '''VCB-Studio 已不再保证收集作品相关 CD 和扫图资源，详情请参见 <a href="https://vcb-s.com/archives/14331">https://vcb-s.com/archives/14331</a>。<br />
 Please refer to <a href="https://vcb-s.com/archives/14331">https://vcb-s.com/archives/14331</a> for more information about that VCB-Studio will no longer guarantee to include relevant CDs and scans.<br />
 <br />
 本组（不）定期招募新成员。详情请参见 <a href="https://vcb-s.com/archives/16986">https://vcb-s.com/archives/16986</a>。<br />
@@ -79,9 +78,7 @@ Please refer to <a href="https://vcb-s.com/archives/16986">https://vcb-s.com/arc
 '''
 
 # 发布默认内容-bt站-重发
-pubrest_bt_rs = '''
-<br />
-</p>
+pubrest_bt_rs = '''</p>
 <hr />
 <p>
 本次发布来自 VCB-Studio 旧作重发计划。我们会不定期重发过去发布过的合集，或为补充做种，或为修正制作错漏，或为整合系列合集。<br />
