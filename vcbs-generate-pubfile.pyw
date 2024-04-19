@@ -5,6 +5,7 @@ from util.func import *
 
 import tkinter as tk
 from functools import partial
+from tkinter import messagebox
 # from tkinter import font
 from tkinter import ttk
 
@@ -266,15 +267,41 @@ def main():
                 links[i] = links[i].split(': ')[1]
             entry_links[i].delete(0, tk.END)
             entry_links[i].insert(0, links[i].rstrip('\n'))
+
+        links_html = []
+        for i in range(LENLINK):
+            link = links[i].rstrip('\n')
+            links_html.append(f"<a href=\"{link}\" rel=\"noopener\" target=\"_blank\">{link}</a>\n")
+            if (i < LENLINK-1):
+                links_html.append("\n")
+
         with open("./content/link.txt", 'w') as f:
             f.writelines(links)
             f.write("\n")
-            f.write("\n")
-            for i in range(LENLINK):
-                link = links[i].rstrip('\n')
-                f.write(f"<a href=\"{link}\" rel=\"noopener\" target=\"_blank\">{link}</a>\n")
-                if (i < LENLINK-1):
-                    f.write("\n")
+            f.writelines(links_html)
+
+        try:
+            import pyperclip
+        except ImportError:
+            alertinfo = "模块 pyperclip 未安装，是否自动安装？"
+            print(alertinfo)
+            answer = messagebox.askyesno("info", alertinfo)
+            if answer:
+                from pip._internal.cli.main import main as pipmain
+                pipmain(['install', 'pyperclip'])
+                alertinfo = "模块 pyperclip 已安装。"
+                print(alertinfo)
+                messagebox.showinfo("info", alertinfo)
+            else:
+                alertinfo = "你可以尝试使用以下命令手动安装：\n pip install pyperclip"
+                print(alertinfo)
+                messagebox.showinfo("info", alertinfo)
+        else:
+            pyperclip.copy(''.join(links_html))
+            alertinfo = "发布链接已复制到剪贴板。"
+            print(alertinfo)
+            messagebox.showinfo("info", alertinfo)
+        
         return
 
     btn_link_edit = tk.Button(frame, text="编辑发布链接", width=EWIDTH2, command=partial(open_text_file, "./content/link.txt"))
