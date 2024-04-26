@@ -312,6 +312,9 @@ def pubfile_vcbs(doc: dict) -> None:
         if(doc['sub']):
             f.write(f"这个项目与 <strong>{' & '.join(doc['sub'])}</strong> 合作，感谢他们精心制作的字幕。\n")
             f.write("\n")
+            pubgro = f"{SUB[doc['sub'][0]]}"[:4]
+        else:
+            pubgro = "VCB"
         with open("./content/process_chn.txt", 'r', encoding='utf8') as s:
             f.write(s.read())
         f.write("\n")
@@ -373,6 +376,8 @@ def pubfile_vcbs(doc: dict) -> None:
         f.write("\n")
         f.write("<pre class=\"js-medie-info-detail medie-info-detail\" style=\"display: none;\">")
         with open("./content/mediainfo.txt", 'r', encoding='utf8') as s:
-            f.write(s.read().replace(MYFOLDER, "D:\\SAYA IS ∞ LOLICON!"))
+            pattern = re.compile(r"(?<=(Complete name\s{28}:\s)).*(?=(\\\[%s))" % pubgro)
+            repl = r"D:\\SAYA IS ∞ LOLICON!"
+            f.write(re.sub(pattern, repl, s.read(), count=1))
         f.write("</pre>\n")
     return

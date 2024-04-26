@@ -1,8 +1,6 @@
 # python 3.10.6
 # -*- coding: UTF-8 -*-
 
-MYFOLDER = "E:\\[media]\\anime" # 实际文件路径
-
 # 界面布局相关参数
 WINDOW = "700x840"          # 默认窗口大小
 EWIDTH = 20                 # 单位宽度
