@@ -311,15 +311,15 @@ def main():
 
     row_curr+=1
 
-    def focus_on_click(event):
     # 点击窗口其他位置时获得焦点
+    def event_get_focus(event):
         event.widget.focus_set()
 
-    # 绑定事件，点击窗口其他位置时调用 focus_on_click 函数
-    root.bind('<Button-1>', focus_on_click)
+    # 绑定事件，点击窗口其他位置时调用 event_get_focus 函数
+    root.bind('<Button-1>', event_get_focus)
 
     # 定义函数-清除输入框内容
-    def func_root_clearinput(event):
+    def event_clear_input(event):
         event.widget.focus_set()
         if isinstance(event.widget, tk.Entry):
             event.widget.delete(0, tk.END)
@@ -327,10 +327,10 @@ def main():
             event.widget.delete(1.0, tk.END)
         return
     # 右键双击触发 清除输入框内容
-    root.bind('<Double-3>', func_root_clearinput)
+    root.bind('<Double-3>', event_clear_input)
 
     # 定义函数-输入框失去焦点时，清除其中空行
-    def remove_empty_lines(event):
+    def event_remove_empty_lines(event):
         # 获取文本框内容
         text = event.widget.get("1.0", "end-1c")
         event.widget.delete("1.0", "end")
@@ -355,8 +355,8 @@ def main():
         for child in widget.winfo_children():
             bind_function(child, instance, event, function)
         
-    # 为所有 tk.Text 绑定 remove_empty_lines() 事件，失去焦点时触发
-    bind_function(root, tk.Text, '<FocusOut>', remove_empty_lines)
+    # 为所有 tk.Text 绑定 event_remove_empty_lines() 事件，失去焦点时触发
+    bind_function(root, tk.Text, '<FocusOut>', event_remove_empty_lines)
 
     # 定义函数-按钮-生成
     def func_btn_generate():
