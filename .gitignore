@@ -7,3 +7,4 @@ content/
 *.spec
 test.py
 *.bat
+.vscode/settings.json
