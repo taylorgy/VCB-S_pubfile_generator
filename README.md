@@ -12,6 +12,15 @@
 - link.txt 发布链接
 
 ## 使用
+1. **下载最新 Release，运行 vcbs-generate-pubfile.exe。**
+  - system: Windows
+2. **下载源代码，运行 vcbs-generate-pubfile.pyw。**
+  - python: 3.10.6
+  - package: tkinter, BeautifulSoup, pyperclip
+  - util 文件夹为程序主题组件，主要方法放在 func.py 中，主要数据放在 data.py中。
+  - ref 文件夹为参考文件，如 pixiv 的爬虫响应内容等。
+
+## 说明
 - 每次打开程序时，会载入 content/doc.json（在每次点击生成按钮时更新并保存），恢复上次生成时保存的内容。
 - 所有输入框可以右键双击以清除内容。
 - 文本框“失去焦点”视为编辑完成，编辑完成后自动删除空行。
