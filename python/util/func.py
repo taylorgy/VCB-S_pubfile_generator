@@ -11,6 +11,7 @@ import json
 from urllib.parse import urlparse
 import requests
 from bs4 import BeautifulSoup
+import platform
 
 def open_text_file(filepath: str) -> None:
     """ 打开文本文件，若不存在则创建。
@@ -21,7 +22,24 @@ def open_text_file(filepath: str) -> None:
     if not os.path.exists(filepath):
         with open(filepath, 'w', encoding='utf8') as f:
             pass
-    os.system(f"notepad.exe {filepath}")
+
+    # 系统判断 windows / macos
+    # curr_platform = platform.platform().lower()
+    # if 'windows' in curr_platform:
+    #     os.system(f"notepad.exe {filepath}")
+    # elif 'macos' in curr_platform:
+    #     os.system(f"open {filepath}")
+    # else:
+    #     print("其它系统暂不支持")
+
+    curr_system = platform.system()
+    if 'Windows' == curr_system:
+        os.system(f"notepad.exe {filepath}")
+    elif 'Darwin' == curr_system:
+        os.system(f"open {filepath}")
+    else:
+        print("其它系统暂不支持")
+    
     with open(filepath, 'a+', encoding='utf8') as f:
         f.seek(0)
         lines = f.readlines()
