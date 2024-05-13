@@ -9,3 +9,4 @@ python/*-vcbs.html
 python/*.spec
 python/test.py
 python/*.bat
+*.txt

@@ -62,7 +62,7 @@ def main():
     row_curr = 0
 
     # 创建标签和输入栏
-    label_img_800 = tk.Label(frame, text="发布图-bt")
+    label_img_800 = tk.Label(frame, text="发布图-800")
     label_img_800.grid(row=row_curr, column=0, sticky='ne', padx=(10, 10))
 
     entry_img_800 = tk.Entry(frame, bd=2, width=EWIDTH4)
@@ -71,7 +71,7 @@ def main():
 
     row_curr+=1
 
-    label_img_1400 = tk.Label(frame, text="发布图-vcbs")
+    label_img_1400 = tk.Label(frame, text="发布图-1400")
     label_img_1400.grid(row=row_curr, column=0, sticky='ne', padx=(10, 10))
 
     entry_img_1400 = tk.Entry(frame, bd=2, width=EWIDTH4)
