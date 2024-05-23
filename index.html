@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VCB-S 发布文档生成工具</title>
+
+  <link rel="stylesheet" href="https://raw.githack.com/taylorgy/lib-css/main/preset.css">
+  <link rel="stylesheet" href="./static/css/main.css">
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="./static/js/main.js"></script>
+</head>
+
+<body>
+  <div class="wrapper-content flex">
+    <div class="wrapper-input">
+      <div class="header">
+        <h1>编辑区</h1>
+      </div>
+      <form class="form-input" action="/">
+        <div class="line-input">
+          <label class="label-input" for="img-800">发布图-800</label>
+          <div class="area-input">
+            <input type="text" id="img-800" placeholder="https://img.2222.moe/images/">
+          </div>
+        </div>
+        <div class="line-input">
+          <label class="label-input" for="img-800">字幕组</label>
+          <div class="area-input align-left">
+            <button type="button" id="btn-sub-add">+</button>
+            <div class="input-subs"></div>
+          </div>
+          <!-- select -->
+        </div>
+        <div class="line-input">
+          <label class="label-input" for="title-chn">标题-中</label>
+          <div class="area-input">
+            <input type="text" class="input-title" id="title-chn">
+          </div>
+        </div>
+        <div class="line-input">
+          <label class="label-input" for="title-eng">标题-英</label>
+          <div class="area-input">
+            <input type="text" class="input-title" id="title-eng">
+          </div>
+        </div>
+        <div class="line-input">
+          <label class="label-input" for="title-jpn">标题-日</label>
+          <div class="area-input">
+            <input type="text" class="input-title" id="title-jpn">
+          </div>
+        </div>
+        <div class="line-input">
+          <label class="label-input">规格</label>
+          <div class="area-input">
+            <div class="input-standard">
+              <input type="text" id="spec" value="10-bit 1080p HEVC">
+              <input type="text" id="type" value="BDRip">
+              <input type="text" id="range" placeholder="S1">
+              <input type="text" id="mark" placeholder="Reseed">
+            </div>
+            <div class="input-setting">
+              <label class="label-check">重发
+                <input type="checkbox" id="check-rs">
+              </label>
+              <label class="label-check">长标题
+                <input type="checkbox" id="check-longtitle">
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="line-input">
+          <label class="label-input"></label>
+          <div class="area-input">
+            <label class="label-check">内封原盘字幕
+              <input type="checkbox" id="check-pgs">
+            </label>
+            <label class="label-check">部分内封评论音轨
+              <input type="checkbox" id="check-ctc">
+            </label>
+            <label class="label-check">内封评论音轨
+              <input type="checkbox" id="check-ct">
+            </label>
+            <label class="label-check">外挂 FLAC 5.1
+              <input type="checkbox" id="check-mka">
+            </label>
+          </div>
+        </div>
+        <div class="line-input">
+          <label class="label-input">url</label>
+          <div class="area-input">
+            <div class="input-url">
+              <button type="button" class="btn-edit" id="process-chn">小作文-中</button>
+              <button type="button" class="btn-edit" id="process-eng">小作文-英</button>
+              <button type="button" class="btn-edit" id="screenshot">对比截图</button>
+              <button type="button" class="btn-edit" id="mediainfo">mediainfo</button>
+            </div>
+            <div class="input-rs hidden">
+              <button type="button" class="btn-edit" id="rs-chn">重发-中</button>
+              <button type="button" class="btn-edit" id="rs-eng">重发-英</button>
+            </div>
+          </div>
+        </div>
+        <div class="line-input">
+          <label class="label-input">感谢</label>
+          <div class="area-input">
+            <textarea id="member"></textarea>
+          </div>
+        </div>
+        <div class="line-input">
+          <label class="label-input"></label>
+          <div class="area-input">
+            <textarea id="provider" placeholder="CDs:"></textarea>
+          </div>
+        </div>
+        <div class="line-input">
+          <label class="label-input" for="comment">吐槽</label>
+          <div class="area-input">
+            <textarea id="comment"></textarea>
+          </div>
+        </div>
+      </form>
+
+      <div class="wrapper-input-textarea hidden">
+        <button id="btn-save">保存</button>
+        <textarea id="input-textarea"></textarea>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="wrapper-preview">
+      <div class="header">
+        <h1>预览区</h1>
+        <div class="wrapper-control">
+          <!-- <button id="btn-preview">预览</button> -->
+          <label class="label-check switch">
+            <input type="checkbox" id="btn-preview">
+            <span class="slider round" name="btn-preview"></span>
+          </label>
+          <label class="label-check switch">
+            <input type="checkbox" id="btn-mode">
+            <span class="slider round" name="btn-mode"></span>
+          </label>
+          <button id="btn-download">下载</button>
+        </div>
+      </div>
+      <textarea id="preview-edit"></textarea>
+      <div class="hidden" id="preview-show"></div>
+    </div>
+  </div>
+
+</body>
+
+</html>
