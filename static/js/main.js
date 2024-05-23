@@ -7,8 +7,8 @@ $(document).ready(function () {
 
   $.getJSON("./static/data/subs.json", function (data) {
     subs_json = data;
-    // subs_chn = Object.keys(subs).join('');
-    // subs_eng = Object.values(subs).join('');
+    // subs_chn = Object.keys(subs).join('\n');
+    // subs_eng = Object.values(subs).join('\n');
     subs = Object.keys(subs_json);
   });
 
@@ -125,7 +125,7 @@ $(document).ready(function () {
     success: function (data) {
       template_bt = data.split('\n');
       // template_bt[0] = "{pubtitle_bt}";
-      // $('#preview-edit').val(pubfile_bt.join(''));
+      // $('#preview-edit').val(pubfile_bt.join('\n'));
       // $('#preview-show').html($('#preview-edit').val());
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -136,7 +136,7 @@ $(document).ready(function () {
   // 当输入变化时，更新预览
   $('.area-input, #btn-save').on('input change click', function () {
     generate_pubfiles();
-    $('#preview-edit').val(pubfile_bt.join(''));
+    $('#preview-edit').val(pubfile_bt.join('\n'));
     $('#preview-show').html($('#preview-edit').val());
   });
 
@@ -199,13 +199,13 @@ $(document).ready(function () {
     let pubtitle_content;
 
     if (!check_longtitle) {
-      pubtitle_bt = `${pubgroup} ${title_chn} / ${title_eng} / ${title_jpn} ${spec} ${type} [${range}${mark}Fin]\n\n`
-      pubtitle_content = `${title_chn} / ${title_eng} / ${title_jpn} ${range}${type} ${mark}<br />\n`;
+      pubtitle_bt = `${pubgroup} ${title_chn} / ${title_eng} / ${title_jpn} ${spec} ${type} [${range}${mark}Fin]\n`
+      pubtitle_content = `${title_chn} / ${title_eng} / ${title_jpn} ${range}${type} ${mark}<br />`;
     } else {
-      pubtitle_bt = `${pubgroup} ${title_chn} / ${title_eng} ${spec} ${type} [${range}${mark}Fin]\n\n`
+      pubtitle_bt = `${pubgroup} ${title_chn} / ${title_eng} ${spec} ${type} [${range}${mark}Fin]\n`
       pubtitle_content = `${title_chn} ${range}${type} ${mark}<br />\n` +
         `${title_eng} ${range}${type} ${mark}<br />\n` +
-        `${title_jpn} ${range}${type} ${mark}<br />\n`
+        `${title_jpn} ${range}${type} ${mark}<br />`
     }
 
     pubfile_bt[0] = pubtitle_bt;
@@ -218,23 +218,23 @@ $(document).ready(function () {
     // 额外字幕 音轨
     pubfile_bt[index] = "";
     if ($('#check-pgs').is(':checked')) {
-      pubfile_bt[index] += template_bt.slice(6, 8).join('');
+      pubfile_bt[index] += template_bt.slice(6, 8).join('\n');
       flag_br = true;
     }
     if ($('#check-ctc').is(':checked')) {
-      pubfile_bt[index] += template_bt.slice(8, 10).join('');
+      pubfile_bt[index] += template_bt.slice(8, 10).join('\n');
       flag_br = true;
     }
     if ($('#check-ct').is(':checked')) {
-      pubfile_bt[index] += template_bt.slice(10, 12).join('');
+      pubfile_bt[index] += template_bt.slice(10, 12).join('\n');
       flag_br = true;
     }
     if ($('#check-mka').is(':checked')) {
-      pubfile_bt[index] += template_bt.slice(12, 14).join('');
+      pubfile_bt[index] += template_bt.slice(12, 14).join('\n');
       flag_br = true;
     }
     if (flag_br) {
-      pubfile_bt[index] += "<br />\n";
+      pubfile_bt[index] += "<br />";
       index++;
       flag_br = false;
     }
@@ -247,25 +247,25 @@ $(document).ready(function () {
       const content_sub_eng = template_bt[16].replace("{sub_eng}", sub_eng);
 
       pubfile_bt[index] = content_sub_chn + content_sub_eng;
-      pubfile_bt[index] += "<br />\n";
+      pubfile_bt[index] += "<br />";
       index++;
     }
 
     // 小作文
     pubfile_bt[index] = input_url['process-chn'].replace('\n', '<br />\n') + '<br />\n';
     pubfile_bt[index] += input_url['process-eng'].replace('\n', '<br />\n') + '<br />\n';
-    pubfile_bt[index] += "<br />\n";
+    pubfile_bt[index] += "<br />";
     index++;
 
     // 吐槽
     if (comment) {
       pubfile_bt[index] = comment.replace('\n', '<br />\n') + '<br />\n';
-      pubfile_bt[index] += "<br />\n";
+      pubfile_bt[index] += "<br />";
       index++;
     }
 
     // 分段
-    pubfile_bt[index] = template_bt.slice(22, 25).join('')
+    pubfile_bt[index] = template_bt.slice(22, 25).join('\n')
     index++;
     
     // 新番
@@ -276,25 +276,25 @@ $(document).ready(function () {
       pubfile_bt[index] += template_bt[27].replace("{member_encode}", member['压制']);
       pubfile_bt[index] += template_bt[28].replace("{member_collate}", member['整理']);
       pubfile_bt[index] += template_bt[29].replace("{member_upload}", member['发布']);
-      pubfile_bt[index] += template_bt.slice(30, 32).join('');
+      pubfile_bt[index] += template_bt.slice(30, 32).join('\n');
       index++;
 
       // 感谢-资源提供
       if(provider) {
         pubfile_bt[index] = template_bt[32];
         pubfile_bt[index] += provider.replace('\n', '<br />\n') + '<br />\n';
-        pubfile_bt[index] += "<br />\n";
+        pubfile_bt[index] += "<br />";
         index++;
       }
 
     // 分段
-    pubfile_bt[index] = template_bt.slice(35, 38).join('')
+    pubfile_bt[index] = template_bt.slice(35, 38).join('\n')
     index++;
     if(check_longtitle) {
-      pubfile_bt[index] = template_bt.slice(38, 41).join('')
+      pubfile_bt[index] = template_bt.slice(38, 41).join('\n')
       index++;
     }
-    pubfile_bt[index] = template_bt.slice(41, 56).join('')
+    pubfile_bt[index] = template_bt.slice(41, 56).join('\n')
     index++;
 
     // 对比截图
@@ -317,9 +317,9 @@ $(document).ready(function () {
     return dict;
   }
 
-  // 调整左右界面宽度fgas
+  // 调整左右界面宽度
   let isResizing = false;
-  $('.divider').mousedown(function (e) {
+  $('.divider-middle').mousedown(function (e) {
     isResizing = true;
     $(document).mousemove(resize);
     $(document).mouseup(stopResize);
