@@ -137,7 +137,8 @@ def member_str_to_dict(member_str: str) -> dict:
     Returns:
         转换后的成员字典，形如 {'总监':'aaa', '压制':'bbb', '整理':'ccc', '发布':'ddd'}
     """
-    return {member.split(': ')[0]:member.split(': ')[1] for member in member_str.splitlines()}
+    # return {member.split(r'[:：]')[0].strip():member.split(r'[:：]')[1].strip() for member in member_str.splitlines()}
+    return {re.split(r'[:：]', member)[0].strip():re.split(r'[:：]', member)[1].strip() for member in member_str.splitlines()}
 
     # member_dict = dict()
     # for member in member_str.splitlines():
