@@ -171,7 +171,7 @@ def pubfile_bt(doc: dict) -> None:
             f"{doc['title_eng']} {doc['range']}{doc['type']} {doc['mark']}<br />\n" +\
             f"{doc['title_jpn']} {doc['range']}{doc['type']} {doc['mark']}<br />"
         
-    filename = re.search(r'([\u4e00-\u9fa5]+)', doc["title_chn"]).group(1)
+    filename = re.search(r'^[^\s\\/:*?"<>|]+', doc["title_chn"]).group(0)
 
     member = member_str_to_dict(doc['member'])
 
@@ -323,7 +323,8 @@ def pubfile_vcbs(doc: dict) -> None:
     member = member_str_to_dict(doc['member'])
 
     # 输出发布内容到文件-vcbs
-    filename = re.search(r'([\u4e00-\u9fa5]+)', doc["title_chn"]).group(1)
+    # filename = re.search(r'([\u4e00-\u9fa5]+)', doc["title_chn"]).group(1)
+    filename = re.search(r'^[^\s\\/:*?"<>|]+', doc["title_chn"]).group(0)
     with open(filename+"-vcbs.html", 'w', encoding='utf8') as f:
         f.write(pubtitle_vcbs +"\n\n")
         # f.write(pubimg_1400 +"\n\n")
