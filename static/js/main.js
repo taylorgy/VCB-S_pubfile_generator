@@ -170,19 +170,11 @@ $(document).ready(function () {
     // 初始化
     pubfile_bt = template_bt.slice(0, 6);
 
-    // 长标题标志
-    const check_longtitle = $('#check-longtitle').is(':checked');
-
-    // 字幕组
-    let pubgroup;
-    if (added_subs) {
-      pubgroup = `[${added_subs.join('&')}&VCB-Studio]`;
-    }
-    else {
-      pubgroup = "[VCB-Studio]"
-    }
-
     // 获取输入
+    const check_longtitle = $('#check-longtitle').is(':checked'); // 长标题标志
+    const check_rs = $('#check-rs').is(':checked'); // 长标题标志
+
+
     const title_chn = $('#title-chn').val();
     const title_eng = $('#title-eng').val();
     const title_jpn = $('#title-jpn').val();
@@ -194,6 +186,16 @@ $(document).ready(function () {
     const member = member_str_to_dict($('#member').val());
     const provider = $('#provider').val() && $('#provider').val() + '\n';
 
+    // 字幕组
+    let pubgroup;
+    if (added_subs) {
+      pubgroup = `[${added_subs.join('&')}&VCB-Studio]`;
+    }
+    else {
+      pubgroup = "[VCB-Studio]"
+    }
+
+
 
     // 发布标题-bt
     filename = title_chn && title_chn.match(/^[^\s\\/:*?"<>|]+/);
@@ -202,10 +204,10 @@ $(document).ready(function () {
     let pubtitle_content;
 
     if (!check_longtitle) {
-      pubtitle_bt = `${pubgroup} ${title_chn} / ${title_eng} / ${title_jpn} ${spec} ${type} [${range}${mark}Fin]\n`;
+      pubtitle_bt = `${pubgroup} ${title_chn} / ${title_eng} / ${title_jpn} ${spec} ${type} [${range}${mark}Fin]`;
       pubtitle_content = `${title_chn} / ${title_eng} / ${title_jpn} ${range}${type} ${mark}<br />`;
     } else {
-      pubtitle_bt = `${pubgroup} ${title_chn} / ${title_eng} ${spec} ${type} [${range}${mark}Fin]\n`;
+      pubtitle_bt = `${pubgroup} ${title_chn} / ${title_eng} ${spec} ${type} [${range}${mark}Fin]`;
       pubtitle_content = `${title_chn} ${range}${type} ${mark}<br />\n` +
         `${title_eng} ${range}${type} ${mark}<br />\n` +
         `${title_jpn} ${range}${type} ${mark}<br />`;
@@ -270,44 +272,58 @@ $(document).ready(function () {
     // 分段
     pubfile_bt[index] = template_bt.slice(22, 25).join('');
     index++;
-    
-    // 新番
-    if (!$('#check-rs').is(':checked')) {
-      // 感谢-成员
-      pubfile_bt[index] = template_bt[25];
-      pubfile_bt[index] += template_bt[26].replace(/{member_script}/, member['总监']);
-      pubfile_bt[index] += template_bt[27].replace(/{member_encode}/, member['压制']);
-      pubfile_bt[index] += template_bt[28].replace(/{member_collate}/, member['整理']);
-      pubfile_bt[index] += template_bt[29].replace(/{member_upload}/, member['发布']);
-      pubfile_bt[index] += template_bt.slice(30, 32).join('');
-      index++;
 
-      // 感谢-资源提供
-      if(provider) {
-        pubfile_bt[index] = template_bt[32];
-        pubfile_bt[index] += provider.replace(/\n/g, '<br />\n');
-        pubfile_bt[index] += "<br />\n";
-        index++;
-      }
+    // 重发
+    if (check_rs) {
+      pubfile_bt[index] = template_bt[25];
+      pubfile_bt[index] += input_url['rs-chn'].replace(/\n/g, '<br />\n');
+      pubfile_bt[index] += template_bt.slice(27, 29).join('');
+
+      pubfile_bt[index] += input_url['rs-eng'].replace(/\n/g, '<br />\n');
+      pubfile_bt[index] += template_bt.slice(30, 32).join('');
+
+      index++;
+    }
+
+    // 感谢-成员
+    pubfile_bt[index] = template_bt[33];
+    pubfile_bt[index] += template_bt[34].replace(/{member_script}/, member['总监']);
+    pubfile_bt[index] += template_bt[35].replace(/{member_encode}/, member['压制']);
+    pubfile_bt[index] += template_bt[36].replace(/{member_collate}/, member['整理']);
+    pubfile_bt[index] += template_bt[37].replace(/{member_upload}/, member['发布']);
+    pubfile_bt[index] += template_bt.slice(38, 40).join('');
+    index++;
+
+    // 感谢-资源提供
+    if (provider) {
+      pubfile_bt[index] = template_bt[40];
+      pubfile_bt[index] += provider.replace(/\n/g, '<br />\n');
+      pubfile_bt[index] += "<br />\n";
+      index++;
+    }
 
     // 分段
-    pubfile_bt[index] = template_bt.slice(35, 38).join('')
+    pubfile_bt[index] = template_bt.slice(43, 46).join('');
     index++;
 
     // 声明-长标题
-    if(check_longtitle) {
-      pubfile_bt[index] = template_bt.slice(38, 41).join('')
+    if (check_longtitle) {
+      pubfile_bt[index] = template_bt.slice(46, 49).join('');
       index++;
     }
-    // 声明-CD招新等
-    pubfile_bt[index] = template_bt.slice(41, 56).join('')
-    index++;
 
-    // 对比截图
-    pubfile_bt[index] = input_url['screenshot'];
-    } // 新番
+    if (!check_rs) {  
+      // 声明-新番
+      pubfile_bt[index] = template_bt.slice(49, 64).join('');
+      index++;
+      // 对比截图
+      pubfile_bt[index] = input_url['screenshot'];
+    } else { 
+      // 声明-重发
+      pubfile_bt[index] = template_bt.slice(67, 79).join('');
+    }
+  } // end of function
 
-  }
 
   // 将输入的字符串转为字典形式
   // 这里主要针对成员感谢，可无视输入的前后顺序，增加程序健壮性。
@@ -325,66 +341,66 @@ $(document).ready(function () {
 
   // 调整左右界面宽度
   let isResizing = false;
-  $('.divider-middle').mousedown(function (e) {
-    isResizing = true;
-    $(document).mousemove(resize);
-    $(document).mouseup(stopResize);
-  });
+$('.divider-middle').mousedown(function (e) {
+  isResizing = true;
+  $(document).mousemove(resize);
+  $(document).mouseup(stopResize);
+});
 
-  function resize(e) {
-    if (isResizing) {
-      const containerRect = $('.wrapper-content').get(0).getBoundingClientRect();
-      const leftWidth = e.clientX - containerRect.left;
-      const rightWidth = containerRect.width - leftWidth;
-      $('.wrapper-input').width(leftWidth);
-      $('.wrapper-preview').width(rightWidth);
-    }
+function resize(e) {
+  if (isResizing) {
+    const containerRect = $('.wrapper-content').get(0).getBoundingClientRect();
+    const leftWidth = e.clientX - containerRect.left;
+    const rightWidth = containerRect.width - leftWidth;
+    $('.wrapper-input').width(leftWidth);
+    $('.wrapper-preview').width(rightWidth);
   }
+}
 
-  function stopResize() {
-    isResizing = false;
-    $(document).off('mousemove', resize);
-    $(document).off('mouseup', stopResize);
+function stopResize() {
+  isResizing = false;
+  $(document).off('mousemove', resize);
+  $(document).off('mouseup', stopResize);
+}
+
+// 按钮方法-预览
+$("#btn-preview").on('change', function () {
+  if ($(this).is(':checked')) {
+    $('#preview-show').html($('#preview-edit').val());
+    $('#preview-edit').addClass('hidden');
+    $('#preview-show').removeClass('hidden');
+  } else {
+    $('#preview-edit').removeClass('hidden');
+    $('#preview-show').addClass('hidden');
   }
+});
 
-  // 按钮方法-预览
-  $("#btn-preview").on('change', function () {
-    if ($(this).is(':checked')) {
-      $('#preview-show').html($('#preview-edit').val());
-      $('#preview-edit').addClass('hidden');
-      $('#preview-show').removeClass('hidden');
-    } else {
-      $('#preview-edit').removeClass('hidden');
-      $('#preview-show').addClass('hidden');
-    }
-  });
+// 按钮方法-生成
+$("#btn-download").click(function () {
+  // 获取输入框的内容
 
-  // 按钮方法-生成
-  $("#btn-download").click(function () {
-    // 获取输入框的内容
+  // 生成文件内容
+  // pubfile_bt.push("测试生成按钮");
+  var file_content = $('#preview-edit').val();
 
-    // 生成文件内容
-    // pubfile_bt.push("测试生成按钮");
-    var file_content = $('#preview-edit').val();
+  // 创建一个 Blob 对象，并将文件内容放入其中
+  var blob = new Blob([file_content], { type: "text/plain" });
 
-    // 创建一个 Blob 对象，并将文件内容放入其中
-    var blob = new Blob([file_content], { type: "text/plain" });
+  // 创建一个临时的 URL
+  var url = window.URL.createObjectURL(blob);
 
-    // 创建一个临时的 URL
-    var url = window.URL.createObjectURL(blob);
+  // 创建一个 <a> 元素，并设置其属性
+  var a = $("<a>");
+  a.attr("href", url);
+  a.attr("download", `${filename}-bangumi.html`);
 
-    // 创建一个 <a> 元素，并设置其属性
-    var a = $("<a>");
-    a.attr("href", url);
-    a.attr("download", `${filename}-bangumi.html`);
+  // 模拟点击 <a> 元素来下载文件
+  $("body").append(a);
+  a[0].click();
 
-    // 模拟点击 <a> 元素来下载文件
-    $("body").append(a);
-    a[0].click();
-
-    // 删除临时的 URL 和 <a> 元素
-    window.URL.revokeObjectURL(url);
-    a.remove();
-  });
+  // 删除临时的 URL 和 <a> 元素
+  window.URL.revokeObjectURL(url);
+  a.remove();
+});
 
 });
