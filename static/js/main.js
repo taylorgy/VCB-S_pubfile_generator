@@ -7,8 +7,8 @@ $(document).ready(function () {
 
   $.getJSON("./static/data/subs.json", function (data) {
     subs_json = data;
-    // subs_chn = Object.keys(subs).join('\n');
-    // subs_eng = Object.values(subs).join('\n');
+    // subs_chn = Object.keys(subs).join('');
+    // subs_eng = Object.values(subs).join('');
     subs = Object.keys(subs_json);
   });
 
@@ -106,7 +106,7 @@ $(document).ready(function () {
   // 按钮方法-保存
   $('#btn-save').on('click', function () {
     if (text_id != null) {
-      input_url[text_id] = $('#input-textarea').val();
+      input_url[text_id] = $('#input-textarea').val() + '\n';
       text_id = null;
     }
     $('.btn-edit').removeClass('active');
@@ -123,9 +123,12 @@ $(document).ready(function () {
     url: "./static/data/template_bt.html",
     dataType: 'text',
     success: function (data) {
+      // 按行拆分为数组
       template_bt = data.split('\n');
+      // 为每行添加换行符
+      template_bt = template_bt.map(line => line + '\n');
       // template_bt[0] = "{pubtitle_bt}";
-      // $('#preview-edit').val(pubfile_bt.join('\n'));
+      // $('#preview-edit').val(pubfile_bt.join(''));
       // $('#preview-show').html($('#preview-edit').val());
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -136,7 +139,7 @@ $(document).ready(function () {
   // 当输入变化时，更新预览
   $('.area-input, #btn-save').on('input change click', function () {
     generate_pubfiles();
-    $('#preview-edit').val(pubfile_bt.join('\n'));
+    $('#preview-edit').val(pubfile_bt.join(''));
     $('#preview-show').html($('#preview-edit').val());
   });
 
@@ -187,9 +190,9 @@ $(document).ready(function () {
     const type = $('#type').val();
     const range = $('#range').val() && $('#range').val() + ' ';
     const mark = $('#mark').val() && $('#mark').val() + ' ';
-    const comment = $('#comment').val();
+    const comment = $('#comment').val() && $('#comment').val() + '\n';
     const member = member_str_to_dict($('#member').val());
-    const provider = $('#provider').val();
+    const provider = $('#provider').val() && $('#provider').val() + '\n';
 
 
     // 发布标题-bt
@@ -199,18 +202,18 @@ $(document).ready(function () {
     let pubtitle_content;
 
     if (!check_longtitle) {
-      pubtitle_bt = `${pubgroup} ${title_chn} / ${title_eng} / ${title_jpn} ${spec} ${type} [${range}${mark}Fin]\n`
+      pubtitle_bt = `${pubgroup} ${title_chn} / ${title_eng} / ${title_jpn} ${spec} ${type} [${range}${mark}Fin]\n`;
       pubtitle_content = `${title_chn} / ${title_eng} / ${title_jpn} ${range}${type} ${mark}<br />`;
     } else {
-      pubtitle_bt = `${pubgroup} ${title_chn} / ${title_eng} ${spec} ${type} [${range}${mark}Fin]\n`
+      pubtitle_bt = `${pubgroup} ${title_chn} / ${title_eng} ${spec} ${type} [${range}${mark}Fin]\n`;
       pubtitle_content = `${title_chn} ${range}${type} ${mark}<br />\n` +
         `${title_eng} ${range}${type} ${mark}<br />\n` +
-        `${title_jpn} ${range}${type} ${mark}<br />`
+        `${title_jpn} ${range}${type} ${mark}<br />`;
     }
 
-    pubfile_bt[0] = pubtitle_bt;
+    pubfile_bt[0] = pubtitle_bt + '\n';
     pubfile_bt[2] = template_bt[2].replace(/{img_800}/g, $('#img-800').val());
-    pubfile_bt[4] = pubtitle_content;
+    pubfile_bt[4] = pubtitle_content + '\n';
 
     let index = 6;
     let flag_br = false;
@@ -218,23 +221,23 @@ $(document).ready(function () {
     // 额外字幕 音轨
     pubfile_bt[index] = "";
     if ($('#check-pgs').is(':checked')) {
-      pubfile_bt[index] += template_bt.slice(6, 8).join('\n');
+      pubfile_bt[index] += template_bt.slice(6, 8).join('');
       flag_br = true;
     }
     if ($('#check-ctc').is(':checked')) {
-      pubfile_bt[index] += template_bt.slice(8, 10).join('\n');
+      pubfile_bt[index] += template_bt.slice(8, 10).join('');
       flag_br = true;
     }
     if ($('#check-ct').is(':checked')) {
-      pubfile_bt[index] += template_bt.slice(10, 12).join('\n');
+      pubfile_bt[index] += template_bt.slice(10, 12).join('');
       flag_br = true;
     }
     if ($('#check-mka').is(':checked')) {
-      pubfile_bt[index] += template_bt.slice(12, 14).join('\n');
+      pubfile_bt[index] += template_bt.slice(12, 14).join('');
       flag_br = true;
     }
     if (flag_br) {
-      pubfile_bt[index] += "<br />";
+      pubfile_bt[index] += "<br />\n";
       index++;
       flag_br = false;
     }
@@ -242,59 +245,62 @@ $(document).ready(function () {
     // 合作字幕组
     if (added_subs) {
       const sub_chn = added_subs.join(' & ');
-      const content_sub_chn = template_bt[15].replace("{sub_chn}", sub_chn);
+      const content_sub_chn = template_bt[15].replace(/{sub_chn}/, sub_chn);
       const sub_eng = added_subs.map(sub => subs_json[sub]).join(' & ');
-      const content_sub_eng = template_bt[16].replace("{sub_eng}", sub_eng);
+      const content_sub_eng = template_bt[16].replace(/{sub_eng}/, sub_eng);
 
       pubfile_bt[index] = content_sub_chn + content_sub_eng;
-      pubfile_bt[index] += "<br />";
+      pubfile_bt[index] += "<br />\n";
       index++;
     }
 
     // 小作文
-    pubfile_bt[index] = input_url['process-chn'].replace('\n', '<br />\n') + '<br />\n';
-    pubfile_bt[index] += input_url['process-eng'].replace('\n', '<br />\n') + '<br />\n';
-    pubfile_bt[index] += "<br />";
+    pubfile_bt[index] = input_url['process-chn'].replace(/\n/g, '<br />\n');
+    pubfile_bt[index] += input_url['process-eng'].replace(/\n/g, '<br />\n');
+    pubfile_bt[index] += "<br />\n";
     index++;
 
     // 吐槽
     if (comment) {
-      pubfile_bt[index] = comment.replace('\n', '<br />\n') + '<br />\n';
-      pubfile_bt[index] += "<br />";
+      pubfile_bt[index] = comment.replace(/\n/g, '<br />\n');
+      pubfile_bt[index] += "<br />\n";
       index++;
     }
 
     // 分段
-    pubfile_bt[index] = template_bt.slice(22, 25).join('\n')
+    pubfile_bt[index] = template_bt.slice(22, 25).join('');
     index++;
     
     // 新番
     if (!$('#check-rs').is(':checked')) {
       // 感谢-成员
       pubfile_bt[index] = template_bt[25];
-      pubfile_bt[index] += template_bt[26].replace("{member_script}", member['总监']);
-      pubfile_bt[index] += template_bt[27].replace("{member_encode}", member['压制']);
-      pubfile_bt[index] += template_bt[28].replace("{member_collate}", member['整理']);
-      pubfile_bt[index] += template_bt[29].replace("{member_upload}", member['发布']);
-      pubfile_bt[index] += template_bt.slice(30, 32).join('\n');
+      pubfile_bt[index] += template_bt[26].replace(/{member_script}/, member['总监']);
+      pubfile_bt[index] += template_bt[27].replace(/{member_encode}/, member['压制']);
+      pubfile_bt[index] += template_bt[28].replace(/{member_collate}/, member['整理']);
+      pubfile_bt[index] += template_bt[29].replace(/{member_upload}/, member['发布']);
+      pubfile_bt[index] += template_bt.slice(30, 32).join('');
       index++;
 
       // 感谢-资源提供
       if(provider) {
         pubfile_bt[index] = template_bt[32];
-        pubfile_bt[index] += provider.replace('\n', '<br />\n') + '<br />\n';
-        pubfile_bt[index] += "<br />";
+        pubfile_bt[index] += provider.replace(/\n/g, '<br />\n');
+        pubfile_bt[index] += "<br />\n";
         index++;
       }
 
     // 分段
-    pubfile_bt[index] = template_bt.slice(35, 38).join('\n')
+    pubfile_bt[index] = template_bt.slice(35, 38).join('')
     index++;
+
+    // 声明-长标题
     if(check_longtitle) {
-      pubfile_bt[index] = template_bt.slice(38, 41).join('\n')
+      pubfile_bt[index] = template_bt.slice(38, 41).join('')
       index++;
     }
-    pubfile_bt[index] = template_bt.slice(41, 56).join('\n')
+    // 声明-CD招新等
+    pubfile_bt[index] = template_bt.slice(41, 56).join('')
     index++;
 
     // 对比截图
