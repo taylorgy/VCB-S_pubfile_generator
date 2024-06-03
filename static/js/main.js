@@ -1,9 +1,10 @@
 $(document).ready(function () {
   $('#member').val("- 总监: \n- 压制: \n- 整理: \n- 发布: ");
+  $('#link-sync').attr('placeholder', "AcgnX: https://share.acgnx.se/show-xxxxxxxxxxxxxxx.html\nAcgnX INT: https://www.acgnx.se/show-xxxxxxxxxxxxxxx.html\nACG.RIP: https://acg.rip/t/xxxxxx\nDMHY: http://share.dmhy.org/topics/view/xxxxxx.html");
 
   var subs_json;
   var subs;
-  var added_subs;
+  var added_subs = [];
 
   $.getJSON("./static/data/subs.json", function (data) {
     subs_json = data;
@@ -90,14 +91,28 @@ $(document).ready(function () {
 
   let text_id = null;
 
+  function save_input(id) {
+    if (id != null) {
+      let text = $('#input-textarea').val() + '\n';
+
+      // 自动修改 mediainfo 的路径
+      if (id == 'mediainfo') {
+        const pattern = /(?<=(Complete name\s*:\s)).*(?=(\\\[))/g;
+        const repl = "D:\\SAYA IS ∞ LOLICON!";
+        text = text.replace(pattern, repl);
+      }
+      input_url[id] = text;
+      id = null;
+    }
+
+  }
+
   $('.btn-edit').on('click', function () {
     $('.btn-edit').removeClass('active');
     $(this).addClass('active');
     $('.wrapper-input-textarea').removeClass('hidden');
     if ($(this).attr('id') != text_id) {
-      if (text_id != null) {
-        input_url[text_id] = $('#input-textarea').val();
-      }
+      save_input(text_id);
       text_id = $(this).attr('id');
       $('#input-textarea').val(input_url[text_id]);
     }
@@ -105,16 +120,14 @@ $(document).ready(function () {
 
   // 按钮方法-保存
   $('#btn-save').on('click', function () {
-    if (text_id != null) {
-      input_url[text_id] = $('#input-textarea').val() + '\n';
-      text_id = null;
-    }
+    save_input(text_id);
     $('.btn-edit').removeClass('active');
     $('.wrapper-input-textarea').addClass('hidden');
   });
 
   // 生成发布文档
   var template_bt = new Array;
+  var template_vcbs = new Array;
   var pubfile_bt = new Array;
   var pubfile_vcbs = new Array;
 
@@ -127,21 +140,44 @@ $(document).ready(function () {
       template_bt = data.split('\n');
       // 为每行添加换行符
       template_bt = template_bt.map(line => line + '\n');
-      // template_bt[0] = "{pubtitle_bt}";
-      // $('#preview-edit').val(pubfile_bt.join(''));
-      // $('#preview-show').html($('#preview-edit').val());
     },
     error: function (jqXHR, textStatus, errorThrown) {
       alert('加载JSON文件时出错：' + errorThrown);
     }
   });
 
-  // 当输入变化时，更新预览
+  // 载入模板-vcbs
+  $.ajax({
+    url: "./static/data/template_vcbs.html",
+    dataType: 'text',
+    success: function (data) {
+      // 按行拆分为数组
+      template_vcbs = data.split('\n');
+      // 为每行添加换行符
+      template_vcbs = template_vcbs.map(line => line + '\n');
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      alert('加载JSON文件时出错：' + errorThrown);
+    }
+  });
+
+  // 当输入变化时，更新发布文件并预览
   $('.area-input, #btn-save').on('input change click', function () {
     generate_pubfiles();
-    $('#preview-edit').val(pubfile_bt.join(''));
-    $('#preview-show').html($('#preview-edit').val());
+    preview_pubfile();
   });
+
+  // 更新预览
+  function preview_pubfile() {
+    let preview_content;
+    if ($('#btn-file').is(':checked')) {
+      preview_content = pubfile_vcbs.join('');
+    } else {
+      preview_content = pubfile_bt.join('');
+    }
+    $('#preview-edit').val(preview_content);
+    $('#preview-show').html($('#preview-edit').val());
+  }
 
   // 英文标题过长时自动判断为长标题
   $('#title-eng').on('input', function () {
@@ -164,16 +200,18 @@ $(document).ready(function () {
   });
 
   // 生成发布文件-bt
-  var filename = "";
+  var pubname = "";
 
   function generate_pubfiles() {
     // 初始化
     pubfile_bt = template_bt.slice(0, 6);
+    pubfile_vcbs = template_vcbs.slice(0);
+    // pubfile_vcbs = template_vcbs;
+    // 以上写法会直接赋值指针（地址），修改 pubfile_vcb 时相当于修改 template_vcbs
 
     // 获取输入
     const check_longtitle = $('#check-longtitle').is(':checked'); // 长标题标志
     const check_rs = $('#check-rs').is(':checked'); // 长标题标志
-
 
     const title_chn = $('#title-chn').val();
     const title_eng = $('#title-eng').val();
@@ -188,17 +226,15 @@ $(document).ready(function () {
 
     // 字幕组
     let pubgroup;
-    if (added_subs) {
+    if (added_subs.length) {
       pubgroup = `[${added_subs.join('&')}&VCB-Studio]`;
     }
     else {
       pubgroup = "[VCB-Studio]"
     }
 
-
-
-    // 发布标题-bt
-    filename = title_chn && title_chn.match(/^[^\s\\/:*?"<>|]+/);
+    // 发布标题
+    pubname = title_chn && title_chn.match(/^[^\s\\/:*?"<>|]+/);
 
     let pubtitle_bt;
     let pubtitle_content;
@@ -217,35 +253,48 @@ $(document).ready(function () {
     pubfile_bt[2] = template_bt[2].replace(/{img_800}/g, $('#img-800').val());
     pubfile_bt[4] = pubtitle_content + '\n';
 
+    pubfile_vcbs[0] = `${title_eng} / ${title_chn} ${spec} ${type} [${range}${mark}Fin]\n`;
+
     let index = 6;
     let flag_br = false;
 
-    // 额外字幕 音轨
+    // 标注字幕 音轨
     pubfile_bt[index] = "";
     if ($('#check-pgs').is(':checked')) {
       pubfile_bt[index] += template_bt.slice(6, 8).join('');
       flag_br = true;
+      console.log(template_vcbs[7]);
+    } else {
+      pubfile_vcbs[8] = "";
     }
     if ($('#check-ctc').is(':checked')) {
       pubfile_bt[index] += template_bt.slice(8, 10).join('');
       flag_br = true;
+    } else {
+      pubfile_vcbs[9] = "";
     }
     if ($('#check-ct').is(':checked')) {
       pubfile_bt[index] += template_bt.slice(10, 12).join('');
       flag_br = true;
+    } else {
+      pubfile_vcbs[10] = "";
     }
     if ($('#check-mka').is(':checked')) {
       pubfile_bt[index] += template_bt.slice(12, 14).join('');
       flag_br = true;
+    } else {
+      pubfile_vcbs[11] = "";
     }
     if (flag_br) {
       pubfile_bt[index] += "<br />\n";
       index++;
       flag_br = false;
+    } else {
+      pubfile_vcbs[12] = "";
     }
 
     // 合作字幕组
-    if (added_subs) {
+    if (added_subs.length) {
       const sub_chn = added_subs.join(' & ');
       const content_sub_chn = template_bt[15].replace(/{sub_chn}/, sub_chn);
       const sub_eng = added_subs.map(sub => subs_json[sub]).join(' & ');
@@ -254,6 +303,11 @@ $(document).ready(function () {
       pubfile_bt[index] = content_sub_chn + content_sub_eng;
       pubfile_bt[index] += "<br />\n";
       index++;
+
+      pubfile_vcbs[2] = template_vcbs[2].replace(/{sub_chn}/, sub_chn);;
+    } else {
+      pubfile_vcbs[2] = "";
+      pubfile_vcbs[3] = "";
     }
 
     // 小作文
@@ -262,11 +316,18 @@ $(document).ready(function () {
     pubfile_bt[index] += "<br />\n";
     index++;
 
+    pubfile_vcbs[4] = input_url['process-chn'];
+
     // 吐槽
     if (comment) {
       pubfile_bt[index] = comment.replace(/\n/g, '<br />\n');
       pubfile_bt[index] += "<br />\n";
       index++;
+
+      pubfile_vcbs[6] = comment;
+    } else {
+      pubfile_vcbs[6] = "";
+      pubfile_vcbs[7] = "";
     }
 
     // 分段
@@ -278,13 +339,14 @@ $(document).ready(function () {
       pubfile_bt[index] = template_bt[25];
       pubfile_bt[index] += input_url['rs-chn'].replace(/\n/g, '<br />\n');
       pubfile_bt[index] += template_bt.slice(27, 29).join('');
-
       pubfile_bt[index] += input_url['rs-eng'].replace(/\n/g, '<br />\n');
       pubfile_bt[index] += template_bt.slice(30, 32).join('');
-
       index++;
-    }
 
+      pubfile_vcbs[18] = input_url['rs-chn'];
+    } else {
+      pubfile_vcbs.fill("", 15, 21);
+    }
     // 感谢-成员
     pubfile_bt[index] = template_bt[33];
     pubfile_bt[index] += template_bt[34].replace(/{member_script}/, member['总监']);
@@ -312,17 +374,52 @@ $(document).ready(function () {
       index++;
     }
 
-    if (!check_rs) {  
+    if (!check_rs) {
       // 声明-新番
       pubfile_bt[index] = template_bt.slice(49, 64).join('');
       index++;
       // 对比截图
       pubfile_bt[index] = input_url['screenshot'];
-    } else { 
+    } else {
       // 声明-重发
       pubfile_bt[index] = template_bt.slice(67, 79).join('');
     }
-  } // end of function
+
+    // pubfile-vcbs 发布链接
+    pubfile_vcbs[22] = `${spec}`;
+    if (range || mark) {
+      pubfile_vcbs[22] += ` (${range}${mark}`.trimEnd() + ')';
+    }
+    pubfile_vcbs[22] += '\n';
+
+    var links = ["https://bangumi.moe/torrent/xxxxxxxx",
+      "https://share.acgnx.se/show-xxxxxxxxxxxxxxx.html",
+      "https://www.acgnx.se/show-xxxxxxxxxxxxxxx.html",
+      "https://acg.rip/t/xxxxxx",
+      "https://share.dmhy.org/topics/view/xxxxxx.html",
+      "https://nyaa.si/view/xxxxxx"]
+
+    links[0] = $('#link-bangumi').val() || links[0];
+    links[5] = $('#link-nyaa').val() || links[5];
+
+    let link_sync = $('#link-sync').val().split('\n');
+    if (link_sync.length > 1) {
+      for (let i = 0; i < link_sync.length; i++) {
+        links[1 + i] = link_sync[i].split(': ')[1];
+      }
+    }
+
+    pubfile_vcbs[24] = template_vcbs[24].replace(/{link_bangumi}/g, links[0]);
+    pubfile_vcbs[26] = template_vcbs[26].replace(/{link_sacgnx}/g, links[1]);
+    pubfile_vcbs[28] = template_vcbs[28].replace(/{link_acgnx}/g, links[2]);
+    pubfile_vcbs[30] = template_vcbs[30].replace(/{link_acgrip}/g, links[3]);
+    pubfile_vcbs[32] = template_vcbs[32].replace(/{link_dmhy}/g, links[4]);
+    pubfile_vcbs[34] = template_vcbs[34].replace(/{link_nyaa}/g, links[5]);
+
+    // pubfile-vcbs mediainfo
+    pubfile_vcbs[39] = template_vcbs[39].replace(/{mediainfo}/, input_url['mediainfo']);
+
+  } // end of function generate_pubfiles();
 
 
   // 将输入的字符串转为字典形式
@@ -340,67 +437,96 @@ $(document).ready(function () {
   }
 
   // 调整左右界面宽度
-  let isResizing = false;
-$('.divider-middle').mousedown(function (e) {
-  isResizing = true;
-  $(document).mousemove(resize);
-  $(document).mouseup(stopResize);
-});
+  let resizing_middle = false;
+  $('.divider-middle').mousedown(function (e) {
+    resizing_middle = true;
+    $(document).mousemove(resize_middle);
+    $(document).mouseup(resize_stop_middle);
+  });
 
-function resize(e) {
-  if (isResizing) {
-    const containerRect = $('.wrapper-content').get(0).getBoundingClientRect();
-    const leftWidth = e.clientX - containerRect.left;
-    const rightWidth = containerRect.width - leftWidth;
-    $('.wrapper-input').width(leftWidth);
-    $('.wrapper-preview').width(rightWidth);
+  function resize_middle(e) {
+    if (resizing_middle) {
+      const containerRect = $('.wrapper-content').get(0).getBoundingClientRect();
+      const leftWidth = e.clientX - containerRect.left;
+      const rightWidth = containerRect.width - leftWidth;
+      $('.wrapper-input').width(leftWidth);
+      $('.wrapper-preview').width(rightWidth);
+    }
   }
-}
-
-function stopResize() {
-  isResizing = false;
-  $(document).off('mousemove', resize);
-  $(document).off('mouseup', stopResize);
-}
-
-// 按钮方法-预览
-$("#btn-preview").on('change', function () {
-  if ($(this).is(':checked')) {
-    $('#preview-show').html($('#preview-edit').val());
-    $('#preview-edit').addClass('hidden');
-    $('#preview-show').removeClass('hidden');
-  } else {
-    $('#preview-edit').removeClass('hidden');
-    $('#preview-show').addClass('hidden');
+  function resize_stop_middle() {
+    resizing_middle = false;
+    $(document).off('mousemove', resize_middle);
+    $(document).off('mouseup', resize_stop_middle);
   }
-});
+  
+  // 调整上下界面高度
+  let resizing_bottom = false;
+  $('.divider-bottom').mousedown(function (e) {
+    resizing_bottom = true;
+    $(document).mousemove(resize_bottom);
+    $(document).mouseup(resize_stop_bottom);
+  });
 
-// 按钮方法-生成
-$("#btn-download").click(function () {
-  // 获取输入框的内容
+  function resize_bottom(e) {
+    if (resizing_bottom) {
+      $('.wrapper-content').height(e.clientY);
+    }
+  }
+  
+  function resize_stop_bottom() {
+    resizing_bottom = false;
+    $(document).off('mousemove', resize_bottom);
+    $(document).off('mouseup', resize_stop_bottom);
+  }
 
-  // 生成文件内容
-  // pubfile_bt.push("测试生成按钮");
-  var file_content = $('#preview-edit').val();
+  // 按钮方法-预览
+  $('#btn-preview').on('change', function () {
+    if ($(this).is(':checked')) {
+      // $('#preview-show').html($('#preview-edit').val());
+      $('#preview-edit').addClass('hidden');
+      $('#preview-show').removeClass('hidden');
+    } else {
+      $('#preview-edit').removeClass('hidden');
+      $('#preview-show').addClass('hidden');
+    }
+  });
 
-  // 创建一个 Blob 对象，并将文件内容放入其中
-  var blob = new Blob([file_content], { type: "text/plain" });
+  // 按钮方法-文件
+  $('#btn-file').on('change', function () {
+    preview_pubfile();
+  });
 
-  // 创建一个临时的 URL
-  var url = window.URL.createObjectURL(blob);
+  // 按钮方法-生成
+  $('#btn-download').click(function () {
+    // 生成文件内容
+    // pubfile_bt.push("测试生成按钮");
+    var file_content = $('#preview-edit').val();
 
-  // 创建一个 <a> 元素，并设置其属性
-  var a = $("<a>");
-  a.attr("href", url);
-  a.attr("download", `${filename}-bangumi.html`);
+    // 创建一个 Blob 对象，并将文件内容放入其中
+    var blob = new Blob([file_content], { type: "text/plain" });
 
-  // 模拟点击 <a> 元素来下载文件
-  $("body").append(a);
-  a[0].click();
+    // 创建一个临时的 URL
+    var url = window.URL.createObjectURL(blob);
 
-  // 删除临时的 URL 和 <a> 元素
-  window.URL.revokeObjectURL(url);
-  a.remove();
-});
+    // 创建一个 <a> 元素，并设置其属性
+    var a = $('<a>');
+    a.attr('href', url);
+
+    let filename = "default.html";
+    if ($('#btn-file').is(':checked')) {
+      filename = `${pubname}-vcbs.html`;
+    } else {
+      filename = `${pubname}-bangumi.html`
+    }
+    a.attr('download', filename);
+
+    // 模拟点击 <a> 元素来下载文件
+    $('body').append(a);
+    a[0].click();
+
+    // 删除临时的 URL 和 <a> 元素
+    window.URL.revokeObjectURL(url);
+    a.remove();
+  });
 
 });

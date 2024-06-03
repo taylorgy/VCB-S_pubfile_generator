@@ -121,6 +121,16 @@
             <textarea id="comment"></textarea>
           </div>
         </div>
+        <div class="line-input">
+          <label class="label-input">发布链接</label>
+          <div class="area-input">
+            <div class="publinks">
+              <input type="text" id="link-bangumi" placeholder="https://bangumi.moe/torrent/xxxxxxxx">
+              <input type="text" id="link-nyaa" placeholder="https://nyaa.si/view/xxxxxx">
+              <textarea id="link-sync"></textarea>
+            </div>
+          </div>
+        </div>
       </form>
 
       <div class="wrapper-input-textarea hidden">
@@ -141,8 +151,8 @@
             <span class="slider round" name="btn-preview"></span>
           </label>
           <label class="label-check switch">
-            <input type="checkbox" id="btn-mode">
-            <span class="slider round" name="btn-mode"></span>
+            <input type="checkbox" id="btn-file">
+            <span class="slider round" name="btn-file"></span>
           </label>
           <button id="btn-download">下载</button>
         </div>
@@ -151,7 +161,7 @@
       <div class="hidden" id="preview-show"></div>
     </div>
   </div>
-
+  <div class="divider-bottom"></div>
 </body>
 
 </html>
