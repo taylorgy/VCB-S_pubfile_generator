@@ -229,7 +229,7 @@ def main():
 
     label_comment = tk.Label(frame, text="吐槽")
     label_comment.grid(row=row_curr, column=0, sticky='ne', padx=(10, 10))
-    entry_comment = tk.Text(frame, width=EWIDTH4, height=5)
+    entry_comment = tk.Text(frame, width=EWIDTH4, height=3)
     DOC['comment'] and entry_comment.insert(1.0, DOC['comment'].rstrip('\n'))
     entry_comment.grid(row=row_curr, column=1, columnspan=4, sticky='nw')
 

@@ -40,10 +40,15 @@ def open_text_file(filepath: str) -> None:
     else:
         print("其它系统暂不支持")
     
-    with open(filepath, 'a+', encoding='utf8') as f:
-        f.seek(0)
-        lines = f.readlines()
-        if lines and lines[-1][-1] != '\n':
+    with open(filepath, 'r+', encoding='utf8') as f:
+        lines = f.read()
+        if filepath == "./content/mediainfo.txt":
+            pattern = re.compile(r"(?<=(Complete name\s{28}:\s)).*(?=(\\\[))")
+            repl = r"D:\\SAYA IS ∞ LOLICON!"
+            f.seek(0)
+            f.truncate()
+            f.write(re.sub(pattern, repl, lines, count=1))
+        if lines and lines[-1] != '\n':
             f.write("\n")
     return
 
@@ -132,13 +137,13 @@ def load_json_to_dict(filename: str) -> dict:
 def member_str_to_dict(member_str: str) -> dict:
     """ 将文本框输入的成员字符串转换为字典。
     Args: 
-        member_str: 成员字符串，来自 DOC['member']，形如 "总监: aaa\n压制: bbb\n整理: ccc\n发布: ddd"。
+        member_str: 成员字符串，来自 DOC['member']，形如 "- 总监: aaa\n- 压制: bbb\n- 整理: ccc\n- 发布: ddd"。
 
     Returns:
         转换后的成员字典，形如 {'总监':'aaa', '压制':'bbb', '整理':'ccc', '发布':'ddd'}
     """
     # return {member.split(r'[:：]')[0].strip():member.split(r'[:：]')[1].strip() for member in member_str.splitlines()}
-    return {re.split(r'[:：]', member)[0].strip():re.split(r'[:：]', member)[1].strip() for member in member_str.splitlines()}
+    return {re.split(r'[:：]', member)[0].strip()[2:]:re.split(r'[:：]', member)[1].strip() for member in member_str.splitlines()}
 
     # member_dict = dict()
     # for member in member_str.splitlines():
@@ -393,8 +398,9 @@ def pubfile_vcbs(doc: dict) -> None:
         f.write("\n")
         f.write("<pre class=\"js-medie-info-detail medie-info-detail\" style=\"display: none;\">")
         with open("./content/mediainfo.txt", 'r', encoding='utf8') as s:
-            pattern = re.compile(r"(?<=(Complete name\s{28}:\s)).*(?=(\\\[))")
-            repl = r"D:\\SAYA IS ∞ LOLICON!"
-            f.write(re.sub(pattern, repl, s.read(), count=1))
+            # pattern = re.compile(r"(?<=(Complete name\s{28}:\s)).*(?=(\\\[))")
+            # repl = r"D:\\SAYA IS ∞ LOLICON!"
+            # f.write(re.sub(pattern, repl, s.read(), count=1))
+            f.write(s.read())
         f.write("</pre>\n")
     return
