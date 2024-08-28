@@ -3,10 +3,10 @@ python/util/__pycache__/
 python/dist/
 python/build/
 python/content/
-python/ref/
 python/*-bangumi.html
 python/*-vcbs.html
 python/*.spec
 python/test.py
+python/test.ipynb
 python/*.bat
 *.txt
