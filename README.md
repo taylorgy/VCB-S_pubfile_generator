@@ -27,8 +27,10 @@
 - 所有按钮对应的 txt 文档都保存在 content/ 文件夹中，若不存在则点击按钮时自动创建。
   - 程序会自动处理 txt 的最后一行为回车换行，若有则保留，若没有则自动添加。但无法自动删除多个多余空白行。
 1. 发布图-bt：填写上传至 [VCB-S 萌图床](https://img.2222.moe/vcbs) 的 _800 竖图 url。
-2. 发布图-vcbs：仅当 _1400 横图需要声明 Image Credit 时，输入原图 [pixiv](https://www.pixiv.net/) 链接。
+2. 发布图-vcbs：仅当 _1400 横图需要声明 Image Credit 时，输入原图网址。
    - 将会自动获取作者，在 vcbs.html 生成 Image Credit。
+   - 支持的网站：[pixiv](https://www.pixiv.net/) |
+                [zerochan](https://www.zerochan.net/)。
 3. 当有合作字幕组时，点击“添加字幕组”按钮，在列表中选择字幕组中文名即可。
    - 如需修改字幕组信息，则修改 util/data.py 中的 SUB 字典。
    - 程序会根据 SUB 字典自动匹配字幕组英文名，根据发布文档在对应的地方使用。
@@ -58,7 +60,7 @@
 10. 吐槽区：输入发布吐槽，没有则留空。
 11. 对比截图：按钮打开对应的 txt 文档，在其中输入 url 中 html 格式的对比图。
 12. mediainfo：按钮打开对应的 txt 文档，在其中输入对应的信息。
-    - 可以自动将 mediainfo 中的文件路径替换为 D:\SAYA IS ∞ LOLICON!
+    - 关闭 txt 文档时，自动将 mediainfo 中的文件路径替换为 D:\SAYA IS ∞ LOLICON!
 13. 发布链接区：可以分别手动输入发布链接，但有更便捷的方案。
 14. 编辑发布链接：按钮打开对应的 txt 文档，在其中输入：
     - 第 1 行复制 bangumi 发布链接。
@@ -76,6 +78,8 @@
     - 点击生成按钮时，会更新并保存 content/doc.json，下次打开程序时恢复上次保存的内容。
 
 ## 更新
+- v3.11
+  - image credit 自动生成添加对 zerochan 的支持，优化作者获取方式。
 - v3.10
   - 源码添加了对 macOS 的支持。
   - bug：当中文标题框输入为非中文时，文件名匹配错误，导致程序进城停滞。

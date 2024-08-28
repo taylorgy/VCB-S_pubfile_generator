@@ -6,8 +6,6 @@ from util.data import *
 import os
 import re
 import json
-# import xml.etree.ElementTree as ET
-
 from urllib.parse import urlparse
 import requests
 from bs4 import BeautifulSoup
@@ -51,67 +49,6 @@ def open_text_file(filepath: str) -> None:
         if lines and lines[-1] != '\n':
             f.write("\n")
     return
-
-# def dict_to_xml(dictionary: dict, parent: ET.Element =None) -> ET.Element:
-#     """ 将字典变量转换为 xml 变量。
-
-#     Args:
-#         dictionary: 字典变量变量。
-#         parent: 要加入的 xml 父节点，默认为 None。
-
-#     Returns:
-#         parent: 转换后的 xml 变量。
-#     """
-#     if parent is None:
-#         parent = ET.Element('root')
-
-#     for key, value in dictionary.items():
-#         if isinstance(value, dict):
-#             dict_to_xml(value, ET.SubElement(parent, key))
-#         else:
-#             ET.SubElement(parent, key).text = str(value)
-
-#     return parent
-
-# def save_dict_to_xml(dictionary: dict, filename: str) -> None:
-#     """ 将字典变量保存为 xml 文件。
-
-#     Args:
-#         dictionary: 字典变量。
-#         filename: 保存的 xml 文件路径，形如 "{filepath}/{filename}.xml"。
-#     """
-#     root = dict_to_xml(dictionary)
-#     tree = ET.ElementTree(root)
-#     tree.write(filename, encoding='utf-8', xml_declaration=True)
-
-# def xml_to_dict(element: ET.Element) -> dict:
-#     """ 将 xml 变量转换为字典变量。
-
-#     Args:
-#         element: xml 变量变量。
-
-#     Returns:
-#         result: 转换后的字典变量。
-#     """
-#     result = {}
-#     for child in element:
-#         if len(child) == 0:
-#             result[child.tag] = child.text
-#         else:
-#             result[child.tag] = xml_to_dict(child)
-#     return result
-
-# def load_xml_to_dict(filename: str) -> dict:
-#     """ 读取 xml 文件并转换为字典变量。
-#     Args: 
-#         filename: 保存的 xml 文件路径，形如 "{filepath}/{filename}.xml"。
-
-#     Returns:
-#         转换后的字典变量。
-#     """
-#     tree = ET.parse(filename)
-#     root = tree.getroot()
-#     return xml_to_dict(root)
 
 def save_dict_to_json(dictionary: dict, filename: str) -> None:
     """ 将字典变量保存为 json 文件。
@@ -271,45 +208,44 @@ def pubfile_bt(doc: dict) -> None:
 
 def get_img_author(url: str) -> str:
     """ 解析图片网址，获取图片作者。
-        支持网站：pixiv。
+        支持的网站：pixiv，zerochan。
 
     Args:
         url: 图片网址，形如 "https://www.pixiv.net/artworks/xxxxxxxxx"
+                           "https://www.zerochan.net/xxxxxxx"
 
     Returns:
         img_author: 图片作者。
     """
-    img_author = ''
+    # 支持的网站
+    SUPPORTED = ['pixiv', 'zerochan']
+    # User-Agent 请求头，告诉服务器，请求来自一个运行在 Windows 10 64 位版本的 Chrome 104 浏览器。
+    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36"}
+    img_author = 'Unknown Author'
+    # 判断输入的网站
     website = urlparse(url).netloc.split('.')[1]
-    if website == "pixiv":
-        img_id = urlparse(url).path.split('/')[-1]
-        # print(img_id)
-
+    if website in SUPPORTED:
         # 发送HTTP请求并获取页面内容
-        response = requests.get(url)
-
+        response = requests.get(url=url, headers=headers)
         # 检查请求是否成功
         if response.status_code == 200:
             # 使用 BeautifulSoup 解析 HTML 内容
             soup = BeautifulSoup(response.text, 'html.parser')
-            
-            # 根据观察，content 开头为 {"timestamp" 的 meta 标签内含所需信息
-            # 所以据此匹配对应 meta，用 json 解析其 content，就能以字典的形式读取对应信息
-            # 网页参考 /ref/ 文件夹中的 pixiv-soup.html 和 pixiv-meta-content.json
-            pattern = re.compile(r'^{\"timestamp\"')
-            meta = soup.head.find('meta', {'content': pattern})
-            content = json.loads(meta.get('content'))
-            img_author = content['illust'][img_id]['userName']
-            # print(img_author)
 
-            # img_url = content['illust'][img_id]['urls']['original']
-            # img_url = content['illust'][img_id]['urls']['regular']
-            # print(img_url)
-            # webbrowser.open(img_url)
-        
+            # pixiv 参考 /ref/soup-pixiv.html，lang="ja"
+            if website == SUPPORTED[0]:
+                # <title> 中含有作者信息，特征为 - {img_author}のイラスト
+                img_author = re.search(r'- (.*?)の', str(soup.head.title)).group(1)
+            # zerochan 参考 /ref/soup-zerochan.html
+            elif website == SUPPORTED[1]:
+                # 
+                # <title> 中含有作者信息，特征为 by {img_author} #xxxx
+                img_author = re.search(r'by (.*?) #', str(soup.head.title)).group(1)
+
         # 请求失败
         else:
-            print(f'Failed to retrieve the page. Status code: {response.status_code}')
+            print(f"Failed to retrieve the page. Status code: {response.status_code}")
+
     else:
         print("该网址暂时无法解析，请等待后续版本更新。")
 
