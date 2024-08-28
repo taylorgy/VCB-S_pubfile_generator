@@ -8,8 +8,8 @@ $(document).ready(function () {
 
   $.getJSON("./static/data/subs.json", function (data) {
     subs_json = data;
-    // subs_chn = Object.keys(subs).join('');
-    // subs_eng = Object.values(subs).join('');
+    // subs_chn = Object.keys(subs);
+    // subs_eng = Object.values(subs);
     subs = Object.keys(subs_json);
   });
 
@@ -126,10 +126,10 @@ $(document).ready(function () {
   });
 
   // 生成发布文档
-  var template_bt = new Array;
-  var template_vcbs = new Array;
-  var pubfile_bt = new Array;
-  var pubfile_vcbs = new Array;
+  var template_bt = [];
+  var template_vcbs = [];
+  var pubfile_bt = [];
+  var pubfile_vcbs = [];
 
   // 载入模板-bt
   $.ajax({
@@ -472,7 +472,7 @@ $(document).ready(function () {
       $('.wrapper-content').height(e.clientY);
     }
   }
-  
+
   function resize_stop_bottom() {
     resizing_bottom = false;
     $(document).off('mousemove', resize_bottom);
@@ -482,7 +482,7 @@ $(document).ready(function () {
   // 按钮方法-预览
   $('#btn-preview').on('change', function () {
     if ($(this).is(':checked')) {
-      // $('#preview-show').html($('#preview-edit').val());
+      $('#preview-show').html($('#preview-edit').val());
       $('#preview-edit').addClass('hidden');
       $('#preview-show').removeClass('hidden');
     } else {
@@ -528,5 +528,4 @@ $(document).ready(function () {
     window.URL.revokeObjectURL(url);
     a.remove();
   });
-
 });
