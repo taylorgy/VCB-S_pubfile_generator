@@ -37,18 +37,33 @@ def open_text_file(filepath: str) -> None:
         os.system(f"open {filepath}")
     else:
         print("其它系统暂不支持")
-    
+
     with open(filepath, 'r+', encoding='utf8') as f:
         lines = f.read()
-        if filepath == "./content/mediainfo.txt":
-            pattern = re.compile(r"(?<=(Complete name\s{28}:\s)).*(?=(\\\[))")
-            repl = r"D:\\SAYA IS ∞ LOLICON!"
-            f.seek(0)
-            f.truncate()
-            f.write(re.sub(pattern, repl, lines, count=1))
+        # 文本末行若不为空行则添加
         if lines and lines[-1] != '\n':
             f.write("\n")
-    return
+            # 文本预处理
+            # mediainfo.txt 文件路径替换为 "D:\SAYA IS ∞ LOLICON!"
+            if filepath == "./content/mediainfo.txt":
+                pattern = re.compile(r"(?<=(Complete name\s{28}:\s)).*(?=(\\\[))")
+                repl = r"D:\\SAYA IS ∞ LOLICON!"
+                f.seek(0)
+                f.truncate()
+                f.write(re.sub(pattern, repl, lines, count=1))
+                return
+            # process_chn.txt | rs_chn.txt 中英文之间添加空格
+            if filepath == "./content/process_chn.txt" or "./content/rs_chn.txt":
+                pattern_zh_en = re.compile(r'([\u4e00-\u9fa5]+)([a-zA-Z0-9]+)')
+                pattern_en_zh = re.compile(r'([a-zA-Z0-9]+)([\u4e00-\u9fa5]+)')
+                f.seek(0)
+                f.truncate()
+                lines = re.sub(pattern_zh_en, r'\1 \2', lines)
+                lines = re.sub(pattern_en_zh, r'\1 \2', lines)
+                f.write(lines)
+                return
+
+
 
 def save_dict_to_json(dictionary: dict, filename: str) -> None:
     """ 将字典变量保存为 json 文件。

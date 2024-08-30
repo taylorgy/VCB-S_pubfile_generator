@@ -80,6 +80,7 @@
 ## 更新
 - v3.11
   - image credit 自动生成添加对 zerochan 的支持，优化作者获取方式。
+  - process_chn.txt | rs_chn.txt 自动为中英文之间添加空格。
 - v3.10
   - 源码添加了对 macOS 的支持。
   - bug：当中文标题框输入为非中文时，文件名匹配错误，导致程序进城停滞。
